@@ -26,7 +26,7 @@ export default async function BlogPage() {
     // Render client component with error state
     return (
       <div className="container mx-auto px-4 py-8">
-        <BlogPageClient posts={[]} featuredPosts={[]} error="Failed to load blog posts" />
+        <BlogPageClient allPosts={[]} featuredPosts={[]} error="Failed to load blog posts" />
       </div>
     )
   }

@@ -5,8 +5,9 @@ import { getAllProjects, type Project } from "@/lib/content"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { ExternalLink, Github } from "lucide-react"
+import { ExternalLink, Github, ArrowRight } from "lucide-react"
 import Image from "next/image"
+import Link from "next/link"
 import { getSafeImagePath } from "@/lib/image-utils"
 
 export default function ProjectsPage() {
@@ -21,6 +22,7 @@ export default function ProjectsPage() {
         const allProjects = await getAllProjects()
         setProjects(allProjects)
       } catch (err) {
+        console.error("Error loading projects:", err)
         setError(err instanceof Error ? err.message : "Failed to load projects")
       } finally {
         setLoading(false)
@@ -33,7 +35,29 @@ export default function ProjectsPage() {
   if (loading) {
     return (
       <div className="container py-10">
-        <div className="text-center">Loading projects...</div>
+        <div className="mb-10">
+          <h1 className="text-4xl font-bold tracking-tight mb-4">Projects</h1>
+          <p className="text-xl text-muted-foreground">
+            A collection of data engineering projects and solutions I've built.
+          </p>
+        </div>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {[...Array(3)].map((_, i) => (
+            <Card key={i} className="overflow-hidden animate-pulse">
+              <div className="aspect-video bg-muted" />
+              <CardHeader>
+                <div className="h-6 bg-muted rounded" />
+                <div className="h-4 bg-muted rounded w-3/4" />
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  <div className="h-4 bg-muted rounded" />
+                  <div className="h-4 bg-muted rounded w-1/2" />
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
     )
   }
@@ -41,7 +65,40 @@ export default function ProjectsPage() {
   if (error) {
     return (
       <div className="container py-10">
-        <div className="text-center text-red-500">Error: {error}</div>
+        <div className="mb-10">
+          <h1 className="text-4xl font-bold tracking-tight mb-4">Projects</h1>
+          <p className="text-xl text-muted-foreground">
+            A collection of data engineering projects and solutions I've built.
+          </p>
+        </div>
+        <div className="text-center text-red-500 p-8 border border-red-200 rounded-lg bg-red-50">
+          <p className="text-lg font-medium">Unable to load projects</p>
+          <p className="text-sm text-red-600 mt-2">{error}</p>
+          <Button 
+            variant="outline" 
+            className="mt-4"
+            onClick={() => window.location.reload()}
+          >
+            Try Again
+          </Button>
+        </div>
+      </div>
+    )
+  }
+
+  if (projects.length === 0) {
+    return (
+      <div className="container py-10">
+        <div className="mb-10">
+          <h1 className="text-4xl font-bold tracking-tight mb-4">Projects</h1>
+          <p className="text-xl text-muted-foreground">
+            A collection of data engineering projects and solutions I've built.
+          </p>
+        </div>
+        <div className="text-center text-muted-foreground p-8 border border-dashed rounded-lg">
+          <p className="text-lg">No projects found</p>
+          <p className="text-sm mt-2">Check back later for new projects!</p>
+        </div>
       </div>
     )
   }
@@ -63,24 +120,26 @@ export default function ProjectsPage() {
           )
 
           return (
-            <Card key={project.slug} className="overflow-hidden">
+            <Card key={project.slug} className="overflow-hidden group hover:shadow-lg transition-shadow">
               {imageUrl && (
-                <div className="relative aspect-video">
+                <div className="relative aspect-video overflow-hidden">
                   <Image
-                    src={imageUrl || "/placeholder.svg"}
+                    src={imageUrl}
                     alt={project.title}
                     fill
-                    className="object-cover"
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                 </div>
               )}
               <CardHeader>
-                <CardTitle className="line-clamp-2">{project.title}</CardTitle>
+                <CardTitle className="line-clamp-2 group-hover:text-primary transition-colors">
+                  {project.title}
+                </CardTitle>
                 <CardDescription className="line-clamp-3">{project.description}</CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-2 mb-4">
+              <CardContent className="space-y-4">
+                <div className="flex flex-wrap gap-2">
                   {project.technologies.slice(0, 3).map((tech) => (
                     <Badge key={tech} variant="secondary" className="text-xs">
                       {tech}
@@ -92,7 +151,15 @@ export default function ProjectsPage() {
                     </Badge>
                   )}
                 </div>
-                <div className="flex gap-2">
+                
+                <div className="flex flex-wrap gap-2">
+                  <Button size="sm" variant="outline" asChild>
+                    <Link href={`/projects/${project.slug}`}>
+                      <ArrowRight className="mr-2 h-4 w-4" />
+                      View Details
+                    </Link>
+                  </Button>
+                  
                   {project.githubUrl && (
                     <Button size="sm" variant="outline" asChild>
                       <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
@@ -101,8 +168,9 @@ export default function ProjectsPage() {
                       </a>
                     </Button>
                   )}
+                  
                   {project.demoUrl && (
-                    <Button size="sm" asChild>
+                    <Button size="sm" variant="outline" asChild>
                       <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">
                         <ExternalLink className="mr-2 h-4 w-4" />
                         Demo

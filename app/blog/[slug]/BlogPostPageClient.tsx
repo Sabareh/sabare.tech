@@ -1,51 +1,24 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { getBlogPostBySlug, type BlogPost } from "@/lib/content"
+import { type BlogPost } from "@/lib/content"
 import { TableOfContents } from "@/components/table-of-contents"
 import { MarkdownRenderer } from "@/components/markdown-renderer"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft, Calendar, Clock, User, Tag } from "lucide-react"
 import { getSafeImagePath } from "@/lib/image-utils"
 
-export function BlogPostPageClient({ params }: { params: { slug: string } }) {
-  const slug = params.slug as string
-  const [post, setPost] = useState<BlogPost | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+// Add props interface
+interface BlogPostPageClientProps {
+  post: BlogPost | null
+}
 
-  useEffect(() => {
-    async function loadPost() {
-      try {
-        setLoading(true)
-        const blogPost = await getBlogPostBySlug(slug)
-        setPost(blogPost)
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to load blog post")
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    if (slug) {
-      loadPost()
-    }
-  }, [slug])
-
-  if (loading) {
+export function BlogPostPageClient({ post }: BlogPostPageClientProps) {
+  if (!post) {
     return (
       <article className="container max-w-4xl py-10">
-        <div className="text-center">Loading blog post...</div>
-      </article>
-    )
-  }
-
-  if (error || !post) {
-    return (
-      <article className="container max-w-4xl py-10">
-        <div className="text-center text-red-500">{error || "Blog post not found"}</div>
+        <div className="text-center text-red-500">Blog post not found or failed to load.</div>
       </article>
     )
   }

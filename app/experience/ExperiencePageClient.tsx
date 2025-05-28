@@ -1,14 +1,35 @@
 "use client"
 
+import { type Experience } from "@/lib/content"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { CalendarDays, MapPin } from "lucide-react"
 
-export default function ExperiencePageClient({ experiences, error }: { experiences: Experience[], error?: string }) {
+interface ExperiencePageClientProps {
+  experiences: Experience[]
+  error?: string
+}
+
+export default function ExperiencePageClient({ experiences, error }: ExperiencePageClientProps) {
   if (error) {
     return (
       <div className="container py-10">
         <div className="text-center text-red-500">Error: {error}</div>
+      </div>
+    )
+  }
+  
+  if (experiences.length === 0 && !error) {
+     return (
+      <div className="container py-10">
+        <div className="mb-10">
+          <h1 className="text-4xl font-bold tracking-tight mb-4">Experience</h1>
+          <p className="text-xl text-muted-foreground">My professional journey in data engineering and technology.</p>
+        </div>
+        <div className="text-center text-muted-foreground p-8 border border-dashed rounded-lg">
+          <p className="text-lg">No experience found yet.</p>
+          <p className="text-sm mt-2">Please check back later!</p>
+        </div>
       </div>
     )
   }
@@ -58,7 +79,11 @@ export default function ExperiencePageClient({ experiences, error }: { experienc
               </div>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground mb-4">{experience.description}</p>
+              {/* Use dangerouslySetInnerHTML for HTML content from markdown */}
+              <div 
+                className="prose prose-gray dark:prose-invert max-w-none mb-4"
+                dangerouslySetInnerHTML={{ __html: experience.content }}
+              />
 
               {experience.technologies.length > 0 && (
                 <div className="flex flex-wrap gap-2">
@@ -75,19 +100,4 @@ export default function ExperiencePageClient({ experiences, error }: { experienc
       </div>
     </div>
   )
-}
-```
-
-```typescriptreact
-import { getAllExperience } from "@/lib/content"
-import ExperiencePageClient from "./ExperiencePageClient" // New client component
-
-export default async function ExperiencePage() {
-  try {
-    const experiences = await getAllExperience()
-    return <ExperiencePageClient experiences={experiences} />
-  } catch (error) {
-    console.error("Error loading experience data:", error)
-    return <ExperiencePageClient experiences={[]} error="Failed to load experience" />
-  }
 }

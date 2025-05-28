@@ -246,10 +246,50 @@ export async function getAllContent(type: ContentType): Promise<ContentItem[]> {
   return validItems
 }
 
-// Get all blog posts (client-side only)
+// Get all blog posts
 export async function getAllBlogPosts(): Promise<BlogPost[]> {
-  const posts = await getAllContent("blog")
+  if (typeof window === "undefined") {
+    try {
+      const blogDirectory = path.join(process.cwd(), "content/blog")
+      if (!fs.existsSync(blogDirectory)) {
+        console.warn("Blog directory not found:", blogDirectory)
+        return []
+      }
+      const filenames = fs.readdirSync(blogDirectory)
+      const postsPromises = filenames
+        .filter((name) => name.endsWith(".md"))
+        .map(async (name) => {
+          const filePath = path.join(blogDirectory, name)
+          const fileContents = fs.readFileSync(filePath, "utf8")
+          const { data, content: rawContent } = matter(fileContents)
+          const htmlContent = await processMarkdown(rawContent)
+          const readingTime = calculateReadingTime(rawContent)
 
+          return {
+            slug: name.replace(/\.md$/, ""),
+            title: data.title || name.replace(/\.md$/, ""),
+            excerpt: data.excerpt || data.description || "",
+            date: data.date ? new Date(data.date).toISOString() : new Date().toISOString(),
+            readingTime,
+            coverImage: data.coverImage,
+            tags: data.tags || [],
+            featured: data.featured || false,
+            content: htmlContent,
+            author: data.author,
+            metadata: data,
+          } as BlogPost
+        })
+      
+      const posts = await Promise.all(postsPromises)
+      return posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    } catch (error) {
+      console.error("Error reading blog posts on server:", error)
+      return []
+    }
+  }
+
+  // Client-side implementation
+  const posts = await getAllContent("blog")
   return posts.map((post) => ({
     slug: post.slug,
     title: post.title,
@@ -265,8 +305,39 @@ export async function getAllBlogPosts(): Promise<BlogPost[]> {
   }))
 }
 
-// Get single blog post by slug (client-side only)
+// Get single blog post by slug
 export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
+  if (typeof window === "undefined") {
+    try {
+      const filePath = path.join(process.cwd(), "content/blog", `${slug}.md`)
+      if (!fs.existsSync(filePath)) {
+        return null
+      }
+      const fileContents = fs.readFileSync(filePath, "utf8")
+      const { data, content: rawContent } = matter(fileContents)
+      const htmlContent = await processMarkdown(rawContent)
+      const readingTime = calculateReadingTime(rawContent)
+
+      return {
+        slug,
+        title: data.title || slug,
+        excerpt: data.excerpt || data.description || "",
+        date: data.date ? new Date(data.date).toISOString() : new Date().toISOString(),
+        readingTime,
+        coverImage: data.coverImage,
+        tags: data.tags || [],
+        featured: data.featured || false,
+        content: htmlContent,
+        author: data.author,
+        metadata: data,
+      } as BlogPost
+    } catch (error) {
+      console.error(`Error reading blog post ${slug} on server:`, error)
+      return null
+    }
+  }
+
+  // Client-side implementation
   const post = await fetchContentItem("blog", slug)
 
   if (!post) {
@@ -288,9 +359,9 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
   }
 }
 
-// Get featured blog posts (client-side only)
+// Get featured blog posts
 export async function getFeaturedBlogPosts(): Promise<BlogPost[]> {
-  const allPosts = await getAllBlogPosts()
+  const allPosts = await getAllBlogPosts() // This will now use server/client logic appropriately
   return allPosts.filter((post) => post.featured).slice(0, 3)
 }
 

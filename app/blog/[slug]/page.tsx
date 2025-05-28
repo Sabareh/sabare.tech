@@ -1,20 +1,36 @@
-import { BlogPostPageClient } from "./BlogPostPageClient"
+import { getAllBlogPosts, getBlogPostBySlug } from "@/lib/content"
+import { BlogPostPageClient } from "./BlogPostPageClient" // Existing client component
+import { notFound } from "next/navigation"
 
-// Generate static params for all blog posts
 export async function generateStaticParams() {
-  // Define the available blog post slugs for static generation
-  const blogSlugs = [
-    "building-real-time-data-pipelines",
-    "data-mesh-architecture",
-    "optimizing-spark-performance",
-    "kubernetes-data-workloads",
-  ]
-
-  return blogSlugs.map((slug) => ({
-    slug: slug,
-  }))
+  try {
+    const posts = await getAllBlogPosts()
+    return posts.map((post) => ({
+      slug: post.slug,
+    }))
+  } catch (error) {
+    console.error("Error generating static params for blog posts:", error)
+    return []
+  }
 }
 
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
-  return <BlogPostPageClient params={params} />
+interface BlogPostPageProps {
+  params: {
+    slug: string
+  }
+}
+
+export default async function BlogPostPage({ params }: BlogPostPageProps) {
+  try {
+    const post = await getBlogPostBySlug(params.slug)
+
+    if (!post) {
+      notFound()
+    }
+    // Pass the fetched post directly to the client component
+    return <BlogPostPageClient post={post} />
+  } catch (error) {
+    console.error(`Error loading blog post ${params.slug}:`, error)
+    notFound() // Or render an error page
+  }
 }

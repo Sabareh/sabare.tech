@@ -5,15 +5,13 @@ import { type BlogPost } from "@/lib/content"
 import { BlogHeader } from "@/components/blog/blog-header"
 import { BlogList } from "@/components/blog/blog-list"
 
-export default function BlogPageClient({
-  posts,
-  featuredPosts,
-  error,
-}: {
+interface BlogPageClientProps {
   posts: BlogPost[]
   featuredPosts: BlogPost[]
-  error?: string | null
-}) {
+  error?: string
+}
+
+export default function BlogPageClient({ posts, featuredPosts, error }: BlogPageClientProps) {
   if (error) {
     return (
       <div className="container py-10 space-y-10">
@@ -21,6 +19,10 @@ export default function BlogPageClient({
       </div>
     )
   }
+
+  // You can add a loading state here if initial props are empty and an error isn't present,
+  // though with server fetching, data should be available or an error thrown.
+  // For simplicity, direct rendering or error display is shown.
 
   return (
     <div className="container py-10 space-y-10">
@@ -35,23 +37,4 @@ export default function BlogPageClient({
       </Suspense>
     </div>
   )
-}
-```
-
-```typescriptreact
-import { getAllBlogPosts, getFeaturedBlogPosts } from "@/lib/content"
-import BlogPageClient from "./BlogPageClient" // New client component
-
-export default async function BlogPage() {
-  try {
-    const [allPosts, featuredPosts] = await Promise.all([
-      getAllBlogPosts(),
-      getFeaturedBlogPosts(),
-    ])
-    return <BlogPageClient posts={allPosts} featuredPosts={featuredPosts} />
-  } catch (error) {
-    console.error("Error loading blog data:", error)
-    // Render client component with error state
-    return <BlogPageClient posts={[]} featuredPosts={[]} error="Failed to load blog posts" />
-  }
 }

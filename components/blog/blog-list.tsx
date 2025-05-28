@@ -1,5 +1,7 @@
 "use client"
 
+import type React from "react"
+
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
@@ -40,6 +42,14 @@ export function BlogList({ posts, featuredPosts }: BlogListProps) {
 
   const handleTagClick = (tag: string) => {
     setSelectedTag(selectedTag === tag ? null : tag)
+  }
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value)
+  }
+
+  const handleClearFilter = () => {
+    setSelectedTag(null)
   }
 
   // Function to get safe image path with appropriate fallback
@@ -101,7 +111,7 @@ export function BlogList({ posts, featuredPosts }: BlogListProps) {
             placeholder="Search posts..."
             className="pl-8"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={handleSearchChange}
           />
         </div>
         <Tabs value={viewType} onValueChange={setViewType} className="w-[200px]">
@@ -127,7 +137,7 @@ export function BlogList({ posts, featuredPosts }: BlogListProps) {
             </Badge>
           ))}
           {selectedTag && (
-            <Button variant="ghost" size="sm" onClick={() => setSelectedTag(null)} className="text-xs h-6 px-2">
+            <Button variant="ghost" size="sm" onClick={handleClearFilter} className="text-xs h-6 px-2">
               Clear filter
             </Button>
           )}

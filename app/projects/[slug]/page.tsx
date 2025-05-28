@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useParams } from "next/navigation"
-import { getProjectBySlug, type Project } from "@/lib/content"
+import { getProjectBySlug, getAllProjects, type Project } from "@/lib/content"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -10,6 +10,19 @@ import { ExternalLink, Github, ArrowLeft } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { getSafeImagePath } from "@/lib/image-utils"
+
+// Add this function for static generation
+export async function generateStaticParams() {
+  try {
+    const projects = await getAllProjects()
+    return projects.map((project) => ({
+      slug: project.slug,
+    }))
+  } catch (error) {
+    console.error("Error generating static params for projects:", error)
+    return []
+  }
+}
 
 export default function ProjectPage() {
   const params = useParams()

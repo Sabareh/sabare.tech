@@ -3,6 +3,8 @@
 import matter from "gray-matter"
 import { remark } from "remark"
 import html from "remark-html"
+import fs from "fs"
+import path from "path"
 
 // Define the content types
 export type ContentType = "blog" | "project" | "experience" | "testimonial" | "page" | "config"
@@ -294,8 +296,47 @@ export async function getFeaturedBlogPosts(): Promise<BlogPost[]> {
   return allPosts.filter((post) => post.featured).slice(0, 3)
 }
 
-// Get all projects (client-side only)
+// Update getAllProjects to work in both client and server contexts
 export async function getAllProjects(): Promise<Project[]> {
+  // Check if we're in a server context
+  if (typeof window === "undefined") {
+    try {
+      const projectsDirectory = path.join(process.cwd(), "content/projects")
+
+      // Check if directory exists
+      if (!fs.existsSync(projectsDirectory)) {
+        console.warn("Projects directory not found:", projectsDirectory)
+        return []
+      }
+
+      const filenames = fs.readdirSync(projectsDirectory)
+      const projects = filenames
+        .filter((name) => name.endsWith(".md"))
+        .map((name) => {
+          const filePath = path.join(projectsDirectory, name)
+          const fileContents = fs.readFileSync(filePath, "utf8")
+          const { data, content } = matter(fileContents)
+
+          return {
+            ...data,
+            slug: name.replace(/\.md$/, ""),
+            content,
+          } as Project
+        })
+        .sort(
+          (a, b) =>
+            new Date(b.date || b.startDate || 0).getTime() -
+            new Date(a.date || a.startDate || 0).getTime(),
+        )
+
+      return projects
+    } catch (error) {
+      console.error("Error reading projects:", error)
+      return []
+    }
+  }
+
+  // Client-side implementation remains the same
   const projects = await getAllContent("project")
 
   return projects.map((project) => ({
@@ -312,8 +353,32 @@ export async function getAllProjects(): Promise<Project[]> {
   }))
 }
 
-// Get project by slug (client-side only)
+// Update getProjectBySlug to work in both contexts
 export async function getProjectBySlug(slug: string): Promise<Project | null> {
+  if (typeof window === "undefined") {
+    try {
+      const projectsDirectory = path.join(process.cwd(), "content/projects")
+      const filePath = path.join(projectsDirectory, `${slug}.md`)
+
+      if (!fs.existsSync(filePath)) {
+        return null
+      }
+
+      const fileContents = fs.readFileSync(filePath, "utf8")
+      const { data, content } = matter(fileContents)
+
+      return {
+        ...data,
+        slug,
+        content,
+      } as Project
+    } catch (error) {
+      console.error("Error reading project:", error)
+      return null
+    }
+  }
+
+  // Client-side implementation
   const project = await fetchContentItem("project", slug)
 
   if (!project) {
@@ -332,6 +397,77 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
     content: project.content,
     metadata: project.metadata,
   }
+}
+
+// Add similar functions for experience if needed
+export async function getAllExperience(): Promise<Experience[]> {
+  if (typeof window === "undefined") {
+    try {
+      const experienceDirectory = path.join(process.cwd(), "content/experience")
+
+      if (!fs.existsSync(experienceDirectory)) {
+        console.warn("Experience directory not found:", experienceDirectory)
+        return []
+      }
+
+      const filenames = fs.readdirSync(experienceDirectory)
+      const experiences = filenames
+        .filter((name) => name.endsWith(".md"))
+        .map((name) => {
+          const filePath = path.join(experienceDirectory, name)
+          const fileContents = fs.readFileSync(filePath, "utf8")
+          const { data, content } = matter(fileContents)
+
+          return {
+            ...data,
+            slug: name.replace(/\.md$/, ""),
+            content,
+          } as Experience
+        })
+        .sort(
+          (a, b) =>
+            new Date(b.startDate || 0).getTime() - new Date(a.startDate || 0).getTime(),
+        )
+
+      return experiences
+    } catch (error) {
+      console.error("Error reading experience:", error)
+      return []
+    }
+  }
+
+  // Client-side implementation
+  const experiences = await getAllContent("experience")
+
+  return experiences.map((exp) => ({
+    slug: exp.slug,
+    title: exp.title,
+    company: exp.metadata?.company || "",
+    position: exp.metadata?.position || "",
+    startDate: exp.metadata?.startDate || "",
+    endDate: exp.metadata?.endDate,
+    location: exp.metadata?.location || "",
+    description: exp.description || "",
+    technologies: exp.metadata?.technologies || [],
+    content: exp.content,
+    metadata: exp.metadata,
+  }))
+}
+
+// Get all testimonials (client-side only)
+export async function getAllTestimonials(): Promise<Testimonial[]> {
+  const testimonials = await getAllContent("testimonial")
+
+  return testimonials.map((testimonial) => ({
+    slug: testimonial.slug,
+    name: testimonial.metadata?.name || testimonial.title,
+    position: testimonial.metadata?.position || "",
+    company: testimonial.metadata?.company || "",
+    content: testimonial.content,
+    rating: testimonial.metadata?.rating || 5,
+    imageUrl: testimonial.metadata?.imageUrl || testimonial.coverImage,
+    metadata: testimonial.metadata,
+  }))
 }
 
 // Search blog posts (client-side only)
@@ -445,38 +581,4 @@ export async function getConfig(configName: string): Promise<Record<string, any>
     return staticConfigs[configName] || null
   }
   return configItem.metadata || {}
-}
-
-// Experience and testimonials functions (client-side only)
-export async function getAllExperience(): Promise<Experience[]> {
-  const experiences = await getAllContent("experience")
-
-  return experiences.map((exp) => ({
-    slug: exp.slug,
-    title: exp.title,
-    company: exp.metadata?.company || "",
-    position: exp.metadata?.position || "",
-    startDate: exp.metadata?.startDate || "",
-    endDate: exp.metadata?.endDate,
-    location: exp.metadata?.location || "",
-    description: exp.description || "",
-    technologies: exp.metadata?.technologies || [],
-    content: exp.content,
-    metadata: exp.metadata,
-  }))
-}
-
-export async function getAllTestimonials(): Promise<Testimonial[]> {
-  const testimonials = await getAllContent("testimonial")
-
-  return testimonials.map((testimonial) => ({
-    slug: testimonial.slug,
-    name: testimonial.metadata?.name || testimonial.title,
-    position: testimonial.metadata?.position || "",
-    company: testimonial.metadata?.company || "",
-    content: testimonial.content,
-    rating: testimonial.metadata?.rating || 5,
-    imageUrl: testimonial.metadata?.imageUrl || testimonial.coverImage,
-    metadata: testimonial.metadata,
-  }))
 }

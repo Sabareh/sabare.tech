@@ -546,8 +546,46 @@ export async function getAllExperience(): Promise<Experience[]> {
   }))
 }
 
-// Get all testimonials (client-side only)
+// Get all testimonials
 export async function getAllTestimonials(): Promise<Testimonial[]> {
+  if (typeof window === "undefined") {
+    try {
+      const testimonialsDirectory = path.join(process.cwd(), "content/testimonials")
+
+      if (!fs.existsSync(testimonialsDirectory)) {
+        console.warn("Testimonials directory not found:", testimonialsDirectory)
+        return []
+      }
+
+      const filenames = fs.readdirSync(testimonialsDirectory)
+      const testimonialsPromises = filenames
+        .filter((name) => name.endsWith(".md"))
+        .map(async (name) => {
+          const filePath = path.join(testimonialsDirectory, name)
+          const fileContents = fs.readFileSync(filePath, "utf8")
+          const { data, content: rawContent } = matter(fileContents)
+          const htmlContent = await processMarkdown(rawContent)
+
+          return {
+            slug: name.replace(/\.md$/, ""),
+            name: data.name || name.replace(/\.md$/, ""),
+            position: data.position || "",
+            company: data.company || "",
+            content: htmlContent,
+            rating: data.rating || 5,
+            imageUrl: data.imageUrl || data.avatar,
+            metadata: data,
+          } as Testimonial
+        })
+
+      return await Promise.all(testimonialsPromises)
+    } catch (error) {
+      console.error("Error reading testimonials:", error)
+      return []
+    }
+  }
+
+  // Client-side implementation
   const testimonials = await getAllContent("testimonial")
 
   return testimonials.map((testimonial) => ({

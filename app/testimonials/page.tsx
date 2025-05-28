@@ -1,5 +1,3 @@
-"use client"
-
 import { getAllTestimonials } from "@/lib/content"
 import TestimonialPageClient from "./TestimonialPageClient"
 

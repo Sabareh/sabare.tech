@@ -4,41 +4,6 @@ import { Suspense } from "react"
 import { type BlogPost } from "@/lib/content"
 import { BlogHeader } from "@/components/blog/blog-header"
 import { BlogList } from "@/components/blog/blog-list"
-
-export default function BlogPageClient({
-  posts,
-  featuredPosts,
-  error,
-}: {
-  posts: BlogPost[]
-  featuredPosts: BlogPost[]
-  error?: string | null
-}) {
-  if (error) {
-    return (
-      <div className="container py-10 space-y-10">
-        <div className="text-center text-red-500">Error: {error}</div>
-      </div>
-    )
-  }
-
-  return (
-    <div className="container py-10 space-y-10">
-      <BlogHeader
-        title="Data Engineering Insights"
-        description="Explore articles on data engineering, big data, and analytics."
-        postCount={posts.length}
-      />
-
-      <Suspense fallback={<div>Loading posts...</div>}>
-        <BlogList posts={posts} featuredPosts={featuredPosts} />
-      </Suspense>
-    </div>
-  )
-}
-```
-
-```typescriptreact
 import { getAllBlogPosts, getFeaturedBlogPosts } from "@/lib/content"
 import BlogPageClient from "./BlogPageClient" // New client component
 
@@ -48,10 +13,21 @@ export default async function BlogPage() {
       getAllBlogPosts(),
       getFeaturedBlogPosts(),
     ])
-    return <BlogPageClient posts={allPosts} featuredPosts={featuredPosts} />
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <BlogPageClient
+          allPosts={allPosts}
+          featuredPosts={featuredPosts}
+        />
+      </div>
+    )
   } catch (error) {
     console.error("Error loading blog data:", error)
     // Render client component with error state
-    return <BlogPageClient posts={[]} featuredPosts={[]} error="Failed to load blog posts" />
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <BlogPageClient posts={[]} featuredPosts={[]} error="Failed to load blog posts" />
+      </div>
+    )
   }
 }

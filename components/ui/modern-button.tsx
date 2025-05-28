@@ -14,10 +14,12 @@ export function ModernButton({
   size = "default",
   isLoading = false,
   withArrow = false,
+  asChild = false,
   ...props
 }: ModernButtonProps) {
   return (
     <Button
+      asChild={asChild}
       className={cn(
         "relative overflow-hidden transition-all duration-300",
         withArrow && "group",
@@ -29,11 +31,14 @@ export function ModernButton({
       disabled={isLoading || props.disabled}
       {...props}
     >
-      {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-      {children}
-      {withArrow && (
-        <ArrowRight className="ml-2 h-4 w-4 transform transition-transform duration-300 group-hover:translate-x-1" />
-      )}
+      {/* single child for Slot */}
+      <span className="inline-flex items-center">
+        {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+        {children}
+        {withArrow && (
+          <ArrowRight className="ml-2 h-4 w-4 transform transition-transform duration-300 group-hover:translate-x-1" />
+        )}
+      </span>
     </Button>
   )
 }

@@ -44,12 +44,12 @@ export const metadata: Metadata = {
     "data science",
     "portfolio",
   ],
-  authors: [{ name: "Data Engineer" }],
+  authors: [{ name: "Victor Sabare" }],
   creator: "Data Engineer",
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://your-domain.com",
+    url: "https://sabare.tech",
     title: "Data Engineer Portfolio | Advanced Analytics & Pipeline Solutions",
     description:
       "Experienced data engineer specializing in scalable data pipelines, real-time analytics, and cloud infrastructure.",
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     title: "Data Engineer Portfolio | Advanced Analytics & Pipeline Solutions",
     description:
       "Experienced data engineer specializing in scalable data pipelines, real-time analytics, and cloud infrastructure.",
-    creator: "@yourusername",
+    creator: "@victorsabare",
   },
   robots: {
     index: true,
@@ -95,8 +95,6 @@ export default function RootLayout({
             <main className="flex-1">{children}</main>
             <Footer />
           </div>
-
-          <CommandPalette open={false} onOpenChange={() => {}} />
           <Toaster />
         </ThemeProvider>
       </body>

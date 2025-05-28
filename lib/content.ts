@@ -180,7 +180,10 @@ const contentManifest: Record<ContentType, string[]> = {
   ],
   project: ["real-time-analytics-platform"],
   experience: [],
-  testimonial: [],
+  testimonial: [
+    // add your testimonial markdown filenames (without .md)
+    "sarah-johnson",
+  ],
   page: [],
   config: ["personal-info", "social-links"],
 }

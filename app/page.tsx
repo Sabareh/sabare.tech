@@ -103,7 +103,9 @@ export default function HomePage() {
         <ParallaxFloatingElements elements={defaultFloatingElements} />
 
         {/* Hero Section */}
-        <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <section 
+          className="relative w-screen min-h-screen flex items-center justify-center overflow-hidden"
+        >
           <HeroCodeThemed />
         </section>
 

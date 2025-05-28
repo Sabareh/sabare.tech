@@ -77,7 +77,7 @@ export function Footer() {
             <address className="not-italic text-muted-foreground">
               <p>Nairobi, Kenya</p>
               <MagneticLink
-                href="mailto:contact@victorsabare.com"
+                href="mailto:sabarevictor@gmail.com"
                 className="mt-2 block hover:text-primary transition-colors"
                 strength={15}
                 radius={80}

@@ -1,131 +1,250 @@
+"use client"
+
+import { useEffect, useState } from "react"
+import { getFeaturedBlogPosts, getAllProjects, type BlogPost, type Project } from "@/lib/content"
 import { HeroCodeThemed } from "@/components/hero-code-themed"
 import { StatsSection } from "@/components/stats-section"
-import { ScrollAnimation } from "@/components/scroll-animation"
+import { TestimonialsSection } from "@/components/testimonials-section"
 import { ParallaxContainer } from "@/components/parallax/parallax-container"
-import { MagneticCard } from "@/components/ui/magnetic-card"
+import { ParallaxBackground } from "@/components/parallax/parallax-background"
+import { ScrollAnimation } from "@/components/scroll-animation"
+import { Section } from "@/components/ui/section"
+import { Heading } from "@/components/ui/heading"
+import { ModernCard } from "@/components/ui/modern-card"
+import { ModernButton } from "@/components/ui/modern-button"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { ArrowRight, Code, Database, Cloud, Zap } from "lucide-react"
+import { ArrowRight, Calendar, ExternalLink, Github } from "lucide-react"
 import Link from "next/link"
-
-const skills = [
-  {
-    name: "Python",
-    icon: <Code className="h-6 w-6" />,
-    level: 95,
-    description: "Data processing, ML, automation",
-  },
-  {
-    name: "SQL",
-    icon: <Database className="h-6 w-6" />,
-    level: 90,
-    description: "Complex queries, optimization",
-  },
-  {
-    name: "Apache Spark",
-    icon: <Zap className="h-6 w-6" />,
-    level: 85,
-    description: "Big data processing, streaming",
-  },
-  {
-    name: "AWS",
-    icon: <Cloud className="h-6 w-6" />,
-    level: 88,
-    description: "Cloud architecture, services",
-  },
-  {
-    name: "Power BI",
-    icon: <Database className="h-6 w-6" />,
-    level: 92,
-    description: "Business intelligence, dashboards",
-  },
-  {
-    name: "Machine Learning",
-    icon: <Code className="h-6 w-6" />,
-    level: 80,
-    description: "Predictive analytics, modeling",
-  },
-]
+import Image from "next/image"
+import { getSafeImagePath } from "@/lib/image-utils"
+import { ParallaxFloatingElements } from "@/components/parallax/parallax-floating-elements"
+import { defaultFloatingElements } from "@/lib/floating-elements"
 
 export default function HomePage() {
+  const [featuredPosts, setFeaturedPosts] = useState<BlogPost[]>([])
+  const [projects, setProjects] = useState<Project[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function loadHomeData() {
+      try {
+        const [posts, allProjects] = await Promise.all([getFeaturedBlogPosts(), getAllProjects()])
+        setFeaturedPosts(posts)
+        setProjects(allProjects.filter((p) => p.featured).slice(0, 3))
+      } catch (error) {
+        console.error("Error loading home data:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadHomeData()
+  }, [])
+
   return (
-    <main className="min-h-screen">
-      {/* Code-Themed Hero Section */}
-      <HeroCodeThemed />
+    <div className="min-h-screen">
+      <ParallaxContainer>
+        <ParallaxBackground />
+        <ParallaxFloatingElements elements={defaultFloatingElements} />
 
-      {/* Stats Section with Counter Animations */}
-      <StatsSection />
+        {/* Hero Section */}
+        <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+          <HeroCodeThemed />
+        </section>
 
-      {/* Skills Section */}
-      <section className="py-20 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <ScrollAnimation direction="up" className="text-center mb-16">
-            <Badge variant="outline" className="mb-4">
-              Core Technologies
-            </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Technical Expertise</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Specialized in modern data engineering tools and technologies
-            </p>
-          </ScrollAnimation>
+        {/* Stats Section */}
+        <ScrollAnimation>
+          <StatsSection />
+        </ScrollAnimation>
 
-          <ScrollAnimation direction="up" delay={0.3} stagger staggerDelay={0.1}>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {skills.map((skill, index) => (
-                <MagneticCard
-                  key={index}
-                  className="p-6 rounded-xl bg-card border"
-                  strength={12}
-                  radius={180}
-                  enableRotation={true}
-                  rotationStrength={2}
-                >
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="p-2 rounded-lg bg-primary/10 text-primary">{skill.icon}</div>
-                    <div>
-                      <h3 className="font-semibold">{skill.name}</h3>
-                      <div className="text-sm text-muted-foreground">{skill.description}</div>
-                    </div>
-                  </div>
-                  <div className="w-full bg-muted rounded-full h-2">
-                    <div
-                      className="bg-primary h-2 rounded-full transition-all duration-1000"
-                      style={{ width: `${skill.level}%` }}
-                    />
-                  </div>
-                  <div className="text-right text-sm text-muted-foreground mt-1">{skill.level}%</div>
-                </MagneticCard>
-              ))}
-            </div>
-          </ScrollAnimation>
-        </div>
-      </section>
+        {/* Featured Blog Posts */}
+        <Section className="py-20">
+          <div className="container">
+            <ScrollAnimation>
+              <div className="text-center mb-12">
+                <Heading level={2} className="mb-4">
+                  Latest Insights
+                </Heading>
+                <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+                  Explore my latest thoughts on data engineering, architecture, and technology trends.
+                </p>
+              </div>
+            </ScrollAnimation>
 
-      {/* CTA Section with Parallax */}
-      <section className="relative py-20 overflow-hidden">
-        <ParallaxContainer speed={0.4} className="absolute inset-0 -z-10">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-primary/5" />
-        </ParallaxContainer>
+            {loading ? (
+              <div className="text-center">Loading featured posts...</div>
+            ) : (
+              <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                {featuredPosts.map((post, index) => {
+                  const imageUrl = getSafeImagePath(
+                    post.coverImage,
+                    `/placeholder.svg?height=400&width=600&query=${encodeURIComponent(post.title)}`,
+                  )
 
-        <div className="container mx-auto px-4 text-center">
-          <ScrollAnimation direction="up">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Transform Your Data?</h2>
-            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Let's discuss how I can help you build scalable data solutions that drive business growth.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" asChild>
-                <Link href="/contact">
-                  Start a Project <ArrowRight className="ml-2 h-4 w-4" />
+                  return (
+                    <ScrollAnimation key={post.slug} delay={index * 0.1}>
+                      <ModernCard className="group h-full">
+                        {imageUrl && (
+                          <div className="relative aspect-video overflow-hidden rounded-t-lg">
+                            <Image
+                              src={imageUrl || "/placeholder.svg"}
+                              alt={post.title}
+                              fill
+                              className="object-cover transition-transform duration-300 group-hover:scale-105"
+                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            />
+                          </div>
+                        )}
+                        <div className="p-6">
+                          <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
+                            <Calendar className="h-4 w-4" />
+                            <time dateTime={post.date}>
+                              {new Date(post.date).toLocaleDateString("en-US", {
+                                month: "short",
+                                day: "numeric",
+                                year: "numeric",
+                              })}
+                            </time>
+                            <span>•</span>
+                            <span>{post.readingTime}</span>
+                          </div>
+                          <h3 className="text-xl font-semibold mb-3 line-clamp-2 group-hover:text-primary transition-colors">
+                            {post.title}
+                          </h3>
+                          <p className="text-muted-foreground mb-4 line-clamp-3">{post.excerpt}</p>
+                          <div className="flex flex-wrap gap-2 mb-4">
+                            {post.tags.slice(0, 2).map((tag) => (
+                              <Badge key={tag} variant="secondary" className="text-xs">
+                                {tag}
+                              </Badge>
+                            ))}
+                          </div>
+                          <Link href={`/blog/${post.slug}`}>
+                            <ModernButton variant="ghost" className="p-0 h-auto font-medium group/btn">
+                              Read More
+                              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
+                            </ModernButton>
+                          </Link>
+                        </div>
+                      </ModernCard>
+                    </ScrollAnimation>
+                  )
+                })}
+              </div>
+            )}
+
+            <ScrollAnimation delay={0.3}>
+              <div className="text-center mt-12">
+                <Link href="/blog">
+                  <ModernButton size="lg">
+                    View All Posts
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </ModernButton>
                 </Link>
-              </Button>
-              <Button size="lg" variant="outline" asChild>
-                <Link href="/projects">View My Work</Link>
-              </Button>
-            </div>
-          </ScrollAnimation>
-        </div>
-      </section>
-    </main>
+              </div>
+            </ScrollAnimation>
+          </div>
+        </Section>
+
+        {/* Featured Projects */}
+        <Section className="py-20 bg-muted/30">
+          <div className="container">
+            <ScrollAnimation>
+              <div className="text-center mb-12">
+                <Heading level={2} className="mb-4">
+                  Featured Projects
+                </Heading>
+                <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+                  A showcase of data engineering solutions and platforms I've architected and built.
+                </p>
+              </div>
+            </ScrollAnimation>
+
+            {loading ? (
+              <div className="text-center">Loading featured projects...</div>
+            ) : (
+              <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                {projects.map((project, index) => {
+                  const imageUrl = getSafeImagePath(
+                    project.imageUrl,
+                    `/placeholder.svg?height=400&width=600&query=${encodeURIComponent(project.title)}`,
+                  )
+
+                  return (
+                    <ScrollAnimation key={project.slug} delay={index * 0.1}>
+                      <ModernCard className="group h-full">
+                        {imageUrl && (
+                          <div className="relative aspect-video overflow-hidden rounded-t-lg">
+                            <Image
+                              src={imageUrl || "/placeholder.svg"}
+                              alt={project.title}
+                              fill
+                              className="object-cover transition-transform duration-300 group-hover:scale-105"
+                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            />
+                          </div>
+                        )}
+                        <div className="p-6">
+                          <h3 className="text-xl font-semibold mb-3 line-clamp-2 group-hover:text-primary transition-colors">
+                            {project.title}
+                          </h3>
+                          <p className="text-muted-foreground mb-4 line-clamp-3">{project.description}</p>
+                          <div className="flex flex-wrap gap-2 mb-4">
+                            {project.technologies.slice(0, 3).map((tech) => (
+                              <Badge key={tech} variant="secondary" className="text-xs">
+                                {tech}
+                              </Badge>
+                            ))}
+                            {project.technologies.length > 3 && (
+                              <Badge variant="outline" className="text-xs">
+                                +{project.technologies.length - 3}
+                              </Badge>
+                            )}
+                          </div>
+                          <div className="flex gap-2">
+                            {project.githubUrl && (
+                              <ModernButton size="sm" variant="outline" asChild>
+                                <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                                  <Github className="mr-2 h-4 w-4" />
+                                  Code
+                                </a>
+                              </ModernButton>
+                            )}
+                            {project.demoUrl && (
+                              <ModernButton size="sm" asChild>
+                                <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">
+                                  <ExternalLink className="mr-2 h-4 w-4" />
+                                  Demo
+                                </a>
+                              </ModernButton>
+                            )}
+                          </div>
+                        </div>
+                      </ModernCard>
+                    </ScrollAnimation>
+                  )
+                })}
+              </div>
+            )}
+
+            <ScrollAnimation delay={0.3}>
+              <div className="text-center mt-12">
+                <Link href="/projects">
+                  <ModernButton size="lg">
+                    View All Projects
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </ModernButton>
+                </Link>
+              </div>
+            </ScrollAnimation>
+          </div>
+        </Section>
+
+        {/* Testimonials */}
+        <ScrollAnimation>
+          <TestimonialsSection />
+        </ScrollAnimation>
+      </ParallaxContainer>
+    </div>
   )
 }

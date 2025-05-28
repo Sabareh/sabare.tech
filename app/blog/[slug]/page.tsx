@@ -1,50 +1,55 @@
-import type { Metadata } from "next"
-import { notFound } from "next/navigation"
+"use client"
+
+import { useEffect, useState } from "react"
+import { useParams } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
-import { getContentBySlug, getAllContent } from "@/lib/content"
+import { getBlogPostBySlug, type BlogPost } from "@/lib/content"
 import { TableOfContents } from "@/components/table-of-contents"
 import { MarkdownRenderer } from "@/components/markdown-renderer"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft, Calendar, Clock, User, Tag } from "lucide-react"
 import { getSafeImagePath } from "@/lib/image-utils"
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const post = await getContentBySlug("blog", params.slug)
+export default function BlogPostPage() {
+  const params = useParams()
+  const slug = params.slug as string
+  const [post, setPost] = useState<BlogPost | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-  if (!post) {
-    return {
-      title: "Post Not Found",
-      description: "The requested blog post could not be found.",
+  useEffect(() => {
+    async function loadPost() {
+      try {
+        setLoading(true)
+        const blogPost = await getBlogPostBySlug(slug)
+        setPost(blogPost)
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Failed to load blog post")
+      } finally {
+        setLoading(false)
+      }
     }
+
+    if (slug) {
+      loadPost()
+    }
+  }, [slug])
+
+  if (loading) {
+    return (
+      <article className="container max-w-4xl py-10">
+        <div className="text-center">Loading blog post...</div>
+      </article>
+    )
   }
 
-  return {
-    title: post.title,
-    description: post.description,
-    openGraph: {
-      title: post.title,
-      description: post.description || "",
-      type: "article",
-      publishedTime: post.date,
-      authors: [post.author || ""],
-      images: post.coverImage ? [{ url: post.coverImage }] : [],
-    },
-  }
-}
-
-export async function generateStaticParams() {
-  const posts = await getAllContent("blog")
-  return posts.map((post) => ({
-    slug: post.slug,
-  }))
-}
-
-export default async function BlogPostPage({ params }: { params: { slug: string } }) {
-  const post = await getContentBySlug("blog", params.slug)
-
-  if (!post) {
-    notFound()
+  if (error || !post) {
+    return (
+      <article className="container max-w-4xl py-10">
+        <div className="text-center text-red-500">{error || "Blog post not found"}</div>
+      </article>
+    )
   }
 
   // Get safe image path with appropriate fallback
@@ -65,7 +70,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
 
         <h1 className="text-4xl font-bold tracking-tight mb-4">{post.title}</h1>
 
-        {post.description && <p className="text-xl text-muted-foreground mb-6">{post.description}</p>}
+        {post.excerpt && <p className="text-xl text-muted-foreground mb-6">{post.excerpt}</p>}
 
         <div className="flex flex-wrap gap-4 text-sm text-muted-foreground mb-6">
           {post.date && (

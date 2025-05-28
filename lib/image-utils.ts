@@ -23,31 +23,13 @@ export function imageExists(imagePath: string): boolean {
 }
 
 /**
- * Get a safe image path with fallback
+ * Returns a safe image path with a fallback if the original path is undefined or empty
  */
-export function getSafeImagePath(
-  imagePath: string | undefined | null,
-  fallback = "/placeholder.svg?height=400&width=400&query=image",
-): string {
-  if (!imagePath) {
+export function getSafeImagePath(path: string | undefined, fallback: string): string {
+  if (!path || path.trim() === "") {
     return fallback
   }
-
-  if (imageExists(imagePath)) {
-    return imagePath
-  }
-
-  // If the path is for a specific type of image, create a more specific fallback
-  if (imagePath.includes("data") || imagePath.includes("pipeline") || imagePath.includes("workflow")) {
-    return `/placeholder.svg?height=800&width=1200&query=${encodeURIComponent("data pipeline diagram")}`
-  }
-
-  if (imagePath.includes("architecture")) {
-    return `/placeholder.svg?height=800&width=1200&query=${encodeURIComponent("system architecture diagram")}`
-  }
-
-  console.warn(`Image not found: ${imagePath}, using fallback: ${fallback}`)
-  return fallback
+  return path
 }
 
 /**

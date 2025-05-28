@@ -1,0 +1,36 @@
+{
+  "blog": [
+    {
+      "slug": "building-real-time-data-pipelines",
+      "title": "Building Real-Time Data Pipelines with Kafka and Spark",
+      "featured": true
+    },
+    {
+      "slug": "data-mesh-architecture",
+      "title": "Implementing a Data Mesh Architecture for Enterprise Scale",
+      "featured": true
+    },
+    {
+      "slug": "optimizing-spark-performance",
+      "title": "Advanced Spark Performance Optimization Techniques",
+      "featured": false
+    }
+  ],
+  "project": [
+    {
+      "slug": "real-time-analytics-platform",
+      "title": "Real-Time Analytics Platform",
+      "featured": true
+    }
+  ],
+  "config": [
+    {
+      "slug": "personal-info",
+      "title": "Personal Information"
+    },
+    {
+      "slug": "social-links",
+      "title": "Social Links"
+    }
+  ]
+}

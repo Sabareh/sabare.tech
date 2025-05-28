@@ -17,14 +17,13 @@ interface FloatingElement {
 }
 
 interface ParallaxFloatingElementsProps {
-  elements: FloatingElement[]
+  elements?: FloatingElement[]
   className?: string
 }
 
-export function ParallaxFloatingElements({ elements, className = "" }: ParallaxFloatingElementsProps) {
+export function ParallaxFloatingElements({ elements = [], className = "" }: ParallaxFloatingElementsProps) {
   const ref = useRef<HTMLDivElement>(null)
   const shouldReduceMotion = useReducedMotion()
-
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
@@ -35,6 +34,10 @@ export function ParallaxFloatingElements({ elements, className = "" }: ParallaxF
     damping: 30,
     mass: 1,
   })
+
+  if (!elements || elements.length === 0) {
+    return null
+  }
 
   if (shouldReduceMotion) {
     return (

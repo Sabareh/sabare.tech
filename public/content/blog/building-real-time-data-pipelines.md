@@ -1,7 +1,7 @@
 ---
 title: "Building Real-Time Data Pipelines with Kafka and Spark"
 description: "Learn how to design and implement scalable real-time data pipelines using Apache Kafka and Spark Streaming for high-throughput event processing."
-date: "2023-11-15T10:00:00Z"
+date: "2023-11-15"
 author: "Data Engineer"
 tags: ["Apache Kafka", "Spark Streaming", "Real-time Processing", "Data Engineering"]
 featured: true
@@ -34,7 +34,7 @@ A robust real-time data pipeline typically consists of several key components:
 ## Implementation Best Practices
 
 ### Kafka Configuration
-\`\`\`
+\`\`\`scala
 val kafkaParams = Map[String, Object](
   "bootstrap.servers" -> "localhost:9092",
   "key.deserializer" -> classOf[StringDeserializer],
@@ -46,7 +46,7 @@ val kafkaParams = Map[String, Object](
 \`\`\`
 
 ### Spark Streaming Setup
-\`\`\`
+\`\`\`scala
 val spark = SparkSession.builder()
   .appName("RealTimeDataPipeline")
   .config("spark.sql.streaming.checkpointLocation", "/tmp/checkpoint")
@@ -69,6 +69,3 @@ val df = spark
 ## Conclusion
 
 Building real-time data pipelines requires careful consideration of architecture, technology choices, and operational practices. With the right approach, you can achieve sub-second processing latencies while maintaining high reliability and scalability.
-\`\`\`
-
-Let's create a utility function to help with image paths:

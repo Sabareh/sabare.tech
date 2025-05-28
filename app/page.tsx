@@ -1,146 +1,131 @@
-"use client"
-
-import { motion } from "framer-motion"
+import { HeroCodeThemed } from "@/components/hero-code-themed"
+import { StatsSection } from "@/components/stats-section"
+import { ScrollAnimation } from "@/components/scroll-animation"
+import { ParallaxContainer } from "@/components/parallax/parallax-container"
+import { MagneticCard } from "@/components/ui/magnetic-card"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { ArrowRight, Code, Database, Cloud, Zap } from "lucide-react"
 import Link from "next/link"
-import { TestimonialsSection } from "@/components/testimonials-section"
-import { QuickActions } from "@/components/quick-actions"
-import { HeroSection } from "@/components/hero-section"
-import { Section } from "@/components/ui/section"
-import { Heading } from "@/components/ui/heading"
-import { ModernCard } from "@/components/ui/modern-card"
-import { ModernButton } from "@/components/ui/modern-button"
 
 const skills = [
-  { name: "Python", level: 95, icon: "🐍" },
-  { name: "SQL", level: 90, icon: "🗃️" },
-  { name: "Apache Spark", level: 85, icon: "⚡" },
-  { name: "AWS", level: 88, icon: "☁️" },
-  { name: "Docker", level: 82, icon: "🐳" },
-  { name: "Kubernetes", level: 78, icon: "⚙️" },
-]
-
-const stats = [
-  { label: "Data Pipelines Built", value: "50+" },
-  { label: "TB of Data Processed", value: "100+" },
-  { label: "Years Experience", value: "5+" },
-  { label: "Cloud Platforms", value: "3" },
+  {
+    name: "Python",
+    icon: <Code className="h-6 w-6" />,
+    level: 95,
+    description: "Data processing, ML, automation",
+  },
+  {
+    name: "SQL",
+    icon: <Database className="h-6 w-6" />,
+    level: 90,
+    description: "Complex queries, optimization",
+  },
+  {
+    name: "Apache Spark",
+    icon: <Zap className="h-6 w-6" />,
+    level: 85,
+    description: "Big data processing, streaming",
+  },
+  {
+    name: "AWS",
+    icon: <Cloud className="h-6 w-6" />,
+    level: 88,
+    description: "Cloud architecture, services",
+  },
+  {
+    name: "Power BI",
+    icon: <Database className="h-6 w-6" />,
+    level: 92,
+    description: "Business intelligence, dashboards",
+  },
+  {
+    name: "Machine Learning",
+    icon: <Code className="h-6 w-6" />,
+    level: 80,
+    description: "Predictive analytics, modeling",
+  },
 ]
 
 export default function HomePage() {
   return (
-    <div className="relative overflow-hidden">
-      {/* Hero Section */}
-      <HeroSection
-        title="Data Engineer"
-        subtitle="Building scalable data infrastructure and pipelines that transform raw data into actionable insights"
-        primaryAction={{
-          text: "View My Work",
-          href: "/projects",
-        }}
-        secondaryAction={{
-          text: "Download Resume",
-          href: "/resume",
-        }}
-      />
+    <main className="min-h-screen">
+      {/* Code-Themed Hero Section */}
+      <HeroCodeThemed />
 
-      {/* Stats Section */}
-      <Section className="py-20 bg-muted/30">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-8"
-        >
-          {stats.map((stat, index) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, scale: 0.5 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
-              viewport={{ once: true }}
-              className="text-center"
-            >
-              <div className="text-4xl font-bold gradient-text mb-2">{stat.value}</div>
-              <div className="text-muted-foreground">{stat.label}</div>
-            </motion.div>
-          ))}
-        </motion.div>
-      </Section>
-
-      {/* Quick Actions Section */}
-      <Section className="py-20">
-        <Heading title="Quick Actions" description="Get started quickly with these common actions" align="center" />
-
-        <QuickActions />
-      </Section>
+      {/* Stats Section with Counter Animations */}
+      <StatsSection />
 
       {/* Skills Section */}
-      <Section className="py-20 bg-muted/30">
-        <Heading
-          title="Technical Expertise"
-          description="Specialized in modern data engineering tools and cloud platforms"
-          align="center"
-        />
+      <section className="py-20 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <ScrollAnimation direction="up" className="text-center mb-16">
+            <Badge variant="outline" className="mb-4">
+              Core Technologies
+            </Badge>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Technical Expertise</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Specialized in modern data engineering tools and technologies
+            </p>
+          </ScrollAnimation>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {skills.map((skill, index) => (
-            <motion.div
-              key={skill.name}
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
-              viewport={{ once: true }}
-            >
-              <ModernCard
-                title={skill.name}
-                icon={<span className="text-2xl">{skill.icon}</span>}
-                badges={[`${skill.level}%`]}
-              >
-                <div className="w-full bg-muted rounded-full h-2 mt-4">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    whileInView={{ width: `${skill.level}%` }}
-                    transition={{ delay: index * 0.1 + 0.5, duration: 1 }}
-                    viewport={{ once: true }}
-                    className="bg-gradient-to-r from-primary to-accent h-2 rounded-full"
-                  />
-                </div>
-              </ModernCard>
-            </motion.div>
-          ))}
+          <ScrollAnimation direction="up" delay={0.3} stagger staggerDelay={0.1}>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {skills.map((skill, index) => (
+                <MagneticCard
+                  key={index}
+                  className="p-6 rounded-xl bg-card border"
+                  strength={12}
+                  radius={180}
+                  enableRotation={true}
+                  rotationStrength={2}
+                >
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="p-2 rounded-lg bg-primary/10 text-primary">{skill.icon}</div>
+                    <div>
+                      <h3 className="font-semibold">{skill.name}</h3>
+                      <div className="text-sm text-muted-foreground">{skill.description}</div>
+                    </div>
+                  </div>
+                  <div className="w-full bg-muted rounded-full h-2">
+                    <div
+                      className="bg-primary h-2 rounded-full transition-all duration-1000"
+                      style={{ width: `${skill.level}%` }}
+                    />
+                  </div>
+                  <div className="text-right text-sm text-muted-foreground mt-1">{skill.level}%</div>
+                </MagneticCard>
+              ))}
+            </div>
+          </ScrollAnimation>
         </div>
-      </Section>
+      </section>
 
-      {/* Testimonials Section */}
-      <TestimonialsSection />
+      {/* CTA Section with Parallax */}
+      <section className="relative py-20 overflow-hidden">
+        <ParallaxContainer speed={0.4} className="absolute inset-0 -z-10">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-primary/5" />
+        </ParallaxContainer>
 
-      {/* CTA Section */}
-      <Section className="py-20">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="max-w-4xl mx-auto text-center"
-        >
-          <h2 className="text-4xl font-bold mb-6 font-playfair">Let's Build Something Amazing</h2>
-          <p className="text-xl text-muted-foreground mb-8">
-            Ready to transform your data infrastructure? Let's discuss how we can work together.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <ModernButton size="lg" withArrow asChild>
-              <Link href="/contact">Get In Touch</Link>
-            </ModernButton>
-            <ModernButton size="lg" variant="outline" asChild>
-              <Link href="/blog">Read My Blog</Link>
-            </ModernButton>
-          </div>
-        </motion.div>
-      </Section>
-
-      {/* Floating Quick Actions */}
-      <QuickActions compact className="lg:hidden" />
-    </div>
+        <div className="container mx-auto px-4 text-center">
+          <ScrollAnimation direction="up">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Transform Your Data?</h2>
+            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+              Let's discuss how I can help you build scalable data solutions that drive business growth.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="lg" asChild>
+                <Link href="/contact">
+                  Start a Project <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+              <Button size="lg" variant="outline" asChild>
+                <Link href="/projects">View My Work</Link>
+              </Button>
+            </div>
+          </ScrollAnimation>
+        </div>
+      </section>
+    </main>
   )
 }

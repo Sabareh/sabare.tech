@@ -1,31 +1,42 @@
 ---
-name: "Your Name"
-title: "Senior Data Engineer"
-tagline: "Building scalable data infrastructure and analytics solutions"
-bio: "Experienced Data Engineer with 5+ years of expertise in designing and implementing scalable data infrastructure, real-time processing systems, and cloud-based analytics solutions. Passionate about turning complex data challenges into elegant, performant solutions."
-location: "San Francisco, CA"
-email: "your.email@example.com"
-phone: "+1 (555) 123-4567"
-website: "https://yourwebsite.com"
-avatar: "/professional-headshot.png"
-resume_url: "/resume.pdf"
+name: "Victor Oketch Sabare"
+title: "Data Engineer & Analytics Specialist"
+tagline: "Transforming data into actionable insights through innovative engineering solutions"
+bio: "Passionate Data Engineer with expertise in Data Science and Analytics. Driven by ambition, curiosity, and commitment to excellence. I believe in extensive research, networking, and collaboration in problem-solving scenarios. Through experience, I have acquired the spirit of teachability and discernment."
+location: "Nairobi, Kenya"
+email: "sabarevictor@gmail.com"
+phone: "+254 113193473"
+website: "https://sabare.tech"
+avatar: "/victor-sabare-headshot.png"
+resume_url: "/victor-sabare-resume.pdf"
 ---
 
 # Personal Information
 
-This file contains the core personal information used throughout the website.
-
 ## Professional Summary
 
-Experienced Data Engineer with a proven track record of:
-- Designing scalable data pipelines processing 10TB+ daily
-- Reducing data processing costs by 40% through optimization
-- Leading teams of 5+ engineers in complex data projects
-- Implementing streaming architectures with 95% latency reduction
+Experienced Data Engineer and Analytics Specialist with a proven track record of:
+- Developing and deploying 5+ Power Apps for process digitization
+- Designing comprehensive Power BI dashboards and interactive reports
+- Leading data warehouse migration projects using AWS and Amazon Redshift
+- Delivering 100+ SEO-optimized technical articles with 4.4/5 client satisfaction
 
 ## Specializations
 
-- Real-time data processing and streaming analytics
-- Cloud-native data architecture (AWS, GCP, Azure)
-- Data pipeline optimization and cost reduction
-- Team leadership and technical mentoring
+- Data Engineering and Pipeline Development
+- Business Intelligence and Analytics
+- Machine Learning and AI Implementation
+- Cloud Data Architecture (AWS, Azure)
+- Microsoft Power Platform Development
+- Technical Writing and Content Creation
+
+## Education
+
+**Jomo Kenyatta University of Agriculture and Technology**
+- BS in Data Science and Analytics
+- Microsoft Learn Student Ambassador
+- Kenya Model United Nations participant
+
+**Alliance High School, Kikuyu**
+- MIT Launch X Club, Junior Economic Club
+- Chess Club, World Scholars Club

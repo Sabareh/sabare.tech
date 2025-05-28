@@ -8,93 +8,121 @@ import { Separator } from "@/components/ui/separator"
 import { Download, Mail, Phone, MapPin, Globe, Linkedin, Github, ExternalLink, Printer } from "lucide-react"
 import Link from "next/link"
 
-// Resume data structure
+// Victor's resume data
 const resumeData = {
   personalInfo: {
-    name: "Your Name",
-    title: "Senior Data Engineer",
-    email: "your.email@example.com",
-    phone: "+1 (555) 123-4567",
-    location: "San Francisco, CA",
-    website: "https://yourwebsite.com",
-    linkedin: "https://linkedin.com/in/yourusername",
-    github: "https://github.com/yourusername",
+    name: "Victor Oketch Sabare",
+    title: "Data Engineer & Analytics Specialist",
+    email: "sabarevictor@gmail.com",
+    phone: "+254 113193473",
+    location: "Nairobi, Kenya",
+    website: "https://sabare.tech",
+    linkedin: "https://www.linkedin.com/in/victorsabare",
+    github: "https://github.com/Sabareh",
   },
   summary:
-    "Experienced Data Engineer with 5+ years of expertise in designing and implementing scalable data infrastructure, real-time processing systems, and cloud-based analytics solutions. Proven track record of reducing costs by 40% and improving system performance by 300% through innovative data pipeline optimization.",
+    "Passionate Data Engineer with expertise in Data Science and Analytics. Experienced in developing Power Apps, designing Power BI dashboards, and implementing cloud data solutions. Proven track record of delivering 100+ technical articles with 4.4/5 client satisfaction rating and successfully digitizing manual processes through innovative data solutions.",
   experience: [
     {
-      title: "Senior Data Engineer",
-      company: "Tech Innovations Inc.",
-      location: "San Francisco, CA",
-      period: "Jan 2022 - Present",
+      title: "Independent Contractor",
+      company: "Upwork",
+      location: "Remote",
+      period: "March 2022 - Present",
       achievements: [
-        "Led a team of 5 data engineers in designing scalable data pipelines processing 10TB+ daily",
-        "Reduced data processing costs by 40% through pipeline optimization and infrastructure improvements",
-        "Implemented streaming architecture with Kafka and Spark, reducing latency by 95%",
-        "Migrated on-premise data warehouse to cloud, improving query performance by 300%",
+        "Designed Microsoft Power Apps, Power Pages, and Power BI dashboards using PowerFX, Power Automate, DAX, SQL, and M Code",
+        "Delivered 100+ SEO-optimized landing pages on hiring remote developers, achieving consistent client praise",
+        "Provided technical consulting for Vercel portfolio projects and deployment optimization",
+        "Authored technical blog series with 4.4/5 client satisfaction rating for quality and creativity",
       ],
-      technologies: ["Apache Spark", "Kafka", "AWS", "Python", "Airflow", "Terraform", "Docker", "Kubernetes"],
+      technologies: ["Power BI", "Power Apps", "PowerFX", "DAX", "SQL", "M Code", "Power Automate"],
     },
     {
       title: "Data Engineer",
-      company: "Data Systems Co.",
-      location: "Seattle, WA",
-      period: "Mar 2020 - Dec 2021",
+      company: "HFC Kenya",
+      location: "Nairobi, Kenya",
+      period: "June 2024 - September 2024",
       achievements: [
-        "Built real-time analytics platform processing 1M+ events per minute",
-        "Implemented data catalog solution improving data discovery by 70%",
-        "Reduced ETL job failures by 80% through improved error handling and monitoring",
-        "Developed dashboards and visualizations for business stakeholders",
+        "Developed and deployed 5 Power Apps, digitizing manual processes in the bank",
+        "Participated in migration team for new data warehouse using AWS Data Warehousing with Amazon Redshift",
+        "Utilized SOAPUI for regulatory reporting to the Central Bank of Kenya",
+        "Improved operational efficiency through automated data processing solutions",
       ],
-      technologies: ["Python", "Apache Spark", "Google Cloud Platform", "BigQuery", "Airflow", "Kafka"],
+      technologies: ["Power Apps", "AWS", "Amazon Redshift", "SOAPUI", "Data Warehousing"],
     },
     {
-      title: "Junior Data Engineer",
-      company: "Analytics Edge",
-      location: "Boston, MA",
-      period: "Jun 2018 - Feb 2020",
+      title: "Microsoft Learn Student Ambassador",
+      company: "Microsoft",
+      location: "Nairobi, Kenya",
+      period: "April 2022 - April 2025",
       achievements: [
-        "Automated manual reporting processes, saving 20+ hours per week",
-        "Improved data pipeline reliability from 85% to 99.5%",
-        "Contributed to customer segmentation project increasing conversion by 35%",
-        "Developed ETL pipelines using Python and SQL",
+        "Organized and executed engaging workshops, webinars, and events on Microsoft technologies",
+        "Mentored fellow students interested in pursuing careers in technology",
+        "Provided insights into industry trends and opportunities",
+        "Built community around Microsoft technologies and tools",
       ],
-      technologies: ["Python", "SQL", "PostgreSQL", "Tableau", "PowerBI", "AWS"],
+      technologies: ["Microsoft Technologies", "Azure", "Power Platform", "Community Building"],
     },
   ],
   education: [
     {
-      degree: "Bachelor of Science in Computer Science",
-      school: "University of Technology",
-      location: "Boston, MA",
-      period: "2014 - 2018",
-      details: "Concentration in Database Systems and Distributed Computing",
+      degree: "Bachelor of Science in Data Science and Analytics",
+      school: "Jomo Kenyatta University of Agriculture and Technology",
+      location: "Karen, Kenya",
+      period: "2020 - Present",
+      details: "Relevant Coursework: Machine Learning I & II, Probability & Statistics",
+      activities: "Microsoft Learn Student Ambassador, Kenya Model United Nations",
+    },
+    {
+      degree: "High School Diploma",
+      school: "Alliance High School",
+      location: "Kikuyu, Kenya",
+      period: "2016 - 2019",
+      details: "Activities: MIT Launch X Club, Junior Economic Club, Chess Club, World Scholars Club",
     },
   ],
   skills: {
-    "Programming Languages": ["Python", "SQL", "Scala", "Java", "JavaScript"],
-    "Data Processing": ["Apache Spark", "Apache Kafka", "Apache Airflow", "dbt", "Apache Flink"],
-    "Cloud Platforms": ["AWS", "Google Cloud Platform", "Azure"],
-    Databases: ["PostgreSQL", "MySQL", "MongoDB", "Redis", "Snowflake", "BigQuery"],
-    "Tools & Technologies": ["Docker", "Kubernetes", "Terraform", "Git", "Jenkins", "Grafana"],
+    "Programming Languages": ["Python", "Java", "R", "Scala", "SQL"],
+    "Big Data Tools": [
+      "Hadoop Ecosystem",
+      "Apache Spark",
+      "Apache Kafka",
+      "Apache Flume",
+      "Apache Pig",
+      "Apache Oozie",
+      "Apache HBase",
+      "Apache Sqoop",
+    ],
+    "Analytics & ML": [
+      "TensorFlow",
+      "Machine Learning",
+      "Natural Language Processing",
+      "Support Vector Machines",
+      "Clustering",
+      "Dimensionality Reduction",
+    ],
+    "Business Intelligence": ["Power BI", "Power Apps", "Tableau", "DAX", "PowerFX", "Power Automate"],
+    "Cloud Platforms": ["AWS", "Amazon Redshift", "Azure"],
+    Databases: ["MongoDB", "Elastic Search"],
   },
   certifications: [
-    "AWS Certified Data Engineer - Associate",
-    "Google Cloud Professional Data Engineer",
-    "Apache Spark Developer Certification",
-    "Kubernetes Application Developer (CKAD)",
+    "Associate Big Data Engineer (ABDE™) - Data Science Council of America",
+    "Data Engineer Associate - DataCamp",
+    "Data Scientist Associate - DataCamp",
+    "Data Analyst Associate - DataCamp",
   ],
   projects: [
     {
-      name: "Real-time Analytics Platform",
-      description: "Built platform processing 10M+ events/day using Kafka, Spark Streaming, and ClickHouse",
-      technologies: ["Kafka", "Spark Streaming", "ClickHouse", "Python"],
+      name: "Retail Recommender System",
+      description: "Shiny-based web application recommending cross-sell opportunities using association rule mining",
+      technologies: ["R", "Shiny", "Association Rule Mining", "Data Mining"],
+      date: "November 2024",
     },
     {
-      name: "Multi-Cloud Data Lake",
-      description: "Designed data lake architecture supporting AWS, GCP, and Azure with automated ingestion",
-      technologies: ["AWS S3", "Google Cloud Storage", "Terraform", "Airflow"],
+      name: "Product Network Analysis Using R",
+      description:
+        "Shiny web application analyzing product transactions using Apriori algorithm and community detection",
+      technologies: ["R", "Shiny", "Apriori Algorithm", "Network Analysis"],
+      date: "October 2024",
     },
   ],
 }
@@ -126,8 +154,8 @@ export default function ResumePage() {
         >
           <h1 className="text-4xl font-bold mb-4">Resume</h1>
           <p className="text-muted-foreground mb-6">
-            Download or view my professional resume highlighting my experience in data engineering and cloud
-            infrastructure.
+            Download or view my professional resume highlighting my experience in data engineering, analytics, and
+            business intelligence solutions.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button onClick={handleDownloadPDF} size="lg" className="group">
@@ -254,15 +282,18 @@ function ResumeContent({ data }: ResumeContentProps) {
       <div>
         <h3 className="text-lg font-semibold mb-4">Education</h3>
         {data.education.map((edu, index) => (
-          <div key={index} className="flex flex-col sm:flex-row sm:justify-between">
-            <div>
-              <h4 className="font-semibold">{edu.degree}</h4>
-              <p className="text-primary">{edu.school}</p>
-              <p className="text-sm text-muted-foreground">{edu.details}</p>
-            </div>
-            <div className="text-sm text-muted-foreground">
-              <p>{edu.period}</p>
-              <p>{edu.location}</p>
+          <div key={index} className="mb-4">
+            <div className="flex flex-col sm:flex-row sm:justify-between">
+              <div>
+                <h4 className="font-semibold">{edu.degree}</h4>
+                <p className="text-primary">{edu.school}</p>
+                <p className="text-sm text-muted-foreground">{edu.details}</p>
+                {edu.activities && <p className="text-sm text-muted-foreground">Activities: {edu.activities}</p>}
+              </div>
+              <div className="text-sm text-muted-foreground">
+                <p>{edu.period}</p>
+                <p>{edu.location}</p>
+              </div>
             </div>
           </div>
         ))}
@@ -294,7 +325,7 @@ function ResumeContent({ data }: ResumeContentProps) {
       {/* Certifications */}
       <div>
         <h3 className="text-lg font-semibold mb-4">Certifications</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+        <div className="grid grid-cols-1 gap-2">
           {data.certifications.map((cert, index) => (
             <div key={index} className="flex items-center gap-2">
               <div className="w-2 h-2 bg-primary rounded-full"></div>
@@ -308,11 +339,14 @@ function ResumeContent({ data }: ResumeContentProps) {
 
       {/* Key Projects */}
       <div>
-        <h3 className="text-lg font-semibold mb-4">Key Projects</h3>
+        <h3 className="text-lg font-semibold mb-4">Recent Projects</h3>
         <div className="space-y-4">
           {data.projects.map((project, index) => (
             <div key={index}>
-              <h4 className="font-medium">{project.name}</h4>
+              <div className="flex justify-between items-start mb-1">
+                <h4 className="font-medium">{project.name}</h4>
+                <span className="text-xs text-muted-foreground">{project.date}</span>
+              </div>
               <p className="text-sm text-muted-foreground mb-2">{project.description}</p>
               <div className="flex flex-wrap gap-1">
                 {project.technologies.map((tech) => (

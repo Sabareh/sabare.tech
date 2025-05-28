@@ -1,14 +1,14 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
 import { useRouter } from "next/navigation"
 import {
   CommandDialog,
+  CommandInput,
+  CommandList,
   CommandEmpty,
   CommandGroup,
-  CommandInput,
   CommandItem,
-  CommandList,
   CommandSeparator,
 } from "@/components/ui/command"
 import {
@@ -20,25 +20,43 @@ import {
   Award,
   FileText,
   Wrench,
-  Download,
-  Mail,
+  Sun,
+  Moon,
+  Laptop,
   Github,
   Linkedin,
   Twitter,
-  Sun,
-  Moon,
+  Mail,
   ExternalLink,
+  Download,
   Copy,
-  Share2,
-  Calendar,
-  Code,
-  Database,
-  Cloud,
-  Zap,
-  Settings,
 } from "lucide-react"
 import { useTheme } from "next-themes"
 import { useToast } from "@/hooks/use-toast"
+
+const navigation = [
+  { name: "Home", href: "/", icon: Home },
+  { name: "About", href: "/about", icon: User },
+  { name: "Projects", href: "/projects", icon: Briefcase },
+  { name: "Experience", href: "/experience", icon: Award },
+  { name: "Blog", href: "/blog", icon: BookOpen },
+  { name: "Testimonials", href: "/testimonials", icon: MessageSquare },
+  { name: "Uses", href: "/uses", icon: Wrench },
+  { name: "Resume", href: "/resume", icon: FileText },
+  { name: "Contact", href: "/contact", icon: Mail },
+]
+
+const socialLinks = [
+  { name: "GitHub", href: "https://github.com/yourusername", icon: Github },
+  { name: "LinkedIn", href: "https://linkedin.com/in/yourusername", icon: Linkedin },
+  { name: "Twitter", href: "https://twitter.com/yourusername", icon: Twitter },
+]
+
+const quickActions = [
+  { name: "Download Resume", action: "download-resume", icon: Download },
+  { name: "Copy Email", action: "copy-email", icon: Copy },
+  { name: "View Resume", href: "/resume", icon: FileText },
+]
 
 interface CommandPaletteProps {
   open: boolean
@@ -47,308 +65,130 @@ interface CommandPaletteProps {
 
 export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
   const router = useRouter()
-  const { theme, setTheme } = useTheme()
+  const { setTheme } = useTheme()
   const { toast } = useToast()
-  const [search, setSearch] = useState("")
-
-  // Navigation commands
-  const navigationCommands = [
-    { id: "home", label: "Go to Home", icon: Home, action: () => router.push("/") },
-    { id: "about", label: "Go to About", icon: User, action: () => router.push("/about") },
-    { id: "projects", label: "Go to Projects", icon: Briefcase, action: () => router.push("/projects") },
-    { id: "experience", label: "Go to Experience", icon: Award, action: () => router.push("/experience") },
-    { id: "blog", label: "Go to Blog", icon: BookOpen, action: () => router.push("/blog") },
-    {
-      id: "testimonials",
-      label: "Go to Testimonials",
-      icon: MessageSquare,
-      action: () => router.push("/testimonials"),
-    },
-    { id: "uses", label: "Go to Uses", icon: Wrench, action: () => router.push("/uses") },
-    { id: "resume", label: "Go to Resume", icon: FileText, action: () => router.push("/resume") },
-    { id: "contact", label: "Go to Contact", icon: Mail, action: () => router.push("/contact") },
-  ]
-
-  // Quick actions
-  const quickActions = [
-    {
-      id: "download-resume",
-      label: "Download Resume",
-      icon: Download,
-      action: () => {
-        // Simulate resume download
-        toast({ title: "Resume Downloaded", description: "Your resume has been downloaded successfully." })
-        window.open("/resume/print", "_blank")
-      },
-    },
-    {
-      id: "copy-email",
-      label: "Copy Email Address",
-      icon: Copy,
-      action: () => {
-        navigator.clipboard.writeText("hello@dataengineer.dev")
-        toast({ title: "Email Copied", description: "Email address copied to clipboard." })
-      },
-    },
-    {
-      id: "schedule-call",
-      label: "Schedule a Call",
-      icon: Calendar,
-      action: () => {
-        router.push("/contact")
-        toast({ title: "Contact Form", description: "Redirected to contact form to schedule a call." })
-      },
-    },
-    {
-      id: "share-portfolio",
-      label: "Share Portfolio",
-      icon: Share2,
-      action: () => {
-        if (navigator.share) {
-          navigator.share({
-            title: "Data Engineer Portfolio",
-            text: "Check out this amazing data engineering portfolio",
-            url: window.location.origin,
-          })
-        } else {
-          navigator.clipboard.writeText(window.location.origin)
-          toast({ title: "Link Copied", description: "Portfolio link copied to clipboard." })
-        }
-      },
-    },
-  ]
-
-  // Social links
-  const socialCommands = [
-    {
-      id: "github",
-      label: "Open GitHub Profile",
-      icon: Github,
-      action: () => window.open("https://github.com/yourusername", "_blank"),
-    },
-    {
-      id: "linkedin",
-      label: "Open LinkedIn Profile",
-      icon: Linkedin,
-      action: () => window.open("https://linkedin.com/in/yourusername", "_blank"),
-    },
-    {
-      id: "twitter",
-      label: "Open Twitter Profile",
-      icon: Twitter,
-      action: () => window.open("https://twitter.com/yourusername", "_blank"),
-    },
-  ]
-
-  // Theme commands
-  const themeCommands = [
-    {
-      id: "light-theme",
-      label: "Switch to Light Theme",
-      icon: Sun,
-      action: () => {
-        setTheme("light")
-        toast({ title: "Theme Changed", description: "Switched to light theme." })
-      },
-    },
-    {
-      id: "dark-theme",
-      label: "Switch to Dark Theme",
-      icon: Moon,
-      action: () => {
-        setTheme("dark")
-        toast({ title: "Theme Changed", description: "Switched to dark theme." })
-      },
-    },
-    {
-      id: "system-theme",
-      label: "Use System Theme",
-      icon: Settings,
-      action: () => {
-        setTheme("system")
-        toast({ title: "Theme Changed", description: "Using system theme preference." })
-      },
-    },
-  ]
-
-  // Project shortcuts
-  const projectCommands = [
-    {
-      id: "realtime-analytics",
-      label: "View Real-time Analytics Project",
-      icon: Zap,
-      action: () => router.push("/projects#realtime-analytics"),
-    },
-    {
-      id: "data-warehouse",
-      label: "View Data Warehouse Project",
-      icon: Database,
-      action: () => router.push("/projects#data-warehouse"),
-    },
-    {
-      id: "cloud-migration",
-      label: "View Cloud Migration Project",
-      icon: Cloud,
-      action: () => router.push("/projects#cloud-migration"),
-    },
-  ]
-
-  // Blog shortcuts
-  const blogCommands = [
-    {
-      id: "latest-post",
-      label: "Read Latest Blog Post",
-      icon: BookOpen,
-      action: () => router.push("/blog/building-real-time-data-pipelines"),
-    },
-    {
-      id: "data-mesh-post",
-      label: "Read Data Mesh Article",
-      icon: Code,
-      action: () => router.push("/blog/data-mesh-architecture"),
-    },
-  ]
-
-  const handleCommand = (command: any) => {
-    command.action()
-    onOpenChange(false)
-    setSearch("")
-  }
-
-  // Filter commands based on search
-  const filterCommands = (commands: any[], search: string) => {
-    if (!search) return commands
-    return commands.filter((command) => command.label.toLowerCase().includes(search.toLowerCase()))
-  }
 
   useEffect(() => {
-    if (!open) {
-      setSearch("")
+    const down = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault()
+        onOpenChange(!open)
+      }
     }
-  }, [open])
+
+    document.addEventListener("keydown", down)
+    return () => document.removeEventListener("keydown", down)
+  }, [onOpenChange, open])
+
+  const handleSelect = (callback: () => void) => {
+    callback()
+    onOpenChange(false)
+  }
+
+  const handleQuickAction = (action: string) => {
+    switch (action) {
+      case "download-resume":
+        // Trigger resume download
+        window.open("/resume/print", "_blank")
+        toast({
+          title: "Resume Download",
+          description: "Opening resume in new tab for download",
+        })
+        break
+      case "copy-email":
+        // Copy email to clipboard
+        navigator.clipboard.writeText("your.email@example.com")
+        toast({
+          title: "Email Copied",
+          description: "Email address copied to clipboard",
+        })
+        break
+    }
+  }
 
   return (
     <CommandDialog open={open} onOpenChange={onOpenChange}>
-      <CommandInput placeholder="Type a command or search..." value={search} onValueChange={setSearch} />
+      <CommandInput placeholder="Type a command or navigate..." />
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
 
-        {/* Navigation */}
-        {filterCommands(navigationCommands, search).length > 0 && (
-          <CommandGroup heading="Navigation">
-            {filterCommands(navigationCommands, search).map((command) => (
+        <CommandGroup heading="Navigation">
+          {navigation.map((item) => {
+            const Icon = item.icon
+            return (
               <CommandItem
-                key={command.id}
-                onSelect={() => handleCommand(command)}
-                className="flex items-center space-x-2"
+                key={item.name}
+                onSelect={() => handleSelect(() => router.push(item.href))}
+                className="flex items-center"
               >
-                <command.icon className="h-4 w-4" />
-                <span>{command.label}</span>
+                <Icon className="mr-2 h-4 w-4" />
+                <span>{item.name}</span>
               </CommandItem>
-            ))}
-          </CommandGroup>
-        )}
+            )
+          })}
+        </CommandGroup>
 
-        {/* Quick Actions */}
-        {filterCommands(quickActions, search).length > 0 && (
-          <>
-            <CommandSeparator />
-            <CommandGroup heading="Quick Actions">
-              {filterCommands(quickActions, search).map((command) => (
-                <CommandItem
-                  key={command.id}
-                  onSelect={() => handleCommand(command)}
-                  className="flex items-center space-x-2"
-                >
-                  <command.icon className="h-4 w-4" />
-                  <span>{command.label}</span>
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </>
-        )}
+        <CommandSeparator />
 
-        {/* Projects */}
-        {filterCommands(projectCommands, search).length > 0 && (
-          <>
-            <CommandSeparator />
-            <CommandGroup heading="Projects">
-              {filterCommands(projectCommands, search).map((command) => (
-                <CommandItem
-                  key={command.id}
-                  onSelect={() => handleCommand(command)}
-                  className="flex items-center space-x-2"
-                >
-                  <command.icon className="h-4 w-4" />
-                  <span>{command.label}</span>
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </>
-        )}
+        <CommandGroup heading="Quick Actions">
+          {quickActions.map((item) => {
+            const Icon = item.icon
+            return (
+              <CommandItem
+                key={item.name}
+                onSelect={() =>
+                  handleSelect(() => {
+                    if (item.href) {
+                      router.push(item.href)
+                    } else if (item.action) {
+                      handleQuickAction(item.action)
+                    }
+                  })
+                }
+                className="flex items-center"
+              >
+                <Icon className="mr-2 h-4 w-4" />
+                <span>{item.name}</span>
+              </CommandItem>
+            )
+          })}
+        </CommandGroup>
 
-        {/* Blog */}
-        {filterCommands(blogCommands, search).length > 0 && (
-          <>
-            <CommandSeparator />
-            <CommandGroup heading="Blog Posts">
-              {filterCommands(blogCommands, search).map((command) => (
-                <CommandItem
-                  key={command.id}
-                  onSelect={() => handleCommand(command)}
-                  className="flex items-center space-x-2"
-                >
-                  <command.icon className="h-4 w-4" />
-                  <span>{command.label}</span>
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </>
-        )}
+        <CommandSeparator />
 
-        {/* Social Links */}
-        {filterCommands(socialCommands, search).length > 0 && (
-          <>
-            <CommandSeparator />
-            <CommandGroup heading="Social Links">
-              {filterCommands(socialCommands, search).map((command) => (
-                <CommandItem
-                  key={command.id}
-                  onSelect={() => handleCommand(command)}
-                  className="flex items-center space-x-2"
-                >
-                  <command.icon className="h-4 w-4" />
-                  <span>{command.label}</span>
-                  <ExternalLink className="h-3 w-3 ml-auto opacity-50" />
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </>
-        )}
+        <CommandGroup heading="Theme">
+          <CommandItem onSelect={() => handleSelect(() => setTheme("light"))}>
+            <Sun className="mr-2 h-4 w-4" />
+            <span>Light Theme</span>
+          </CommandItem>
+          <CommandItem onSelect={() => handleSelect(() => setTheme("dark"))}>
+            <Moon className="mr-2 h-4 w-4" />
+            <span>Dark Theme</span>
+          </CommandItem>
+          <CommandItem onSelect={() => handleSelect(() => setTheme("system"))}>
+            <Laptop className="mr-2 h-4 w-4" />
+            <span>System Theme</span>
+          </CommandItem>
+        </CommandGroup>
 
-        {/* Theme */}
-        {filterCommands(themeCommands, search).length > 0 && (
-          <>
-            <CommandSeparator />
-            <CommandGroup heading="Appearance">
-              {filterCommands(themeCommands, search).map((command) => (
-                <CommandItem
-                  key={command.id}
-                  onSelect={() => handleCommand(command)}
-                  className="flex items-center space-x-2"
-                >
-                  <command.icon className="h-4 w-4" />
-                  <span>{command.label}</span>
-                  {((command.id === "light-theme" && theme === "light") ||
-                    (command.id === "dark-theme" && theme === "dark") ||
-                    (command.id === "system-theme" && theme === "system")) && (
-                    <span className="ml-auto text-xs text-muted-foreground">Active</span>
-                  )}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </>
-        )}
+        <CommandSeparator />
+
+        <CommandGroup heading="Social Links">
+          {socialLinks.map((item) => {
+            const Icon = item.icon
+            return (
+              <CommandItem
+                key={item.name}
+                onSelect={() => handleSelect(() => window.open(item.href, "_blank"))}
+                className="flex items-center"
+              >
+                <Icon className="mr-2 h-4 w-4" />
+                <span>{item.name}</span>
+                <ExternalLink className="ml-auto h-3 w-3 opacity-50" />
+              </CommandItem>
+            )
+          })}
+        </CommandGroup>
       </CommandList>
     </CommandDialog>
   )

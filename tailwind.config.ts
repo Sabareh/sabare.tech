@@ -18,8 +18,8 @@ const config: Config = {
     },
     extend: {
       fontFamily: {
-        sans: ["var(--font-inter)"],
-        playfair: ["var(--font-playfair)"],
+        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
+        playfair: ["var(--font-playfair)", "serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -90,6 +90,22 @@ const config: Config = {
           from: { transform: "translateX(0)" },
           to: { transform: "translateX(100%)" },
         },
+        "gradient-shift": {
+          "0%, 100%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+        },
+        float: {
+          "0%, 100%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(-20px)" },
+        },
+        "pulse-glow": {
+          "0%, 100%": { boxShadow: "0 0 20px hsl(var(--primary) / 0.3)" },
+          "50%": { boxShadow: "0 0 40px hsl(var(--primary) / 0.6)" },
+        },
+        "skeleton-loading": {
+          "0%": { backgroundPosition: "200% 0" },
+          "100%": { backgroundPosition: "-200% 0" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -98,6 +114,10 @@ const config: Config = {
         "fade-out": "fade-out 0.3s ease-out",
         "slide-in-right": "slide-in-right 0.3s ease-out",
         "slide-out-right": "slide-out-right 0.3s ease-out",
+        "gradient-shift": "gradient-shift 3s ease infinite",
+        float: "float 6s ease-in-out infinite",
+        "pulse-glow": "pulse-glow 2s ease-in-out infinite alternate",
+        "skeleton-loading": "skeleton-loading 1.5s infinite",
       },
       typography: {
         DEFAULT: {

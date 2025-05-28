@@ -1,102 +1,116 @@
 "use client"
-import { Github, Linkedin, Twitter, Mail, Database } from "lucide-react"
-import { Button } from "@/components/ui/button"
+
 import Link from "next/link"
-
-const socialLinks = [
-  { href: "https://github.com/yourusername", icon: Github, label: "GitHub" },
-  { href: "https://linkedin.com/in/yourusername", icon: Linkedin, label: "LinkedIn" },
-  { href: "https://twitter.com/yourusername", icon: Twitter, label: "Twitter" },
-  { href: "mailto:your.email@example.com", icon: Mail, label: "Email" },
-]
-
-const quickLinks = [
-  { href: "/about", label: "About" },
-  { href: "/projects", label: "Projects" },
-  { href: "/blog", label: "Blog" },
-  { href: "/uses", label: "Uses" },
-]
+import { Github, Linkedin, Twitter, Mail } from "lucide-react"
+import { MagneticLink } from "@/components/ui/magnetic-link"
+import { MagneticIcon } from "@/components/ui/magnetic-icon"
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
 
+  const socialLinks = [
+    { icon: <Github className="h-5 w-5" />, href: "https://github.com/victorsabare", label: "GitHub" },
+    { icon: <Linkedin className="h-5 w-5" />, href: "https://linkedin.com/in/victorsabare", label: "LinkedIn" },
+    { icon: <Twitter className="h-5 w-5" />, href: "https://twitter.com/victorsabare", label: "Twitter" },
+    { icon: <Mail className="h-5 w-5" />, href: "mailto:contact@victorsabare.com", label: "Email" },
+  ]
+
+  const navLinks = [
+    { href: "/", label: "Home" },
+    { href: "/about", label: "About" },
+    { href: "/projects", label: "Projects" },
+    { href: "/blog", label: "Blog" },
+    { href: "/uses", label: "Uses" },
+    { href: "/testimonials", label: "Testimonials" },
+    { href: "/contact", label: "Contact" },
+  ]
+
   return (
-    <footer className="bg-muted/30 border-t">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Brand */}
-          <div className="md:col-span-2">
-            <Link href="/" className="flex items-center space-x-2 mb-4">
-              <Database className="h-8 w-8 text-primary" />
-              <span className="font-bold text-xl">DataEngineer</span>
-            </Link>
-            <p className="text-muted-foreground mb-6 max-w-md">
-              Passionate about building scalable data infrastructure and turning complex data challenges into elegant
-              solutions.
-            </p>
-            <div className="flex space-x-2">
-              {socialLinks.map((link) => (
-                <Button key={link.label} variant="ghost" size="icon" asChild>
-                  <Link
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-primary transition-colors"
-                  >
-                    <link.icon className="h-5 w-5" />
-                    <span className="sr-only">{link.label}</span>
+    <footer className="border-t py-12 mt-24">
+      <div className="container mx-auto px-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div>
+            <MagneticLink href="/" className="text-xl font-bold tracking-tighter" strength={15} scale={1.05}>
+              Victor Sabare
+            </MagneticLink>
+            <p className="mt-2 text-muted-foreground">Data Engineer & Analytics Specialist</p>
+            <div className="flex items-center space-x-3 mt-4">
+              {socialLinks.map((link, index) => (
+                <MagneticIcon
+                  key={index}
+                  className="flex items-center justify-center w-9 h-9 rounded-full bg-secondary hover:bg-primary/10 transition-colors"
+                  strength={40}
+                  radius={100}
+                  scale={1.2}
+                  enableRotation={true}
+                  rotationStrength={10}
+                  glowOnHover={true}
+                >
+                  <Link href={link.href} aria-label={link.label}>
+                    {link.icon}
                   </Link>
-                </Button>
+                </MagneticIcon>
               ))}
             </div>
           </div>
 
-          {/* Quick Links */}
           <div>
-            <h3 className="font-semibold mb-4">Quick Links</h3>
-            <ul className="space-y-2">
-              {quickLinks.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="text-muted-foreground hover:text-primary transition-colors">
-                    {link.label}
-                  </Link>
-                </li>
+            <h3 className="font-medium mb-4">Navigation</h3>
+            <nav className="flex flex-col space-y-2">
+              {navLinks.map((link, index) => (
+                <MagneticLink
+                  key={index}
+                  href={link.href}
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                  strength={15}
+                  radius={80}
+                  scale={1.05}
+                >
+                  {link.label}
+                </MagneticLink>
               ))}
-            </ul>
+            </nav>
           </div>
 
-          {/* Contact */}
           <div>
-            <h3 className="font-semibold mb-4">Get In Touch</h3>
-            <p className="text-muted-foreground mb-2">Open to new opportunities and collaborations</p>
-            <Button asChild className="group">
-              <Link href="/contact">
-                Contact Me
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="ml-2 h-4 w-4 transform transition-transform duration-300 group-hover:translate-x-1"
-                >
-                  <path d="M5 12h14" />
-                  <path d="m12 5 7 7-7 7" />
-                </svg>
-              </Link>
-            </Button>
+            <h3 className="font-medium mb-4">Contact</h3>
+            <address className="not-italic text-muted-foreground">
+              <p>San Francisco, CA</p>
+              <MagneticLink
+                href="mailto:contact@victorsabare.com"
+                className="mt-2 block hover:text-primary transition-colors"
+                strength={15}
+                radius={80}
+                scale={1.05}
+              >
+                contact@victorsabare.com
+              </MagneticLink>
+            </address>
           </div>
         </div>
 
         <div className="border-t mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-muted-foreground text-sm">© {currentYear} Your Name. All rights reserved.</p>
-          <p className="text-muted-foreground text-sm mt-2 md:mt-0">
-            Built with Next.js, Tailwind CSS, and Framer Motion
-          </p>
+          <p className="text-sm text-muted-foreground">© {currentYear} Victor Sabare. All rights reserved.</p>
+          <div className="flex items-center space-x-4 mt-4 md:mt-0">
+            <MagneticLink
+              href="/privacy"
+              className="text-sm text-muted-foreground hover:text-primary transition-colors"
+              strength={15}
+              radius={80}
+              scale={1.05}
+            >
+              Privacy Policy
+            </MagneticLink>
+            <MagneticLink
+              href="/terms"
+              className="text-sm text-muted-foreground hover:text-primary transition-colors"
+              strength={15}
+              radius={80}
+              scale={1.05}
+            >
+              Terms of Service
+            </MagneticLink>
+          </div>
         </div>
       </div>
     </footer>

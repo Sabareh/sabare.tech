@@ -1,30 +1,31 @@
 import type { Metadata } from "next"
 import { ContactForm } from "@/components/contact-form"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Mail, MapPin, Phone, Clock } from "lucide-react"
+import { Mail, MapPin, Phone, Clock, Linkedin, Github, Globe } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "Contact | Data Engineer Portfolio",
-  description: "Get in touch to discuss data engineering projects, consulting opportunities, or collaboration.",
+  title: "Contact | Victor Oketch Sabare - Data Engineer",
+  description:
+    "Get in touch with Victor Oketch Sabare to discuss data engineering projects, analytics consulting, or collaboration opportunities.",
 }
 
 const contactInfo = [
   {
     icon: Mail,
     label: "Email",
-    value: "hello@dataengineer.dev",
-    href: "mailto:hello@dataengineer.dev",
+    value: "sabarevictor@gmail.com",
+    href: "mailto:sabarevictor@gmail.com",
   },
   {
     icon: Phone,
     label: "Phone",
-    value: "+1 (555) 123-4567",
-    href: "tel:+15551234567",
+    value: "+254 113193473",
+    href: "tel:+254113193473",
   },
   {
     icon: MapPin,
     label: "Location",
-    value: "San Francisco, CA",
+    value: "Nairobi, Kenya",
     href: null,
   },
   {
@@ -35,6 +36,27 @@ const contactInfo = [
   },
 ]
 
+const socialLinks = [
+  {
+    icon: Linkedin,
+    label: "LinkedIn",
+    value: "victorsabare",
+    href: "https://www.linkedin.com/in/victorsabare",
+  },
+  {
+    icon: Github,
+    label: "GitHub",
+    value: "Sabareh",
+    href: "https://github.com/Sabareh",
+  },
+  {
+    icon: Globe,
+    label: "Website",
+    value: "sabare.tech",
+    href: "https://sabare.tech",
+  },
+]
+
 export default function ContactPage() {
   return (
     <div className="container mx-auto px-4 py-16 max-w-6xl">
@@ -42,7 +64,7 @@ export default function ContactPage() {
         <h1 className="text-4xl font-bold mb-4">Get In Touch</h1>
         <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
           Ready to discuss your next data engineering project? I'd love to hear about your challenges and explore how we
-          can work together.
+          can work together to transform your data into actionable insights.
         </p>
       </div>
 
@@ -87,6 +109,33 @@ export default function ContactPage() {
             </div>
           </div>
 
+          {/* Social Links */}
+          <div>
+            <h2 className="text-2xl font-semibold mb-6">Connect With Me</h2>
+            <div className="space-y-4">
+              {socialLinks.map((item, index) => (
+                <div key={index} className="flex items-center space-x-4">
+                  <div className="flex-shrink-0">
+                    <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                      <item.icon className="w-5 h-5 text-primary" />
+                    </div>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-muted-foreground">{item.label}</p>
+                    <a
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-foreground hover:text-primary transition-colors"
+                    >
+                      {item.value}
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
           <Card>
             <CardHeader>
               <CardTitle>What I Can Help With</CardTitle>
@@ -99,23 +148,23 @@ export default function ContactPage() {
                 </li>
                 <li className="flex items-start space-x-2">
                   <span className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0"></span>
-                  <span>Cloud infrastructure setup (AWS, GCP, Azure)</span>
+                  <span>Power BI dashboard development and analytics</span>
                 </li>
                 <li className="flex items-start space-x-2">
                   <span className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0"></span>
-                  <span>Data warehouse design and optimization</span>
+                  <span>Cloud data warehouse design (AWS, Azure)</span>
                 </li>
                 <li className="flex items-start space-x-2">
                   <span className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0"></span>
-                  <span>Real-time streaming analytics solutions</span>
+                  <span>Machine learning model development and deployment</span>
                 </li>
                 <li className="flex items-start space-x-2">
                   <span className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0"></span>
-                  <span>Data quality and governance frameworks</span>
+                  <span>Microsoft Power Platform development</span>
                 </li>
                 <li className="flex items-start space-x-2">
                   <span className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0"></span>
-                  <span>Team training and technical consulting</span>
+                  <span>Technical writing and content creation</span>
                 </li>
               </ul>
             </CardContent>
@@ -132,7 +181,7 @@ export default function ContactPage() {
               </p>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span>Full-time contracts</span>
+                  <span>Freelance projects</span>
                   <span className="text-green-600">Available</span>
                 </div>
                 <div className="flex justify-between">
@@ -140,11 +189,11 @@ export default function ContactPage() {
                   <span className="text-green-600">Available</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>Project-based work</span>
+                  <span>Technical mentoring</span>
                   <span className="text-green-600">Available</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>Technical advisory</span>
+                  <span>Speaking engagements</span>
                   <span className="text-green-600">Available</span>
                 </div>
               </div>

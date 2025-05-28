@@ -1,8 +1,6 @@
 "use client"
 
 import type React from "react"
-
-import { motion } from "framer-motion"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -21,6 +19,8 @@ import {
   Layers,
 } from "lucide-react"
 import Link from "next/link"
+import { AnimatedSection, AnimatedGrid } from "@/components/animated-section"
+import { ScrollAnimation } from "@/components/scroll-animation"
 
 interface Technology {
   name: string
@@ -449,66 +449,44 @@ export default function UsesPage() {
     <div className="min-h-screen pt-20 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
+        <ScrollAnimation direction="up" className="text-center mb-16">
           <h1 className="text-5xl font-bold mb-6">Uses</h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             A comprehensive overview of the technologies, tools, and hardware I use to build modern web applications and
             manage my development workflow.
           </p>
-        </motion.div>
+        </ScrollAnimation>
 
         {/* Featured Technologies */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="mb-16"
-        >
-          <h2 className="text-3xl font-bold mb-8 text-center">Core Technologies</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <AnimatedSection title="Core Technologies" className="mb-16" direction="up" delay={0.2}>
+          <AnimatedGrid columns={{ default: 1, md: 2, lg: 4 }} staggerDelay={0.1}>
             {categories
               .flatMap((cat) => cat.technologies)
               .filter((tech) => tech.featured)
               .slice(0, 8)
-              .map((tech, index) => (
-                <motion.div
-                  key={tech.name}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
-                >
-                  <Card className="glass-effect hover:shadow-lg transition-all duration-300 h-full">
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-lg flex items-center justify-between">
-                        {tech.name}
-                        <Button variant="ghost" size="icon" asChild>
-                          <Link href={tech.website} target="_blank" rel="noopener noreferrer">
-                            <ExternalLink className="h-4 w-4" />
-                          </Link>
-                        </Button>
-                      </CardTitle>
-                      {tech.version && <Badge variant="outline">{tech.version}</Badge>}
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-sm text-muted-foreground">{tech.description}</p>
-                    </CardContent>
-                  </Card>
-                </motion.div>
+              .map((tech) => (
+                <Card key={tech.name} className="glass-effect hover:shadow-lg transition-all duration-300 h-full">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-lg flex items-center justify-between">
+                      {tech.name}
+                      <Button variant="ghost" size="icon" asChild>
+                        <Link href={tech.website} target="_blank" rel="noopener noreferrer">
+                          <ExternalLink className="h-4 w-4" />
+                        </Link>
+                      </Button>
+                    </CardTitle>
+                    {tech.version && <Badge variant="outline">{tech.version}</Badge>}
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground">{tech.description}</p>
+                  </CardContent>
+                </Card>
               ))}
-          </div>
-        </motion.div>
+          </AnimatedGrid>
+        </AnimatedSection>
 
         {/* Detailed Categories */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
+        <ScrollAnimation direction="up" delay={0.4}>
           <Tabs defaultValue="frontend" className="w-full">
             <TabsList className="grid w-full grid-cols-3 lg:grid-cols-5 xl:grid-cols-9 mb-8">
               {categories.map((category) => (
@@ -531,65 +509,50 @@ export default function UsesPage() {
                   </div>
                 </div>
 
-                <div className="grid gap-6">
-                  {category.technologies.map((tech, index) => (
-                    <motion.div
-                      key={tech.name}
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.6, delay: index * 0.1 }}
-                      viewport={{ once: true }}
-                    >
-                      <Card className="glass-effect">
-                        <CardHeader>
-                          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                            <div>
-                              <CardTitle className="flex items-center gap-2">
-                                {tech.name}
-                                {tech.featured && <Badge variant="secondary">Featured</Badge>}
-                              </CardTitle>
-                              <div className="flex items-center gap-2 mt-1">
-                                {tech.version && <Badge variant="outline">{tech.version}</Badge>}
-                                <Badge variant="outline">{tech.category}</Badge>
-                              </div>
+                <AnimatedGrid columns={{ default: 1 }} staggerDelay={0.1}>
+                  {category.technologies.map((tech) => (
+                    <Card key={tech.name} className="glass-effect">
+                      <CardHeader>
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                          <div>
+                            <CardTitle className="flex items-center gap-2">
+                              {tech.name}
+                              {tech.featured && <Badge variant="secondary">Featured</Badge>}
+                            </CardTitle>
+                            <div className="flex items-center gap-2 mt-1">
+                              {tech.version && <Badge variant="outline">{tech.version}</Badge>}
+                              <Badge variant="outline">{tech.category}</Badge>
                             </div>
-                            <Button variant="outline" size="sm" asChild>
-                              <Link href={tech.website} target="_blank" rel="noopener noreferrer">
-                                <ExternalLink className="h-4 w-4 mr-2" />
-                                Visit Website
-                              </Link>
-                            </Button>
                           </div>
-                        </CardHeader>
-                        <CardContent>
-                          <CardDescription className="text-base mb-3">{tech.description}</CardDescription>
-                          <div className="bg-muted/30 rounded-lg p-3">
-                            <p className="text-sm">
-                              <strong>Why I use it:</strong> {tech.reason}
-                            </p>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    </motion.div>
+                          <Button variant="outline" size="sm" asChild>
+                            <Link href={tech.website} target="_blank" rel="noopener noreferrer">
+                              <ExternalLink className="h-4 w-4 mr-2" />
+                              Visit Website
+                            </Link>
+                          </Button>
+                        </div>
+                      </CardHeader>
+                      <CardContent>
+                        <CardDescription className="text-base mb-3">{tech.description}</CardDescription>
+                        <div className="bg-muted/30 rounded-lg p-3">
+                          <p className="text-sm">
+                            <strong>Why I use it:</strong> {tech.reason}
+                          </p>
+                        </div>
+                      </CardContent>
+                    </Card>
                   ))}
-                </div>
+                </AnimatedGrid>
               </TabsContent>
             ))}
           </Tabs>
-        </motion.div>
+        </ScrollAnimation>
 
         {/* Tech Stack Summary */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="mt-16"
-        >
-          <h2 className="text-3xl font-bold mb-8 text-center">Tech Stack Overview</h2>
+        <AnimatedSection title="Tech Stack Overview" className="mt-16" direction="up">
           <Card className="glass-effect">
             <CardContent className="p-8">
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <AnimatedGrid columns={{ default: 1, md: 2, lg: 4 }} staggerDelay={0.1}>
                 <div className="text-center">
                   <Code className="h-12 w-12 text-primary mx-auto mb-3" />
                   <h3 className="font-semibold mb-2">Frontend</h3>
@@ -618,19 +581,13 @@ export default function UsesPage() {
                     ESLint, Prettier, and TypeScript for code quality, consistency, and type safety
                   </p>
                 </div>
-              </div>
+              </AnimatedGrid>
             </CardContent>
           </Card>
-        </motion.div>
+        </AnimatedSection>
 
         {/* Contact Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="mt-16 text-center"
-        >
+        <ScrollAnimation direction="up" className="mt-16 text-center">
           <h2 className="text-3xl font-bold mb-4">Questions About My Setup?</h2>
           <p className="text-muted-foreground mb-6">
             Feel free to reach out if you have questions about any of the tools or technologies I use.
@@ -638,7 +595,7 @@ export default function UsesPage() {
           <Button asChild>
             <Link href="/contact">Get In Touch</Link>
           </Button>
-        </motion.div>
+        </ScrollAnimation>
       </div>
     </div>
   )

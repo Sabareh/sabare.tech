@@ -1,5 +1,3 @@
-"use client"
-
 import matter from "gray-matter"
 import { remark } from "remark"
 import html from "remark-html"
@@ -89,7 +87,7 @@ export function calculateReadingTime(content: string): string {
   return `${minutes} min read`
 }
 
-// Process markdown content to HTML (client-side only)
+// Process markdown content to HTML
 async function processMarkdown(content: string): Promise<string> {
   try {
     const processedContent = await remark().use(html, { sanitize: false }).process(content)
@@ -310,26 +308,31 @@ export async function getAllProjects(): Promise<Project[]> {
       }
 
       const filenames = fs.readdirSync(projectsDirectory)
-      const projects = filenames
+      const projectsPromises = filenames
         .filter((name) => name.endsWith(".md"))
-        .map((name) => {
+        .map(async (name) => {
           const filePath = path.join(projectsDirectory, name)
           const fileContents = fs.readFileSync(filePath, "utf8")
-          const { data, content } = matter(fileContents)
+          const { data, content: rawContent } = matter(fileContents)
+          const htmlContent = await processMarkdown(rawContent)
 
           return {
             ...data,
             slug: name.replace(/\.md$/, ""),
-            content,
+            content: htmlContent,
+            title: data.title || name.replace(/\.md$/, ""),
+            description: data.description || "",
+            technologies: data.technologies || [],
           } as Project
         })
-        .sort(
-          (a, b) =>
-            new Date(b.date || b.startDate || 0).getTime() -
-            new Date(a.date || a.startDate || 0).getTime(),
-        )
 
-      return projects
+      const projects = await Promise.all(projectsPromises)
+
+      return projects.sort(
+        (a, b) =>
+          new Date(b.date || b.startDate || 0).getTime() -
+          new Date(a.date || a.startDate || 0).getTime(),
+      )
     } catch (error) {
       console.error("Error reading projects:", error)
       return []
@@ -365,12 +368,16 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
       }
 
       const fileContents = fs.readFileSync(filePath, "utf8")
-      const { data, content } = matter(fileContents)
+      const { data, content: rawContent } = matter(fileContents)
+      const htmlContent = await processMarkdown(rawContent)
 
       return {
         ...data,
         slug,
-        content,
+        content: htmlContent,
+        title: data.title || slug,
+        description: data.description || "",
+        technologies: data.technologies || [],
       } as Project
     } catch (error) {
       console.error("Error reading project:", error)
@@ -411,25 +418,34 @@ export async function getAllExperience(): Promise<Experience[]> {
       }
 
       const filenames = fs.readdirSync(experienceDirectory)
-      const experiences = filenames
+      const experiencesPromises = filenames
         .filter((name) => name.endsWith(".md"))
-        .map((name) => {
+        .map(async (name) => {
           const filePath = path.join(experienceDirectory, name)
           const fileContents = fs.readFileSync(filePath, "utf8")
-          const { data, content } = matter(fileContents)
+          const { data, content: rawContent } = matter(fileContents)
+          const htmlContent = await processMarkdown(rawContent)
 
           return {
             ...data,
             slug: name.replace(/\.md$/, ""),
-            content,
+            content: htmlContent,
+            title: data.title || name.replace(/\.md$/, ""),
+            company: data.company || "",
+            position: data.position || "",
+            startDate: data.startDate || new Date().toISOString(),
+            location: data.location || "",
+            description: data.description || "",
+            technologies: data.technologies || [],
           } as Experience
         })
-        .sort(
-          (a, b) =>
-            new Date(b.startDate || 0).getTime() - new Date(a.startDate || 0).getTime(),
-        )
 
-      return experiences
+      const experiences = await Promise.all(experiencesPromises)
+
+      return experiences.sort(
+        (a, b) =>
+          new Date(b.startDate || 0).getTime() - new Date(a.startDate || 0).getTime(),
+      )
     } catch (error) {
       console.error("Error reading experience:", error)
       return []

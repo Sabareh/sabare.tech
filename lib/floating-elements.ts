@@ -1,5 +1,5 @@
+import React from "react"
 import { Code, Database, Cloud, Server, Cpu, Layers } from "lucide-react"
-import type React from "react"
 
 interface FloatingElement {
   id: string
@@ -15,7 +15,7 @@ interface FloatingElement {
 export const defaultFloatingElements: FloatingElement[] = [
   {
     id: "code-1",
-    icon: <Code className="w-8 h-8 text-blue-400/30" />,
+    icon: React.createElement(Code, { className: "w-8 h-8 text-blue-400/30" }),
     initialX: "10%",
     initialY: "20%",
     speed: 0.3,
@@ -24,7 +24,7 @@ export const defaultFloatingElements: FloatingElement[] = [
   },
   {
     id: "database-1",
-    icon: <Database className="w-12 h-12 text-green-400/20" />,
+    icon: React.createElement(Database, { className: "w-12 h-12 text-green-400/20" }),
     initialX: "80%",
     initialY: "15%",
     speed: 0.5,
@@ -33,7 +33,7 @@ export const defaultFloatingElements: FloatingElement[] = [
   },
   {
     id: "cloud-1",
-    icon: <Cloud className="w-10 h-10 text-purple-400/25" />,
+    icon: React.createElement(Cloud, { className: "w-10 h-10 text-purple-400/25" }),
     initialX: "15%",
     initialY: "70%",
     speed: 0.4,
@@ -42,7 +42,7 @@ export const defaultFloatingElements: FloatingElement[] = [
   },
   {
     id: "server-1",
-    icon: <Server className="w-6 h-6 text-cyan-400/40" />,
+    icon: React.createElement(Server, { className: "w-6 h-6 text-cyan-400/40" }),
     initialX: "85%",
     initialY: "60%",
     speed: 0.6,
@@ -51,7 +51,7 @@ export const defaultFloatingElements: FloatingElement[] = [
   },
   {
     id: "cpu-1",
-    icon: <Cpu className="w-8 h-8 text-orange-400/30" />,
+    icon: React.createElement(Cpu, { className: "w-8 h-8 text-orange-400/30" }),
     initialX: "5%",
     initialY: "45%",
     speed: 0.35,
@@ -60,7 +60,7 @@ export const defaultFloatingElements: FloatingElement[] = [
   },
   {
     id: "layers-1",
-    icon: <Layers className="w-14 h-14 text-pink-400/20" />,
+    icon: React.createElement(Layers, { className: "w-14 h-14 text-pink-400/20" }),
     initialX: "90%",
     initialY: "35%",
     speed: 0.25,

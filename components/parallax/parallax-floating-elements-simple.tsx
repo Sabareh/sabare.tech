@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { useRef } from "react"
-import { motion, useScroll, useSpring, useReducedMotion } from "framer-motion"
+import { useReducedMotion } from "framer-motion"
 
 interface FloatingElement {
   id: string
@@ -20,22 +20,11 @@ interface ParallaxFloatingElementsProps {
   className?: string
 }
 
-export function ParallaxFloatingElements({ elements = [], className = "" }: ParallaxFloatingElementsProps) {
+export function ParallaxFloatingElementsSimple({ elements = [], className = "" }: ParallaxFloatingElementsProps) {
   const ref = useRef<HTMLDivElement>(null)
   const shouldReduceMotion = useReducedMotion()
 
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  })
-
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    mass: 1,
-  })
-
-  // Early return if no elements - but after all hooks are called
+  // Early return if no elements
   if (!elements || elements.length === 0) {
     return <div ref={ref} className="hidden" />
   }
@@ -62,34 +51,25 @@ export function ParallaxFloatingElements({ elements = [], className = "" }: Para
 
   return (
     <div ref={ref} className={`absolute inset-0 pointer-events-none ${className}`}>
-      {elements.map((element) => {
-        // Create unique random values for each element
-        const randomDirection = Math.random() > 0.5 ? 1 : -1
+      {elements.map((element, index) => {
+        const animationDelay = index * 0.5
+        const animationDuration = 10 + element.speed * 5
 
         return (
-          <motion.div
+          <div
             key={element.id}
-            className="absolute will-change-transform"
+            className="absolute animate-pulse"
             style={{
               left: element.initialX,
               top: element.initialY,
               opacity: element.opacity || 0.6,
-            }}
-            animate={{
-              y: [0, element.speed * 100],
-              x: [0, element.speed * 50 * randomDirection],
-              rotate: [0, element.rotation || 360],
-              scale: [element.scale || 1, (element.scale || 1) * 1.2, element.scale || 1],
-            }}
-            transition={{
-              duration: 20,
-              repeat: Number.POSITIVE_INFINITY,
-              repeatType: "reverse",
-              ease: "linear",
+              animationDelay: `${animationDelay}s`,
+              animationDuration: `${animationDuration}s`,
+              transform: `scale(${element.scale || 1}) rotate(${element.rotation || 0}deg)`,
             }}
           >
             {element.icon}
-          </motion.div>
+          </div>
         )
       })}
     </div>

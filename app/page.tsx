@@ -41,14 +41,11 @@ export default function HomePage() {
     loadHomeData()
   }, [])
 
-  // Ensure defaultFloatingElements is defined before using it
-  const floatingElements = Array.isArray(defaultFloatingElements) ? defaultFloatingElements : []
-
   return (
     <div className="min-h-screen">
       <ParallaxContainer>
         <ParallaxBackground />
-        {floatingElements.length > 0 && <ParallaxFloatingElements elements={floatingElements} />}
+        <ParallaxFloatingElements elements={defaultFloatingElements} />
 
         {/* Hero Section */}
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden">

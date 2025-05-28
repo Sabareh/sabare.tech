@@ -1,194 +1,138 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { getServerSession } from "next-auth/next"
+import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
-import prisma from "@/lib/db"
+import { sql } from "@/lib/db"
 import { z } from "zod"
 
-const contentSchema = z.object({
-  title: z.string().min(1).max(255),
-  slug: z.string().min(1).max(255),
-  description: z.string().optional(),
-  content: z.string(),
-  type: z.enum(["BLOG", "PROJECT", "EXPERIENCE", "TESTIMONIAL", "PAGE", "CONFIG"]),
-  status: z.enum(["DRAFT", "REVIEW", "SCHEDULED", "PUBLISHED", "ARCHIVED"]).default("DRAFT"),
-  featured: z.boolean().default(false),
-  metadata: z.record(z.any()).optional(),
-  categoryId: z.string().optional(),
-  tags: z.array(z.string()).optional(),
-  publishedAt: z.string().datetime().optional(),
+const createContentSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  slug: z.string().min(1, "Slug is required"),
+  content: z.string().optional(),
+  excerpt: z.string().optional(),
+  type: z.enum(["blog", "project", "experience", "testimonial", "page"]),
+  status: z.enum(["draft", "published", "scheduled", "archived"]).default("draft"),
+  featuredImageUrl: z.string().optional(),
+  metadata: z.record(z.any()).default({}),
+  publishedAt: z.string().optional(),
+  scheduledAt: z.string().optional(),
 })
 
-export async function GET(req: NextRequest) {
-  const session = await getServerSession(authOptions)
-
-  if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
-
-  const { searchParams } = new URL(req.url)
-  const type = searchParams.get("type")
-  const status = searchParams.get("status")
-  const featured = searchParams.get("featured")
-  const categoryId = searchParams.get("categoryId")
-  const authorId = searchParams.get("authorId")
-  const page = Number.parseInt(searchParams.get("page") || "1")
-  const limit = Number.parseInt(searchParams.get("limit") || "10")
-  const skip = (page - 1) * limit
-
-  const where: any = {}
-
-  if (type) where.type = type
-  if (status) where.status = status
-  if (featured === "true") where.featured = true
-  if (categoryId) where.categoryId = categoryId
-  if (authorId) where.authorId = authorId
-
+export async function GET(request: NextRequest) {
   try {
-    const [contents, total] = await Promise.all([
-      prisma.content.findMany({
-        where,
-        include: {
-          author: {
-            select: {
-              id: true,
-              name: true,
-              image: true,
-            },
-          },
-          category: true,
-          tags: true,
-          media: {
-            where: {
-              type: "IMAGE",
-            },
-            take: 1,
-          },
-        },
-        orderBy: {
-          updatedAt: "desc",
-        },
-        skip,
-        take: limit,
-      }),
-      prisma.content.count({ where }),
-    ])
+    const session = await getServerSession(authOptions)
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    }
+
+    const { searchParams } = new URL(request.url)
+    const type = searchParams.get("type")
+    const status = searchParams.get("status")
+    const page = Number.parseInt(searchParams.get("page") || "1")
+    const limit = Number.parseInt(searchParams.get("limit") || "10")
+    const offset = (page - 1) * limit
+
+    let query = `
+      SELECT c.*, u.name as author_name, u.email as author_email
+      FROM content c
+      LEFT JOIN users u ON c.author_id = u.id
+      WHERE 1=1
+    `
+    const params: any[] = []
+
+    if (type) {
+      query += ` AND c.type = $${params.length + 1}`
+      params.push(type)
+    }
+
+    if (status) {
+      query += ` AND c.status = $${params.length + 1}`
+      params.push(status)
+    }
+
+    query += ` ORDER BY c.updated_at DESC LIMIT $${params.length + 1} OFFSET $${params.length + 2}`
+    params.push(limit, offset)
+
+    const content = await sql(query, params)
+
+    // Get total count
+    let countQuery = `SELECT COUNT(*) as total FROM content WHERE 1=1`
+    const countParams: any[] = []
+
+    if (type) {
+      countQuery += ` AND type = $${countParams.length + 1}`
+      countParams.push(type)
+    }
+
+    if (status) {
+      countQuery += ` AND status = $${countParams.length + 1}`
+      countParams.push(status)
+    }
+
+    const countResult = await sql(countQuery, countParams)
+    const total = Number.parseInt(countResult[0]?.total || "0")
 
     return NextResponse.json({
-      contents,
+      content,
       pagination: {
-        total,
         page,
         limit,
+        total,
         pages: Math.ceil(total / limit),
       },
     })
   } catch (error) {
-    console.error("Error fetching contents:", error)
-    return NextResponse.json({ error: "Failed to fetch contents" }, { status: 500 })
+    console.error("Error fetching content:", error)
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }
 }
 
-export async function POST(req: NextRequest) {
-  const session = await getServerSession(authOptions)
-
-  if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
-
-  if (session.user.role !== "ADMIN" && session.user.role !== "EDITOR") {
-    return NextResponse.json({ error: "Insufficient permissions" }, { status: 403 })
-  }
-
+export async function POST(request: NextRequest) {
   try {
-    const json = await req.json()
-    const body = contentSchema.parse(json)
-
-    const existingContent = await prisma.content.findUnique({
-      where: {
-        slug: body.slug,
-      },
-    })
-
-    if (existingContent) {
-      return NextResponse.json({ error: "Content with this slug already exists" }, { status: 400 })
+    const session = await getServerSession(authOptions)
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    const content = await prisma.content.create({
-      data: {
-        title: body.title,
-        slug: body.slug,
-        description: body.description,
-        content: body.content,
-        type: body.type,
-        status: body.status,
-        featured: body.featured,
-        metadata: body.metadata || {},
-        publishedAt: body.publishedAt ? new Date(body.publishedAt) : undefined,
-        author: {
-          connect: {
-            id: session.user.id,
-          },
-        },
-        ...(body.categoryId
-          ? {
-              category: {
-                connect: {
-                  id: body.categoryId,
-                },
-              },
-            }
-          : {}),
-        ...(body.tags && body.tags.length > 0
-          ? {
-              tags: {
-                connectOrCreate: body.tags.map((tag) => ({
-                  where: { name: tag },
-                  create: {
-                    name: tag,
-                    slug: tag.toLowerCase().replace(/\s+/g, "-"),
-                  },
-                })),
-              },
-            }
-          : {}),
-      },
-    })
+    const body = await request.json()
+    const validatedData = createContentSchema.parse(body)
 
-    // Create initial version
-    await prisma.version.create({
-      data: {
-        contentId: content.id,
-        data: {
-          title: body.title,
-          slug: body.slug,
-          description: body.description,
-          content: body.content,
-          type: body.type,
-          status: body.status,
-          featured: body.featured,
-          metadata: body.metadata || {},
-        },
-        note: "Initial version",
-      },
-    })
+    // Get user ID
+    const users = await sql`
+      SELECT id FROM users WHERE email = ${session.user.email} LIMIT 1
+    `
+    const userId = users[0]?.id
 
-    // Log activity
-    await prisma.activity.create({
-      data: {
-        action: "CREATE",
-        details: `Created ${body.type.toLowerCase()}: ${body.title}`,
-        userId: session.user.id,
-        contentId: content.id,
-      },
-    })
+    if (!userId) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 })
+    }
 
-    return NextResponse.json(content)
+    const result = await sql`
+      INSERT INTO content (
+        title, slug, content, excerpt, type, status, 
+        featured_image_url, metadata, author_id, 
+        published_at, scheduled_at
+      ) VALUES (
+        ${validatedData.title},
+        ${validatedData.slug},
+        ${validatedData.content || ""},
+        ${validatedData.excerpt || ""},
+        ${validatedData.type},
+        ${validatedData.status},
+        ${validatedData.featuredImageUrl || null},
+        ${JSON.stringify(validatedData.metadata)},
+        ${userId},
+        ${validatedData.publishedAt ? new Date(validatedData.publishedAt).toISOString() : null},
+        ${validatedData.scheduledAt ? new Date(validatedData.scheduledAt).toISOString() : null}
+      )
+      RETURNING *
+    `
+
+    return NextResponse.json(result[0], { status: 201 })
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: error.errors }, { status: 400 })
-    }
-
     console.error("Error creating content:", error)
-    return NextResponse.json({ error: "Failed to create content" }, { status: 500 })
+    if (error instanceof z.ZodError) {
+      return NextResponse.json({ error: "Validation error", details: error.errors }, { status: 400 })
+    }
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }
 }

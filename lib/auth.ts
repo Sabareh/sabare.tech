@@ -1,11 +1,11 @@
-import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import type { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
-import { compare } from "bcrypt"
-import prisma from "@/lib/db"
+import { compare } from "bcryptjs"
+import { neon } from "@neondatabase/serverless"
+
+const sql = neon(process.env.DATABASE_URL!)
 
 export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma),
   session: {
     strategy: "jwt",
   },
@@ -25,28 +25,36 @@ export const authOptions: NextAuthOptions = {
           return null
         }
 
-        const user = await prisma.user.findUnique({
-          where: {
-            email: credentials.email,
-          },
-        })
+        try {
+          const users = await sql`
+            SELECT id, email, name, password_hash, role, avatar_url 
+            FROM users 
+            WHERE email = ${credentials.email}
+            LIMIT 1
+          `
 
-        if (!user || !user.password) {
+          const user = users[0]
+
+          if (!user || !user.password_hash) {
+            return null
+          }
+
+          const isPasswordValid = await compare(credentials.password, user.password_hash)
+
+          if (!isPasswordValid) {
+            return null
+          }
+
+          return {
+            id: user.id.toString(),
+            email: user.email,
+            name: user.name,
+            role: user.role,
+            image: user.avatar_url,
+          }
+        } catch (error) {
+          console.error("Auth error:", error)
           return null
-        }
-
-        const isPasswordValid = await compare(credentials.password, user.password)
-
-        if (!isPasswordValid) {
-          return null
-        }
-
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          role: user.role,
-          image: user.image,
         }
       },
     }),
@@ -64,27 +72,33 @@ export const authOptions: NextAuthOptions = {
       return session
     },
     async jwt({ token, user }) {
-      const dbUser = await prisma.user.findFirst({
-        where: {
-          email: token.email as string,
-        },
-      })
+      if (user) {
+        token.id = user.id
+        token.role = user.role
+      } else if (token.email) {
+        try {
+          const users = await sql`
+            SELECT id, name, email, role, avatar_url 
+            FROM users 
+            WHERE email = ${token.email}
+            LIMIT 1
+          `
 
-      if (!dbUser) {
-        if (user) {
-          token.id = user.id
-          token.role = user.role
+          const dbUser = users[0]
+
+          if (dbUser) {
+            token.id = dbUser.id.toString()
+            token.name = dbUser.name
+            token.email = dbUser.email
+            token.picture = dbUser.avatar_url
+            token.role = dbUser.role
+          }
+        } catch (error) {
+          console.error("JWT callback error:", error)
         }
-        return token
       }
 
-      return {
-        id: dbUser.id,
-        name: dbUser.name,
-        email: dbUser.email,
-        picture: dbUser.image,
-        role: dbUser.role,
-      }
+      return token
     },
   },
 }

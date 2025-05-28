@@ -75,7 +75,7 @@ export function Footer() {
           <div>
             <h3 className="font-medium mb-4">Contact</h3>
             <address className="not-italic text-muted-foreground">
-              <p>San Francisco, CA</p>
+              <p>Nairobi, Kenya</p>
               <MagneticLink
                 href="mailto:contact@victorsabare.com"
                 className="mt-2 block hover:text-primary transition-colors"
@@ -83,7 +83,7 @@ export function Footer() {
                 radius={80}
                 scale={1.05}
               >
-                contact@victorsabare.com
+                sabarevictor@gmail.com
               </MagneticLink>
             </address>
           </div>

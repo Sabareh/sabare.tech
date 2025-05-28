@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useRef } from "react"
 import { motion, useScroll, useTransform, useSpring, useReducedMotion } from "framer-motion"
 
@@ -21,7 +20,7 @@ interface ParallaxFloatingElementsProps {
   className?: string
 }
 
-export function ParallaxFloatingElements({ elements = [], className = "" }: ParallaxFloatingElementsProps) {
+export function ParallaxFloatingElements({ elements, className = "" }: ParallaxFloatingElementsProps) {
   const ref = useRef<HTMLDivElement>(null)
   const shouldReduceMotion = useReducedMotion()
   const { scrollYProgress } = useScroll({
@@ -35,6 +34,7 @@ export function ParallaxFloatingElements({ elements = [], className = "" }: Para
     mass: 1,
   })
 
+  // Early return if elements is undefined or empty
   if (!elements || elements.length === 0) {
     return null
   }

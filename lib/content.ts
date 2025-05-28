@@ -89,8 +89,13 @@ export function calculateReadingTime(content: string): string {
 
 // Process markdown content to HTML (client-side only)
 async function processMarkdown(content: string): Promise<string> {
-  const processedContent = await remark().use(html, { sanitize: false }).process(content)
-  return processedContent.toString()
+  try {
+    const processedContent = await remark().use(html, { sanitize: false }).process(content)
+    return processedContent.toString()
+  } catch (error) {
+    console.warn("Error processing markdown:", error)
+    return content
+  }
 }
 
 // Fetch markdown file from public directory (client-side only)
@@ -110,39 +115,57 @@ async function fetchMarkdownFile(path: string): Promise<string | null> {
 
 // Parse markdown with frontmatter (client-side only)
 function parseMarkdownWithFrontmatter(markdown: string, slug: string, type: ContentType): ContentItem {
-  const { data, content } = matter(markdown)
+  try {
+    const { data, content } = matter(markdown)
 
-  // Calculate reading time
-  const wordCount = content.split(/\s+/).length
-  const readingTime = Math.ceil(wordCount / 200) + " min read"
+    // Calculate reading time
+    const wordCount = content.split(/\s+/).length
+    const readingTime = Math.ceil(wordCount / 200) + " min read"
 
-  // Handle date parsing
-  let dateString = new Date().toISOString()
-  if (data.date) {
-    if (data.date instanceof Date) {
-      dateString = data.date.toISOString()
-    } else if (typeof data.date === "string") {
-      const parsedDate = new Date(data.date)
-      if (!isNaN(parsedDate.getTime())) {
-        dateString = parsedDate.toISOString()
+    // Handle date parsing
+    let dateString = new Date().toISOString()
+    if (data.date) {
+      if (data.date instanceof Date) {
+        dateString = data.date.toISOString()
+      } else if (typeof data.date === "string") {
+        const parsedDate = new Date(data.date)
+        if (!isNaN(parsedDate.getTime())) {
+          dateString = parsedDate.toISOString()
+        }
       }
     }
-  }
 
-  return {
-    id: slug,
-    slug,
-    title: data.title || slug,
-    description: data.description || data.excerpt || "",
-    content: content,
-    date: dateString,
-    author: data.author || "Admin",
-    type,
-    featured: data.featured || false,
-    coverImage: data.coverImage,
-    readingTime,
-    tags: data.tags || [],
-    metadata: { ...data },
+    return {
+      id: slug,
+      slug,
+      title: data.title || slug,
+      description: data.description || data.excerpt || "",
+      content: content,
+      date: dateString,
+      author: data.author || "Admin",
+      type,
+      featured: data.featured || false,
+      coverImage: data.coverImage,
+      readingTime,
+      tags: data.tags || [],
+      metadata: { ...data },
+    }
+  } catch (error) {
+    console.warn(`Error parsing markdown for ${slug}:`, error)
+    return {
+      id: slug,
+      slug,
+      title: slug,
+      description: "",
+      content: "",
+      date: new Date().toISOString(),
+      author: "Admin",
+      type,
+      featured: false,
+      readingTime: "1 min read",
+      tags: [],
+      metadata: {},
+    }
   }
 }
 

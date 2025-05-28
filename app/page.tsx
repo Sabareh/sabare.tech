@@ -19,6 +19,21 @@ import Image from "next/image"
 import { ParallaxFloatingElements } from "@/components/parallax/parallax-floating-elements"
 import { defaultFloatingElements } from "@/lib/floating-elements"
 
+// Static image imports - add your actual images here
+const staticImages = [
+  "/data-pipeline-architecture.png",
+  "/data-mesh-architecture.png",
+  "/data-transformation-workflow.png",
+  "/kubernetes-cluster-diagram.png",
+  "/data-quality-dashboard.png",
+  "/streaming-analytics-architecture.png",
+  "/professional-headshot.png",
+  "/tech-innovations-logo.png",
+  "/data-systems-logo.png",
+  "/analytics-edge-logo.png",
+  "/data-insights-logo.png",
+]
+
 // Client-side image utility function
 function getSafeImagePath(imagePath: string | undefined, fallback: string): string {
   if (!imagePath || imagePath.trim() === "") {
@@ -27,11 +42,21 @@ function getSafeImagePath(imagePath: string | undefined, fallback: string): stri
   return imagePath
 }
 
+// Check if image exists by trying to load it
+function checkImageExists(src: string): Promise<boolean> {
+  return new Promise((resolve) => {
+    const img = new Image()
+    img.onload = () => resolve(true)
+    img.onerror = () => resolve(false)
+    img.src = src
+  })
+}
+
 export default function HomePage() {
   const [featuredPosts, setFeaturedPosts] = useState<BlogPost[]>([])
   const [projects, setProjects] = useState<Project[]>([])
   const [loading, setLoading] = useState(true)
-  const [imageFiles, setImageFiles] = useState<string[]>([])
+  const [availableImages, setAvailableImages] = useState<string[]>([])
   const [imagesLoaded, setImagesLoaded] = useState(false)
 
   useEffect(() => {
@@ -47,26 +72,28 @@ export default function HomePage() {
       }
     }
 
-    async function loadImageFiles() {
+    async function loadStaticImages() {
       try {
-        const response = await fetch("/api/images")
-        if (response.ok) {
-          const files = await response.json()
-          setImageFiles(files || [])
-        } else {
-          console.warn("Failed to load images:", response.statusText)
-          setImageFiles([])
-        }
+        // Check which static images actually exist
+        const imageChecks = await Promise.all(
+          staticImages.map(async (imagePath) => {
+            const exists = await checkImageExists(imagePath)
+            return exists ? imagePath : null
+          }),
+        )
+
+        const existingImages = imageChecks.filter((img): img is string => img !== null)
+        setAvailableImages(existingImages)
       } catch (error) {
-        console.warn("Error loading image files:", error)
-        setImageFiles([])
+        console.warn("Error checking static images:", error)
+        setAvailableImages([])
       } finally {
         setImagesLoaded(true)
       }
     }
 
     loadHomeData()
-    loadImageFiles()
+    loadStaticImages()
   }, [])
 
   return (
@@ -268,35 +295,50 @@ export default function HomePage() {
           </div>
         </Section>
 
-        {/* Image Gallery Section (if images are available) */}
-        {imagesLoaded && imageFiles.length > 0 && (
+        {/* Static Image Gallery Section */}
+        {imagesLoaded && availableImages.length > 0 && (
           <Section className="py-20">
             <div className="container">
               <ScrollAnimation>
                 <div className="text-center mb-12">
                   <Heading level={2} className="mb-4">
-                    Gallery
+                    Project Gallery
                   </Heading>
                   <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                    A collection of images from my projects and work.
+                    Visual showcase of data engineering projects and architectures.
                   </p>
                 </div>
               </ScrollAnimation>
 
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {imageFiles.map((filename, index) => (
-                  <ScrollAnimation key={filename} delay={index * 0.05}>
-                    <div className="relative aspect-square overflow-hidden rounded-lg group">
-                      <Image
-                        src={`/images/${filename}`}
-                        alt={`Gallery image ${index + 1}`}
-                        fill
-                        className="object-cover transition-transform duration-300 group-hover:scale-105"
-                        sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-                      />
-                    </div>
-                  </ScrollAnimation>
-                ))}
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {availableImages.map((imagePath, index) => {
+                  // Extract filename for alt text
+                  const filename =
+                    imagePath
+                      .split("/")
+                      .pop()
+                      ?.replace(/\.(png|jpg|jpeg|gif|webp|svg)$/i, "") || "Project image"
+                  const altText = filename.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())
+
+                  return (
+                    <ScrollAnimation key={imagePath} delay={index * 0.1}>
+                      <ModernCard className="group overflow-hidden">
+                        <div className="relative aspect-video overflow-hidden">
+                          <Image
+                            src={imagePath || "/placeholder.svg"}
+                            alt={altText}
+                            fill
+                            className="object-cover transition-transform duration-300 group-hover:scale-105"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          />
+                        </div>
+                        <div className="p-4">
+                          <h3 className="font-semibold text-sm text-center">{altText}</h3>
+                        </div>
+                      </ModernCard>
+                    </ScrollAnimation>
+                  )
+                })}
               </div>
             </div>
           </Section>

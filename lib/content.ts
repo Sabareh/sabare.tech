@@ -170,6 +170,7 @@ function parseMarkdownWithFrontmatter(markdown: string, slug: string, type: Cont
 }
 
 // Content manifest for available files (client-side discovery)
+// These must match the slugs in generateStaticParams()
 const contentManifest: Record<ContentType, string[]> = {
   blog: [
     "building-real-time-data-pipelines",
@@ -183,6 +184,9 @@ const contentManifest: Record<ContentType, string[]> = {
   page: [],
   config: ["personal-info", "social-links"],
 }
+
+// Export the content manifest for use in generateStaticParams
+export const CONTENT_MANIFEST = contentManifest
 
 // Fetch and process a single content item (client-side only)
 async function fetchContentItem(type: ContentType, slug: string): Promise<ContentItem | null> {

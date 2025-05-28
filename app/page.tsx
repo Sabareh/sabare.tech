@@ -16,14 +16,23 @@ import { Badge } from "@/components/ui/badge"
 import { ArrowRight, Calendar, ExternalLink, Github } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
-import { getSafeImagePath } from "@/lib/image-utils"
 import { ParallaxFloatingElements } from "@/components/parallax/parallax-floating-elements"
 import { defaultFloatingElements } from "@/lib/floating-elements"
+
+// Client-side image utility function
+function getSafeImagePath(imagePath: string | undefined, fallback: string): string {
+  if (!imagePath || imagePath.trim() === "") {
+    return fallback
+  }
+  return imagePath
+}
 
 export default function HomePage() {
   const [featuredPosts, setFeaturedPosts] = useState<BlogPost[]>([])
   const [projects, setProjects] = useState<Project[]>([])
   const [loading, setLoading] = useState(true)
+  const [imageFiles, setImageFiles] = useState<string[]>([])
+  const [imagesLoaded, setImagesLoaded] = useState(false)
 
   useEffect(() => {
     async function loadHomeData() {
@@ -38,7 +47,26 @@ export default function HomePage() {
       }
     }
 
+    async function loadImageFiles() {
+      try {
+        const response = await fetch("/api/images")
+        if (response.ok) {
+          const files = await response.json()
+          setImageFiles(files || [])
+        } else {
+          console.warn("Failed to load images:", response.statusText)
+          setImageFiles([])
+        }
+      } catch (error) {
+        console.warn("Error loading image files:", error)
+        setImageFiles([])
+      } finally {
+        setImagesLoaded(true)
+      }
+    }
+
     loadHomeData()
+    loadImageFiles()
   }, [])
 
   return (
@@ -239,6 +267,40 @@ export default function HomePage() {
             </ScrollAnimation>
           </div>
         </Section>
+
+        {/* Image Gallery Section (if images are available) */}
+        {imagesLoaded && imageFiles.length > 0 && (
+          <Section className="py-20">
+            <div className="container">
+              <ScrollAnimation>
+                <div className="text-center mb-12">
+                  <Heading level={2} className="mb-4">
+                    Gallery
+                  </Heading>
+                  <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+                    A collection of images from my projects and work.
+                  </p>
+                </div>
+              </ScrollAnimation>
+
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {imageFiles.map((filename, index) => (
+                  <ScrollAnimation key={filename} delay={index * 0.05}>
+                    <div className="relative aspect-square overflow-hidden rounded-lg group">
+                      <Image
+                        src={`/images/${filename}`}
+                        alt={`Gallery image ${index + 1}`}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                      />
+                    </div>
+                  </ScrollAnimation>
+                ))}
+              </div>
+            </div>
+          </Section>
+        )}
 
         {/* Testimonials */}
         <ScrollAnimation>

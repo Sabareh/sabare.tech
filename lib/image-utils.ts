@@ -1,52 +1,45 @@
-import fs from "fs"
-import path from "path"
-
 /**
- * Safely check if an image file exists in the public directory
+ * Client-side image utilities without fs dependencies
  */
-export function imageExists(imagePath: string): boolean {
-  try {
-    // Remove leading slash if present
-    const cleanPath = imagePath.startsWith("/") ? imagePath.slice(1) : imagePath
-    const fullPath = path.join(process.cwd(), "public", cleanPath)
-
-    if (!fs.existsSync(fullPath)) {
-      return false
-    }
-
-    const stats = fs.statSync(fullPath)
-    return stats.isFile()
-  } catch (error) {
-    console.error(`Error checking image existence for ${imagePath}:`, error)
-    return false
-  }
-}
 
 /**
  * Returns a safe image path with a fallback if the original path is undefined or empty
  */
-export function getSafeImagePath(path: string | undefined, fallback: string): string {
-  if (!path || path.trim() === "") {
+export function getSafeImagePath(imagePath: string | undefined, fallback: string): string {
+  if (!imagePath || imagePath.trim() === "") {
     return fallback
   }
-  return path
+  return imagePath
 }
 
 /**
- * Validate that a path points to a file, not a directory
+ * Generate a placeholder image URL with query parameters
  */
-export function validateFilePath(filePath: string): boolean {
+export function getPlaceholderImage(width: number, height: number, query?: string): string {
+  const baseUrl = `/placeholder.svg?height=${height}&width=${width}`
+  return query ? `${baseUrl}&query=${encodeURIComponent(query)}` : baseUrl
+}
+
+/**
+ * Check if an image URL is valid (client-side check)
+ */
+export function isValidImageUrl(url: string): boolean {
   try {
-    const fullPath = path.join(process.cwd(), filePath)
-
-    if (!fs.existsSync(fullPath)) {
-      return false
-    }
-
-    const stats = fs.statSync(fullPath)
-    return stats.isFile()
-  } catch (error) {
-    console.error(`Error validating file path ${filePath}:`, error)
+    new URL(url, window.location.origin)
+    return true
+  } catch {
     return false
+  }
+}
+
+/**
+ * Get optimized image props for Next.js Image component
+ */
+export function getImageProps(src: string, alt: string, fallback?: string) {
+  return {
+    src: src || fallback || "/placeholder.svg",
+    alt: alt || "Image",
+    loading: "lazy" as const,
+    className: "object-cover transition-transform duration-300",
   }
 }

@@ -200,7 +200,9 @@ async function fetchContentItem(type: ContentType, slug: string): Promise<Conten
     return contentCache.get(cacheKey)
   }
 
-  const filePath = `/content/${type}/${slug}.md`
+  // map singular type -> plural folder
+  const folder = type === "testimonial" ? "testimonials" : type
+  const filePath = `/content/${folder}/${slug}.md`
   const markdown = await fetchMarkdownFile(filePath)
 
   if (!markdown) {

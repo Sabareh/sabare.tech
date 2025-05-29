@@ -274,7 +274,7 @@ export function HeroCodeThemed() {
                 <span className="text-sm text-slate-400">Connect with me:</span>
                 <div className="flex gap-3">
                   <Link
-                    href="https://github.com/victorokech"
+                    href="https://github.com/sabareh"
                     className="p-2 rounded-full bg-slate-800/50 hover:bg-slate-700 transition-colors text-slate-300"
                   >
                     <Github className="h-5 w-5" />
@@ -324,7 +324,7 @@ export function HeroCodeThemed() {
                 </div>
 
                 {/* Code Content */}
-                <div className="p-6 font-mono text-sm bg-slate-900/50 min-h-[400px] overflow-hidden">
+                <div className="p-6 font-mono text-sm bg-slate-900/50 min-h-[400px] overflow-x-auto">
                   <pre className="text-slate-300 leading-relaxed">
                     <code>
                       {typedText}
@@ -356,8 +356,8 @@ export function HeroCodeThemed() {
               </div>
             </ScrollAnimation>
 
-            {/* Floating Stats Cards */}
-            <div className="absolute -bottom-8 -left-8 grid grid-cols-2 gap-4 z-20">
+            {/* Floating Stats Cards - Desktop (lg and up) */}
+            <div className="hidden lg:grid absolute -bottom-8 -left-8 grid-cols-2 gap-4 z-20">
               {stats.slice(0, 2).map((stat, index) => (
                 <ScrollAnimation key={index} direction="left" delay={1.2 + index * 0.2}>
                   <div className="bg-slate-800/90 backdrop-blur-sm rounded-lg p-4 border border-slate-700 min-w-[140px]">
@@ -379,7 +379,7 @@ export function HeroCodeThemed() {
               ))}
             </div>
 
-            <div className="absolute -top-8 -right-8 grid grid-cols-2 gap-4 z-20">
+            <div className="hidden lg:grid absolute -top-8 -right-8 grid-cols-2 gap-4 z-20">
               {stats.slice(2).map((stat, index) => (
                 <ScrollAnimation key={index} direction="right" delay={1.6 + index * 0.2}>
                   <div className="bg-slate-800/90 backdrop-blur-sm rounded-lg p-4 border border-slate-700 min-w-[140px]">
@@ -394,6 +394,33 @@ export function HeroCodeThemed() {
                         <CompactCounter value={stat.value} delay={1.8 + index * 0.2} />
                       ) : (
                         <AnimatedCounter value={stat.value} suffix={stat.suffix} delay={1.8 + index * 0.2} />
+                      )}
+                    </div>
+                  </div>
+                </ScrollAnimation>
+              ))}
+            </div>
+
+            {/* Stats Cards - Mobile/Tablet (below terminal, shown on <lg) */}
+            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6 lg:hidden">
+              {stats.map((stat, index) => (
+                <ScrollAnimation key={index} direction="up" delay={0.2 + index * 0.1}>
+                  <div className="bg-slate-800/90 backdrop-blur-sm rounded-lg p-4 border border-slate-700 w-full">
+                    <div className="flex items-center gap-2 mb-2">
+                      <stat.icon className="w-4 h-4 text-blue-400" />
+                      <span className="text-xs text-slate-400">{stat.label}</span>
+                    </div>
+                    <div className="text-xl font-bold text-white">
+                      {stat.isPercentage ? (
+                        <PercentageCounter value={stat.value} delay={0.3 + index * 0.1} />
+                      ) : stat.isCompact ? (
+                        <CompactCounter value={stat.value} delay={0.3 + index * 0.1} />
+                      ) : (
+                        <AnimatedCounter
+                          value={stat.value}
+                          suffix={stat.suffix}
+                          delay={0.3 + index * 0.1}
+                        />
                       )}
                     </div>
                   </div>

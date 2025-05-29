@@ -46,6 +46,8 @@ export interface Project {
   githubUrl?: string
   demoUrl?: string
   imageUrl?: string
+  images?: string[]
+  links?: { name: string; url: string; type: string }[]
   featured?: boolean
   content: string
   metadata?: Record<string, any>
@@ -392,13 +394,26 @@ export async function getAllProjects(): Promise<Project[]> {
           const { data, content: rawContent } = matter(fileContents)
           const htmlContent = await processMarkdown(rawContent)
 
+          // pull arrays from frontmatter
+          const imgs = Array.isArray(data.images) ? data.images : []
+          const lks = Array.isArray(data.links) ? data.links : []
+
+          // helpers
+          const findLink = (type: string) => lks.find((x) => x.type === type)?.url
+
           return {
-            ...data,
             slug: name.replace(/\.md$/, ""),
-            content: htmlContent,
             title: data.title || name.replace(/\.md$/, ""),
             description: data.description || "",
             technologies: data.technologies || [],
+            githubUrl: data.githubUrl || findLink("code"),
+            demoUrl: data.demoUrl || findLink("demo"),
+            imageUrl: data.imageUrl || imgs[0],
+            images: imgs,
+            links: lks,
+            featured: data.featured || false,
+            content: htmlContent,
+            metadata: data,
           } as Project
         })
 
@@ -426,6 +441,8 @@ export async function getAllProjects(): Promise<Project[]> {
     githubUrl: project.metadata?.githubUrl,
     demoUrl: project.metadata?.demoUrl,
     imageUrl: project.metadata?.imageUrl || project.coverImage,
+    images: project.metadata?.images || [],
+    links: project.metadata?.links || [],
     featured: project.featured || false,
     content: project.content,
     metadata: project.metadata,
@@ -476,6 +493,8 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
     githubUrl: project.metadata?.githubUrl,
     demoUrl: project.metadata?.demoUrl,
     imageUrl: project.metadata?.imageUrl || project.coverImage,
+    images: project.metadata?.images || [],
+    links: project.metadata?.links || [],
     featured: project.featured || false,
     content: project.content,
     metadata: project.metadata,

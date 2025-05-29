@@ -159,7 +159,7 @@ export function HeroCodeThemed() {
             linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px),
             linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px)
           `,
-            backgroundSize: "50px 50px",
+            backgroundSize: "30px 30px",
           }}
         />
       </div>
@@ -168,7 +168,7 @@ export function HeroCodeThemed() {
       {floatingCodeElements.map((element, index) => (
         <motion.div
           key={index}
-          className="absolute text-blue-400/20 text-2xl font-mono font-bold pointer-events-none"
+          className="absolute text-blue-400/20 text-lg sm:text-xl lg:text-2xl font-mono font-bold pointer-events-none hidden sm:block"
           style={element.position}
           initial={{ opacity: 0, scale: 0 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -190,10 +190,10 @@ export function HeroCodeThemed() {
         </motion.div>
       ))}
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-20">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left Column - Content */}
-          <div className="space-y-8 text-white">
+          <div className="space-y-6 lg:space-y-8 text-white text-center lg:text-left">
             <ScrollAnimation direction="fade" delay={0.1}>
               <Badge variant="outline" className="border-blue-400/50 text-blue-400 bg-blue-400/10">
                 <Terminal className="w-4 h-4 mr-2" />
@@ -201,9 +201,9 @@ export function HeroCodeThemed() {
               </Badge>
             </ScrollAnimation>
 
-            <div className="space-y-6">
+            <div className="space-y-4 lg:space-y-6">
               <ScrollAnimation direction="up" delay={0.2}>
-                <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold leading-tight">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight">
                   <span className="block text-white">Victor Oketch</span>
                   <span className="block bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
                     Sabare
@@ -212,7 +212,7 @@ export function HeroCodeThemed() {
               </ScrollAnimation>
 
               <ScrollAnimation direction="up" delay={0.4}>
-                <p className="text-xl sm:text-2xl text-slate-300 font-medium">
+                <p className="text-lg sm:text-xl lg:text-2xl text-slate-300 font-medium">
                   Building scalable data infrastructure that processes{" "}
                   <span className="text-blue-400 font-bold">
                     <AnimatedCounter value={100} suffix="TB+" delay={0.5} />
@@ -222,7 +222,7 @@ export function HeroCodeThemed() {
               </ScrollAnimation>
 
               <ScrollAnimation direction="up" delay={0.6}>
-                <p className="text-lg text-slate-400 max-w-2xl leading-relaxed">
+                <p className="text-base sm:text-lg text-slate-400 max-w-2xl leading-relaxed mx-auto lg:mx-0">
                   Transforming raw data into actionable insights through modern data engineering practices, cloud-native
                   architectures, and real-time processing systems.
                 </p>
@@ -231,10 +231,10 @@ export function HeroCodeThemed() {
 
             {/* Action Buttons */}
             <ScrollAnimation direction="up" delay={0.8}>
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <MagneticButton
                   size="lg"
-                  className="border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-6 py-3 rounded-md"
+                  className="border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-4 sm:px-6 py-2 sm:py-3 rounded-md text-sm sm:text-base"
                   strength={25}
                   radius={150}
                   scale={1.05}
@@ -244,7 +244,7 @@ export function HeroCodeThemed() {
                   asChild
                 >
                   <Link href="/projects">
-                    <ArrowRight className="ml-2 h-5 w-5" />                 
+                    <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
                     View My Projects
                   </Link>
                 </MagneticButton>
@@ -252,7 +252,7 @@ export function HeroCodeThemed() {
                 <MagneticButton
                   size="lg"
                   variant="outline"
-                  className="border border-slate-600 text-slate-300 hover:bg-slate-800 px-6 py-3 rounded-md"
+                  className="border border-slate-600 text-slate-300 hover:bg-slate-800 px-4 sm:px-6 py-2 sm:py-3 rounded-md text-sm sm:text-base"
                   strength={25}
                   radius={150}
                   scale={1.05}
@@ -261,7 +261,7 @@ export function HeroCodeThemed() {
                   asChild
                 >
                   <Link href="/resume">
-                    <Download className="mr-2 h-5 w-5" />
+                    <Download className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                     Download Resume
                   </Link>
                 </MagneticButton>
@@ -269,27 +269,27 @@ export function HeroCodeThemed() {
             </ScrollAnimation>
 
             {/* Social Links */}
-            <ScrollAnimation direction="left" delay={1.0}>
-              <div className="flex items-center gap-4">
-                <span className="text-sm text-slate-400">Connect with me:</span>
+            <ScrollAnimation direction="up" delay={1.0}>
+              <div className="flex items-center gap-4 justify-center lg:justify-start">
+                <span className="text-xs sm:text-sm text-slate-400">Connect with me:</span>
                 <div className="flex gap-3">
                   <Link
                     href="https://github.com/sabareh"
-                    className="p-2 rounded-full bg-slate-800/50 hover:bg-slate-700 transition-colors text-slate-300"
+                    className="p-1.5 sm:p-2 rounded-full bg-slate-800/50 hover:bg-slate-700 transition-colors text-slate-300"
                   >
-                    <Github className="h-5 w-5" />
+                    <Github className="h-4 w-4 sm:h-5 sm:w-5" />
                   </Link>
                   <Link
                     href="https://linkedin.com/in/victor-sabare"
-                    className="p-2 rounded-full bg-slate-800/50 hover:bg-slate-700 transition-colors text-slate-300"
+                    className="p-1.5 sm:p-2 rounded-full bg-slate-800/50 hover:bg-slate-700 transition-colors text-slate-300"
                   >
-                    <Linkedin className="h-5 w-5" />
+                    <Linkedin className="h-4 w-4 sm:h-5 sm:w-5" />
                   </Link>
                   <Link
                     href="mailto:sabarevictor@gmail.com"
-                    className="p-2 rounded-full bg-slate-800/50 hover:bg-slate-700 transition-colors text-slate-300"
+                    className="p-1.5 sm:p-2 rounded-full bg-slate-800/50 hover:bg-slate-700 transition-colors text-slate-300"
                   >
-                    <Mail className="h-5 w-5" />
+                    <Mail className="h-4 w-4 sm:h-5 sm:w-5" />
                   </Link>
                 </div>
               </div>
@@ -297,34 +297,34 @@ export function HeroCodeThemed() {
           </div>
 
           {/* Right Column - Code Terminal */}
-          <div className="relative">
+          <div className="relative mt-8 lg:mt-0">
             <ScrollAnimation direction="scale" delay={0.5}>
               <div
                 ref={terminalRef}
                 className="relative bg-slate-900/90 backdrop-blur-sm rounded-lg border border-slate-700 shadow-2xl overflow-hidden"
               >
                 {/* Terminal Header */}
-                <div className="flex items-center justify-between p-4 border-b border-slate-700 bg-slate-800/50">
+                <div className="flex items-center justify-between p-3 sm:p-4 border-b border-slate-700 bg-slate-800/50">
                   <div className="flex items-center gap-2">
                     <div className="flex gap-1.5">
-                      <div className="w-3 h-3 rounded-full bg-red-500" />
-                      <div className="w-3 h-3 rounded-full bg-yellow-500" />
-                      <div className="w-3 h-3 rounded-full bg-green-500" />
+                      <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-500" />
+                      <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-500" />
+                      <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-500" />
                     </div>
-                    <span className="text-sm text-slate-400 ml-4 font-mono">
+                    <span className="text-xs sm:text-sm text-slate-400 ml-2 sm:ml-4 font-mono truncate">
                       {codeSnippets[currentSnippet].language === "python" && "data_pipeline.py"}
                       {codeSnippets[currentSnippet].language === "sql" && "analytics.sql"}
                       {codeSnippets[currentSnippet].language === "javascript" && "stream_processor.js"}
                     </span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                    <span className="text-xs text-slate-400">Running</span>
+                  <div className="flex items-center gap-1 sm:gap-2">
+                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-green-400 animate-pulse" />
+                    <span className="text-xs text-slate-400 hidden sm:inline">Running</span>
                   </div>
                 </div>
 
                 {/* Code Content */}
-                <div className="p-6 font-mono text-sm bg-slate-900/50 min-h-[400px] overflow-x-auto">
+                <div className="p-3 sm:p-4 lg:p-6 font-mono text-xs sm:text-sm bg-slate-900/50 min-h-[300px] sm:min-h-[350px] lg:min-h-[400px] overflow-x-auto">
                   <pre className="text-slate-300 leading-relaxed">
                     <code>
                       {typedText}
@@ -342,16 +342,16 @@ export function HeroCodeThemed() {
                 </div>
 
                 {/* Terminal Footer */}
-                <div className="flex items-center justify-between p-3 border-t border-slate-700 bg-slate-800/30 text-xs text-slate-400">
+                <div className="flex items-center justify-between p-2 sm:p-3 border-t border-slate-700 bg-slate-800/30 text-xs text-slate-400">
                   <div className="flex items-center gap-4">
                     <span>
                       Lines: <AnimatedCounter value={typedText.split("\n").length} delay={1} />
                     </span>
-                    <span>
+                    <span className="hidden sm:inline">
                       Characters: <AnimatedCounter value={typedText.length} delay={1.2} />
                     </span>
                   </div>
-                  <span>UTF-8</span>
+                  <span className="hidden sm:inline">UTF-8</span>
                 </div>
               </div>
             </ScrollAnimation>
@@ -402,15 +402,15 @@ export function HeroCodeThemed() {
             </div>
 
             {/* Stats Cards - Mobile/Tablet (below terminal, shown on <lg) */}
-            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6 lg:hidden">
+            <div className="mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 lg:hidden">
               {stats.map((stat, index) => (
                 <ScrollAnimation key={index} direction="up" delay={0.2 + index * 0.1}>
-                  <div className="bg-slate-800/90 backdrop-blur-sm rounded-lg p-4 border border-slate-700 w-full">
+                  <div className="bg-slate-800/90 backdrop-blur-sm rounded-lg p-3 sm:p-4 border border-slate-700 w-full">
                     <div className="flex items-center gap-2 mb-2">
-                      <stat.icon className="w-4 h-4 text-blue-400" />
-                      <span className="text-xs text-slate-400">{stat.label}</span>
+                      <stat.icon className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400" />
+                      <span className="text-xs sm:text-sm text-slate-400">{stat.label}</span>
                     </div>
-                    <div className="text-xl font-bold text-white">
+                    <div className="text-lg sm:text-xl font-bold text-white">
                       {stat.isPercentage ? (
                         <PercentageCounter value={stat.value} delay={0.3 + index * 0.1} />
                       ) : stat.isCompact ? (
@@ -432,18 +432,18 @@ export function HeroCodeThemed() {
       </div>
 
       {/* Scroll Indicator */}
-      <ParallaxContainer speed={0.1} className="absolute bottom-8 left-0 right-0 flex justify-center">
+      <ParallaxContainer speed={0.1} className="absolute bottom-4 sm:bottom-6 lg:bottom-8 left-0 right-0 flex justify-center">
         <motion.div
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
           className="flex flex-col items-center gap-2 text-slate-400"
         >
-          <span className="text-sm">Scroll to explore</span>
-          <div className="w-6 h-10 border-2 border-slate-600 rounded-full flex justify-center">
+          <span className="text-xs sm:text-sm">Scroll to explore</span>
+          <div className="w-5 h-8 sm:w-6 sm:h-10 border-2 border-slate-600 rounded-full flex justify-center">
             <motion.div
               animate={{ y: [0, 12, 0] }}
               transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
-              className="w-1 h-3 bg-slate-500 rounded-full mt-2"
+              className="w-0.5 h-2 sm:w-1 sm:h-3 bg-slate-500 rounded-full mt-1.5 sm:mt-2"
             />
           </div>
         </motion.div>

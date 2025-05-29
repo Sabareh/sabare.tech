@@ -105,10 +105,10 @@ const floatingCodeElements = [
 
 // Statistics data
 const stats = [
-  { value: 100, suffix: "TB+", label: "Data Processed", icon: Database, cardClass: "bg-blue-800/90 border-blue-700" },
-  { value: 50, suffix: "+", label: "Projects Completed", icon: Code2, cardClass: "bg-purple-800/90 border-purple-700" },
-  { value: 99.9, label: "Uptime Achieved", icon: Cloud, isPercentage: true, cardClass: "bg-green-800/90 border-green-700" },
-  { value: 5000000, label: "Records Processed", icon: Terminal, isCompact: true, cardClass: "bg-pink-800/90 border-pink-700" },
+  { value: 100, suffix: "TB+", label: "Data Processed", icon: Database, borderClass: "border-blue-400" },
+  { value: 50, suffix: "+", label: "Projects Completed", icon: Code2, borderClass: "border-purple-400" },
+  { value: 99.9, label: "Uptime Achieved", icon: Cloud, isPercentage: true, borderClass: "border-green-400" },
+  { value: 5000000, label: "Records Processed", icon: Terminal, isCompact: true, borderClass: "border-pink-400" },
 ]
 
 export function HeroCodeThemed() {
@@ -190,10 +190,10 @@ export function HeroCodeThemed() {
         </motion.div>
       ))}
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 py-6 sm:py-12 lg:py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-20">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left Column - Content */}
-          <div className="space-y-6 lg:space-y-8 text-white text-center lg:text-left px-2 sm:px-0">
+          <div className="space-y-6 lg:space-y-8 text-white text-center lg:text-left">
             <ScrollAnimation direction="fade" delay={0.1}>
               <Badge variant="outline" className="border-blue-400/50 text-blue-400 bg-blue-400/10">
                 <Terminal className="w-4 h-4 mr-2" />
@@ -234,7 +234,7 @@ export function HeroCodeThemed() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <MagneticButton
                   size="lg"
-                  className="w-full sm:w-auto border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-4 sm:px-6 py-2 sm:py-3 rounded-md text-sm sm:text-base"
+                  className="border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-4 sm:px-6 py-2 sm:py-3 rounded-md text-sm sm:text-base"
                   strength={25}
                   radius={150}
                   scale={1.05}
@@ -252,7 +252,7 @@ export function HeroCodeThemed() {
                 <MagneticButton
                   size="lg"
                   variant="outline"
-                  className="w-full sm:w-auto border border-slate-600 text-slate-300 hover:bg-slate-800 px-4 sm:px-6 py-2 sm:py-3 rounded-md text-sm sm:text-base"
+                  className="border border-slate-600 text-slate-300 hover:bg-slate-800 px-4 sm:px-6 py-2 sm:py-3 rounded-md text-sm sm:text-base"
                   strength={25}
                   radius={150}
                   scale={1.05}
@@ -270,26 +270,26 @@ export function HeroCodeThemed() {
 
             {/* Social Links */}
             <ScrollAnimation direction="up" delay={1.0}>
-              <div className="flex items-center gap-3 justify-center lg:justify-start text-xs sm:text-sm">
+              <div className="flex items-center gap-4 justify-center lg:justify-start">
                 <span className="text-xs sm:text-sm text-slate-400">Connect with me:</span>
                 <div className="flex gap-3">
                   <Link
                     href="https://github.com/sabareh"
                     className="p-1.5 sm:p-2 rounded-full bg-slate-800/50 hover:bg-slate-700 transition-colors text-slate-300"
                   >
-                    <Github className="h-3 w-3 sm:h-4 sm:w-4" />
+                    <Github className="h-4 w-4 sm:h-5 sm:w-5" />
                   </Link>
                   <Link
                     href="https://linkedin.com/in/victor-sabare"
                     className="p-1.5 sm:p-2 rounded-full bg-slate-800/50 hover:bg-slate-700 transition-colors text-slate-300"
                   >
-                    <Linkedin className="h-3 w-3 sm:h-4 sm:w-4" />
+                    <Linkedin className="h-4 w-4 sm:h-5 sm:w-5" />
                   </Link>
                   <Link
                     href="mailto:sabarevictor@gmail.com"
                     className="p-1.5 sm:p-2 rounded-full bg-slate-800/50 hover:bg-slate-700 transition-colors text-slate-300"
                   >
-                    <Mail className="h-3 w-3 sm:h-4 sm:w-4" />
+                    <Mail className="h-4 w-4 sm:h-5 sm:w-5" />
                   </Link>
                 </div>
               </div>
@@ -297,7 +297,7 @@ export function HeroCodeThemed() {
           </div>
 
           {/* Right Column - Code Terminal */}
-          <div className="relative mt-6 sm:mt-8 lg:mt-0 px-2 sm:px-0">
+          <div className="relative mt-8 lg:mt-0">
             <ScrollAnimation direction="scale" delay={0.5}>
               <div
                 ref={terminalRef}
@@ -324,7 +324,7 @@ export function HeroCodeThemed() {
                 </div>
 
                 {/* Code Content */}
-                <div className="p-3 sm:p-4 lg:p-6 font-mono text-xs sm:text-sm bg-slate-900/50 h-[250px] sm:h-[300px] lg:h-[350px]">
+                <div className="p-3 sm:p-4 lg:p-6 font-mono text-xs sm:text-sm bg-slate-900/50 h-[300px] sm:h-[350px] lg:h-[400px]">
                   <pre className="text-slate-300 leading-relaxed whitespace-pre-wrap break-words h-full overflow-hidden">
                     <code>
                       {typedText}
@@ -360,7 +360,7 @@ export function HeroCodeThemed() {
             <div className="hidden lg:grid absolute -bottom-8 -left-8 grid-cols-2 gap-4 z-20">
               {stats.slice(0, 2).map((stat, index) => (
                 <ScrollAnimation key={index} direction="left" delay={1.2 + index * 0.2}>
-                  <div className={`${stat.cardClass} backdrop-blur-sm rounded-lg p-4 border min-w-[140px]`}>
+                  <div className={`bg-slate-800/90 backdrop-blur-sm rounded-lg p-4 border ${stat.borderClass} min-w-[140px]`}>
                     <div className="flex items-center gap-2 mb-2">
                       <stat.icon className="w-4 h-4 text-blue-400" />
                       <span className="text-xs text-slate-400">{stat.label}</span>
@@ -382,7 +382,7 @@ export function HeroCodeThemed() {
             <div className="hidden lg:grid absolute -top-8 -right-8 grid-cols-2 gap-4 z-20">
               {stats.slice(2).map((stat, index) => (
                 <ScrollAnimation key={index} direction="right" delay={1.6 + index * 0.2}>
-                  <div className={`${stat.cardClass} backdrop-blur-sm rounded-lg p-4 border min-w-[140px]`}>
+                  <div className={`bg-slate-800/90 backdrop-blur-sm rounded-lg p-4 border ${stat.borderClass} min-w-[140px]`}>
                     <div className="flex items-center gap-2 mb-2">
                       <stat.icon className="w-4 h-4 text-blue-400" />
                       <span className="text-xs text-slate-400">{stat.label}</span>
@@ -405,7 +405,7 @@ export function HeroCodeThemed() {
             <div className="mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 lg:hidden">
               {stats.map((stat, index) => (
                 <ScrollAnimation key={index} direction="up" delay={0.2 + index * 0.1}>
-                  <div className={`${stat.cardClass} backdrop-blur-sm rounded-lg p-3 sm:p-4 border w-full`}>
+                  <div className={`bg-slate-800/90 backdrop-blur-sm rounded-lg p-3 sm:p-4 border ${stat.borderClass} w-full`}>
                     <div className="flex items-center gap-2 mb-2">
                       <stat.icon className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400" />
                       <span className="text-xs sm:text-sm text-slate-400">{stat.label}</span>

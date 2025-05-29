@@ -41,7 +41,7 @@ export const MagneticButton = React.forwardRef<HTMLButtonElement, MagneticButton
     return (
       <Comp
         ref={ref}
-        className={cn("relative overflow-hidden transition-all", className)}
+        className={cn("relative transition-all", className)}
         disabled={isLoading || disabled}
         {...props}
       >

@@ -147,7 +147,7 @@ export function HeroCodeThemed() {
 
   return (
     <section
-      className="relative w-screen min-h-screen flex items-center justify-center overflow-hidden
+      className="relative min-h-screen flex items-center justify-center overflow-hidden
                  bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"
     >
       {/* Animated Background Grid */}
@@ -190,7 +190,7 @@ export function HeroCodeThemed() {
         </motion.div>
       ))}
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-20">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-20">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left Column - Content */}
           <div className="space-y-6 lg:space-y-8 text-white text-center lg:text-left">
@@ -301,7 +301,7 @@ export function HeroCodeThemed() {
             <ScrollAnimation direction="scale" delay={0.5}>
               <div
                 ref={terminalRef}
-                className="relative bg-slate-900/90 backdrop-blur-sm rounded-lg border border-slate-700 shadow-2xl overflow-hidden"
+                className="relative bg-slate-900/90 backdrop-blur-sm rounded-lg border border-slate-700 shadow-2xl overflow-hidden w-full max-w-full"
               >
                 {/* Terminal Header */}
                 <div className="flex items-center justify-between p-3 sm:p-4 border-b border-slate-700 bg-slate-800/50">
@@ -324,8 +324,8 @@ export function HeroCodeThemed() {
                 </div>
 
                 {/* Code Content */}
-                <div className="p-3 sm:p-4 lg:p-6 font-mono text-xs sm:text-sm bg-slate-900/50 min-h-[300px] sm:min-h-[350px] lg:min-h-[400px] overflow-x-auto">
-                  <pre className="text-slate-300 leading-relaxed">
+                <div className="p-3 sm:p-4 lg:p-6 font-mono text-xs sm:text-sm bg-slate-900/50 min-h-[300px] sm:min-h-[350px] lg:min-h-[400px] overflow-x-hidden">
+                  <pre className="text-slate-300 leading-relaxed whitespace-pre-wrap break-words">
                     <code>
                       {typedText}
                       {isTyping && (

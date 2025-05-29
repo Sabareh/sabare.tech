@@ -244,7 +244,7 @@ export function HeroCodeThemed() {
                   asChild
                 >
                   <Link href="/projects">
-                    <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
+                    <ArrowRight className="mr-2 h-5 w-5 group-hover:animate-bounce" />
                     View My Projects
                   </Link>
                 </MagneticButton>
@@ -261,7 +261,7 @@ export function HeroCodeThemed() {
                   asChild
                 >
                   <Link href="/resume">
-                    <Download className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                    <Download className="mr-2 h-5 w-5 group-hover:animate-bounce" />
                     Download Resume
                   </Link>
                 </MagneticButton>

@@ -147,11 +147,11 @@ export function HeroCodeThemed() {
 
   return (
     <section
-      className="relative min-h-screen flex items-center justify-center overflow-hidden
+      className="relative min-h-screen flex items-center justify-center
                  bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"
     >
       {/* Animated Background Grid */}
-      <div className="absolute inset-0 opacity-20">
+      <div className="absolute inset-0 opacity-20 pointer-events-none">
         <div
           className="absolute inset-0"
           style={{
@@ -301,7 +301,7 @@ export function HeroCodeThemed() {
             <ScrollAnimation direction="scale" delay={0.5}>
               <div
                 ref={terminalRef}
-                className="relative bg-slate-900/90 backdrop-blur-sm rounded-lg border border-slate-700 shadow-2xl overflow-hidden w-full max-w-full"
+                className="relative bg-slate-900/90 backdrop-blur-sm rounded-lg border border-slate-700 shadow-2xl w-full max-w-full"
               >
                 {/* Terminal Header */}
                 <div className="flex items-center justify-between p-3 sm:p-4 border-b border-slate-700 bg-slate-800/50">
@@ -324,8 +324,8 @@ export function HeroCodeThemed() {
                 </div>
 
                 {/* Code Content */}
-                <div className="p-3 sm:p-4 lg:p-6 font-mono text-xs sm:text-sm bg-slate-900/50 min-h-[300px] sm:min-h-[350px] lg:min-h-[400px] overflow-x-hidden">
-                  <pre className="text-slate-300 leading-relaxed whitespace-pre-wrap break-words">
+                <div className="p-3 sm:p-4 lg:p-6 font-mono text-xs sm:text-sm bg-slate-900/50 h-[300px] sm:h-[350px] lg:h-[400px]">
+                  <pre className="text-slate-300 leading-relaxed whitespace-pre-wrap break-words h-full overflow-hidden">
                     <code>
                       {typedText}
                       {isTyping && (

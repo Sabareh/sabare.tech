@@ -105,10 +105,10 @@ const floatingCodeElements = [
 
 // Statistics data
 const stats = [
-  { value: 100, suffix: "TB+", label: "Data Processed", icon: Database },
-  { value: 50, suffix: "+", label: "Projects Completed", icon: Code2 },
-  { value: 99.9, label: "Uptime Achieved", icon: Cloud, isPercentage: true },
-  { value: 5000000, label: "Records Processed", icon: Terminal, isCompact: true },
+  { value: 100, suffix: "TB+", label: "Data Processed", icon: Database, cardClass: "bg-blue-800/90 border-blue-700" },
+  { value: 50, suffix: "+", label: "Projects Completed", icon: Code2, cardClass: "bg-purple-800/90 border-purple-700" },
+  { value: 99.9, label: "Uptime Achieved", icon: Cloud, isPercentage: true, cardClass: "bg-green-800/90 border-green-700" },
+  { value: 5000000, label: "Records Processed", icon: Terminal, isCompact: true, cardClass: "bg-pink-800/90 border-pink-700" },
 ]
 
 export function HeroCodeThemed() {
@@ -360,7 +360,7 @@ export function HeroCodeThemed() {
             <div className="hidden lg:grid absolute -bottom-8 -left-8 grid-cols-2 gap-4 z-20">
               {stats.slice(0, 2).map((stat, index) => (
                 <ScrollAnimation key={index} direction="left" delay={1.2 + index * 0.2}>
-                  <div className="bg-slate-800/90 backdrop-blur-sm rounded-lg p-4 border border-slate-700 min-w-[140px]">
+                  <div className={`${stat.cardClass} backdrop-blur-sm rounded-lg p-4 border min-w-[140px]`}>
                     <div className="flex items-center gap-2 mb-2">
                       <stat.icon className="w-4 h-4 text-blue-400" />
                       <span className="text-xs text-slate-400">{stat.label}</span>
@@ -382,7 +382,7 @@ export function HeroCodeThemed() {
             <div className="hidden lg:grid absolute -top-8 -right-8 grid-cols-2 gap-4 z-20">
               {stats.slice(2).map((stat, index) => (
                 <ScrollAnimation key={index} direction="right" delay={1.6 + index * 0.2}>
-                  <div className="bg-slate-800/90 backdrop-blur-sm rounded-lg p-4 border border-slate-700 min-w-[140px]">
+                  <div className={`${stat.cardClass} backdrop-blur-sm rounded-lg p-4 border min-w-[140px]`}>
                     <div className="flex items-center gap-2 mb-2">
                       <stat.icon className="w-4 h-4 text-blue-400" />
                       <span className="text-xs text-slate-400">{stat.label}</span>
@@ -405,7 +405,7 @@ export function HeroCodeThemed() {
             <div className="mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 lg:hidden">
               {stats.map((stat, index) => (
                 <ScrollAnimation key={index} direction="up" delay={0.2 + index * 0.1}>
-                  <div className="bg-slate-800/90 backdrop-blur-sm rounded-lg p-3 sm:p-4 border border-slate-700 w-full">
+                  <div className={`${stat.cardClass} backdrop-blur-sm rounded-lg p-3 sm:p-4 border w-full`}>
                     <div className="flex items-center gap-2 mb-2">
                       <stat.icon className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400" />
                       <span className="text-xs sm:text-sm text-slate-400">{stat.label}</span>

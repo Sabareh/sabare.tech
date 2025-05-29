@@ -432,7 +432,7 @@ export function HeroCodeThemed() {
       </div>
 
       {/* Scroll Indicator */}
-      <ParallaxContainer speed={0.1} className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+      <ParallaxContainer speed={0.1} className="absolute bottom-8 left-0 right-0 flex justify-center">
         <motion.div
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}

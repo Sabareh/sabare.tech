@@ -102,9 +102,9 @@ export default function HomePage() {
         <ParallaxBackground />
         <ParallaxFloatingElements elements={defaultFloatingElements} />
 
-        {/* Hero Section */}
+        {/* Hero Section: pulled up by negative margin so it sits under the fixed header */}
         <section 
-          className="relative w-screen min-h-screen flex items-center justify-center overflow-hidden"
+          className="relative w-screen min-h-screen flex items-center justify-center overflow-hidden -mt-16"
         >
           <HeroCodeThemed />
         </section>
@@ -260,7 +260,7 @@ export default function HomePage() {
                           </div>
                           <div className="flex gap-2">
                             {project.githubUrl && (
-                              <ModernButton size="sm" variant="outline" asChild>
+                              <ModernButton size="default" variant="outline" asChild>
                                 <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
                                   <Github className="mr-2 h-4 w-4" />
                                   Code
@@ -268,7 +268,7 @@ export default function HomePage() {
                               </ModernButton>
                             )}
                             {project.demoUrl && (
-                              <ModernButton size="sm" asChild>
+                              <ModernButton size="default" asChild>
                                 <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">
                                   <ExternalLink className="mr-2 h-4 w-4" />
                                   Demo

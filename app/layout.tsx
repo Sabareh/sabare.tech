@@ -6,7 +6,6 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { Toaster } from "@/components/ui/toaster"
-import { CommandPalette } from "@/components/command-palette"
 import { CursorTracker } from "@/components/cursor-tracker"
 import { ParticleBackground } from "@/components/particle-background"
 import { FloatingElements } from "@/components/floating-elements"
@@ -92,7 +91,8 @@ export default function RootLayout({
 
           <div className="relative flex min-h-screen flex-col">
             <Navigation />
-            <main className="flex-1 pt-16">{children}</main>
+            {/* removed pt-16 so homepage hero can slide up behind header */}
+            <main className="flex-1">{children}</main>
             <Footer />
           </div>
           <Toaster />

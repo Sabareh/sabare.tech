@@ -234,7 +234,7 @@ export function HeroCodeThemed() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <MagneticButton
                   size="lg"
-                  className="bg-blue-600 hover:bg-blue-700 text-white"
+                  className="border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-6 py-3 rounded-md"
                   strength={25}
                   radius={150}
                   scale={1.05}
@@ -244,15 +244,15 @@ export function HeroCodeThemed() {
                   asChild
                 >
                   <Link href="/projects">
+                    <ArrowRight className="ml-2 h-5 w-5" />                 
                     View My Projects
-                    <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>
                 </MagneticButton>
 
                 <MagneticButton
                   size="lg"
                   variant="outline"
-                  className="border-slate-600 text-slate-300 hover:bg-slate-800"
+                  className="border border-slate-600 text-slate-300 hover:bg-slate-800 px-6 py-3 rounded-md"
                   strength={25}
                   radius={150}
                   scale={1.05}

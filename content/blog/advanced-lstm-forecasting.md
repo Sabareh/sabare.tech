@@ -12,6 +12,8 @@ coverImage: "/blog/lstm-forecasting.png"
 
 Time-series forecasting using deep learning has advanced significantly in recent years. Long Short-Term Memory (LSTM) networks excel at modeling sequential data with complex temporal dependencies.
 
+![LSTM forecasting architecture](/streaming-analytics-architecture.png)
+
 ## Why LSTM?
 
 LSTMs address the vanishing gradient problem found in standard recurrent networks by introducing gating mechanisms that regulate information flow. This makes them ideal for forecasting tasks where long-term patterns matter.

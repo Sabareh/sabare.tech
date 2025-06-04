@@ -25,6 +25,8 @@ seo:
 
 Data mesh is a paradigm shift in how we think about and implement data platforms in large organizations. It moves away from the centralized data lake or data warehouse approach to a distributed architecture that treats data as a product, owned by domain teams.
 
+![Data mesh architecture diagram](/data-mesh-architecture.png)
+
 ## The Problem with Traditional Data Architectures
 
 Traditional data architectures often suffer from several challenges:

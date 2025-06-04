@@ -10,11 +10,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // Enable static exports for client-side deployment
-  output: 'export',
-  // Ensure trailing slash for proper static file serving
-  trailingSlash: true,
-  // Disable server-side features
+  // Enable server features for dynamic content
   experimental: {
     esmExternals: 'loose',
   },

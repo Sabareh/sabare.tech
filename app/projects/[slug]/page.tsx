@@ -1,19 +1,8 @@
-import { getAllProjects, getProjectBySlug } from "@/lib/content"
+export const dynamic = "force-dynamic"
+
+import { getProjectBySlug } from "@/lib/content"
 import { notFound } from "next/navigation"
 import ProjectDetailClient from "./project-detail-client"
-
-// Add this function for static generation
-export async function generateStaticParams() {
-  try {
-    const projects = await getAllProjects()
-    return projects.map((project) => ({
-      slug: project.slug,
-    }))
-  } catch (error) {
-    console.error("Error generating static params for projects:", error)
-    return []
-  }
-}
 
 interface ProjectPageProps {
   params: {

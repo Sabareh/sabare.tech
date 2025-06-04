@@ -177,8 +177,8 @@ const contentManifest: Record<ContentType, string[]> = {
   blog: [
     "building-real-time-data-pipelines",
     "data-mesh-architecture",
-    "optimizing-spark-performance",
-    "kubernetes-data-workloads",
+    "advanced-lstm-forecasting",
+    "kubernetes-operators-data-pipelines",
   ],
   project: ["real-time-analytics-platform"],
   experience: [],

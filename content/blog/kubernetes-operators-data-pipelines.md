@@ -12,6 +12,8 @@ coverImage: "/blog/k8s-operators-data-pipelines.png"
 
 Kubernetes Operators enable you to extend the cluster's capabilities by encoding domain-specific knowledge into custom controllers.
 
+![Kubernetes cluster diagram](/kubernetes-cluster-diagram.png)
+
 ## Operator Pattern
 
 Operators build on custom resources to manage stateful applications. They watch the Kubernetes API and reconcile the cluster to the desired state.

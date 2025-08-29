@@ -4,9 +4,17 @@ import Link from "next/link"
 import { Github, Linkedin, Twitter, Mail } from "lucide-react"
 import { MagneticLink } from "@/components/ui/magnetic-link"
 import { MagneticIcon } from "@/components/ui/magnetic-icon"
+import { useSmoothScroll } from "@/hooks/use-smooth-scroll"
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
+  const { scrollToSection } = useSmoothScroll()
+
+  const handleNavClick = (href: string) => {
+    if (href.startsWith("#")) {
+      scrollToSection(href.slice(1))
+    }
+  }
 
   const socialLinks = [
     { icon: <Github className="h-5 w-5" />, href: "https://github.com/victorsabare", label: "GitHub" },
@@ -16,13 +24,13 @@ export function Footer() {
   ]
 
   const navLinks = [
-    { href: "/", label: "Home" },
-    { href: "/about", label: "About" },
-    { href: "/projects", label: "Projects" },
+    { href: "#home", label: "Home" },
+    { href: "#about", label: "About" },
+    { href: "#projects", label: "Projects" },
     { href: "/blog", label: "Blog" },
-    { href: "/uses", label: "Uses" },
+    { href: "#tech-stack", label: "Tech Stack" },
     { href: "/testimonials", label: "Testimonials" },
-    { href: "/contact", label: "Contact" },
+    { href: "#contact", label: "Contact" },
   ]
 
   return (
@@ -57,18 +65,32 @@ export function Footer() {
           <div>
             <h3 className="font-medium mb-4">Navigation</h3>
             <nav className="flex flex-col space-y-2">
-              {navLinks.map((link, index) => (
-                <MagneticLink
-                  key={index}
-                  href={link.href}
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                  strength={15}
-                  radius={80}
-                  scale={1.05}
-                >
-                  {link.label}
-                </MagneticLink>
-              ))}
+              {navLinks.map((link, index) => {
+                if (link.href.startsWith("#")) {
+                  return (
+                    <button
+                      key={index}
+                      onClick={() => handleNavClick(link.href)}
+                      className="text-muted-foreground hover:text-primary transition-colors text-left"
+                    >
+                      {link.label}
+                    </button>
+                  )
+                }
+                
+                return (
+                  <MagneticLink
+                    key={index}
+                    href={link.href}
+                    className="text-muted-foreground hover:text-primary transition-colors"
+                    strength={15}
+                    radius={80}
+                    scale={1.05}
+                  >
+                    {link.label}
+                  </MagneticLink>
+                )
+              })}
             </nav>
           </div>
 

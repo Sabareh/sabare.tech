@@ -9,6 +9,7 @@ import { ThemeToggle } from "@/components/theme-toggle"
 import { CommandPalette } from "@/components/command-palette"
 import { MagneticLink } from "@/components/ui/magnetic-link"
 import { MagneticIcon } from "@/components/ui/magnetic-icon"
+import { useSmoothScroll } from "@/hooks/use-smooth-scroll"
 
 interface NavigationProps {
   className?: string
@@ -19,6 +20,7 @@ export function Navigation({ className }: NavigationProps) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isCommandOpen, setIsCommandOpen] = useState(false)
   const pathname = usePathname()
+  const { scrollToSection } = useSmoothScroll()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,14 +43,31 @@ export function Navigation({ className }: NavigationProps) {
     setIsCommandOpen(!isCommandOpen)
   }
 
+  const handleNavClick = (href: string, label: string) => {
+    closeMenu()
+    
+    // If we're on the home page, scroll to section
+    if (pathname === "/" && href.startsWith("#")) {
+      scrollToSection(href.slice(1))
+      return
+    }
+    
+    // If it's a section anchor but we're not on home page, navigate to home with hash
+    if (href.startsWith("#")) {
+      window.location.href = `/${href}`
+      return
+    }
+  }
+
   const navItems = [
-    { href: "/", label: "Home" },
-    { href: "/about", label: "About" },
-    { href: "/projects", label: "Projects" },
+    { href: "#home", label: "Home" },
+    { href: "#about", label: "About" },
+    { href: "#experience", label: "Experience" },
+    { href: "#projects", label: "Projects" },
+    { href: "#tech-stack", label: "Tech Stack" },
+    { href: "#contact", label: "Contact" },
     { href: "/blog", label: "Blog" },
-    { href: "/uses", label: "Uses" },
-    { href: "/testimonials", label: "Testimonials" },
-    { href: "/contact", label: "Contact" },
+    { href: "/resume", label: "Resume" },
   ]
 
   return (
@@ -67,21 +86,38 @@ export function Navigation({ className }: NavigationProps) {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-1">
-            {navItems.map((item) => (
-              <MagneticLink
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  "px-3 py-2 text-sm font-medium transition-colors",
-                  pathname === item.href ? "text-primary" : "text-muted-foreground hover:text-primary",
-                )}
-                strength={20}
-                radius={80}
-                scale={1.1}
-              >
-                {item.label}
-              </MagneticLink>
-            ))}
+            {navItems.map((item) => {
+              if (item.href.startsWith("#")) {
+                return (
+                  <button
+                    key={item.href}
+                    onClick={() => handleNavClick(item.href, item.label)}
+                    className={cn(
+                      "px-3 py-2 text-sm font-medium transition-colors",
+                      "text-muted-foreground hover:text-primary",
+                    )}
+                  >
+                    {item.label}
+                  </button>
+                )
+              }
+              
+              return (
+                <MagneticLink
+                  key={item.href}
+                  href={item.href}
+                  className={cn(
+                    "px-3 py-2 text-sm font-medium transition-colors",
+                    pathname === item.href ? "text-primary" : "text-muted-foreground hover:text-primary",
+                  )}
+                  strength={20}
+                  radius={80}
+                  scale={1.1}
+                >
+                  {item.label}
+                </MagneticLink>
+              )
+            })}
           </nav>
 
           <div className="flex items-center space-x-2">
@@ -125,19 +161,36 @@ export function Navigation({ className }: NavigationProps) {
         <div className="fixed inset-0 z-40 bg-background/95 backdrop-blur-sm md:hidden">
           <div className="container mx-auto px-4 py-20">
             <nav className="flex flex-col space-y-4">
-              {navItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={cn(
-                    "px-4 py-3 text-lg font-medium rounded-md transition-colors",
-                    pathname === item.href ? "bg-primary/10 text-primary" : "hover:bg-primary/5 hover:text-primary",
-                  )}
-                  onClick={closeMenu}
-                >
-                  {item.label}
-                </Link>
-              ))}
+              {navItems.map((item) => {
+                if (item.href.startsWith("#")) {
+                  return (
+                    <button
+                      key={item.href}
+                      onClick={() => handleNavClick(item.href, item.label)}
+                      className={cn(
+                        "px-4 py-3 text-lg font-medium rounded-md transition-colors text-left",
+                        "hover:bg-primary/5 hover:text-primary",
+                      )}
+                    >
+                      {item.label}
+                    </button>
+                  )
+                }
+                
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={cn(
+                      "px-4 py-3 text-lg font-medium rounded-md transition-colors",
+                      pathname === item.href ? "bg-primary/10 text-primary" : "hover:bg-primary/5 hover:text-primary",
+                    )}
+                    onClick={closeMenu}
+                  >
+                    {item.label}
+                  </Link>
+                )
+              })}
             </nav>
           </div>
         </div>

@@ -18,6 +18,10 @@ import Link from "next/link"
 import Image from "next/image"
 import { ParallaxFloatingElements } from "@/components/parallax/parallax-floating-elements"
 import { defaultFloatingElements } from "@/lib/floating-elements"
+import { AboutSection } from "@/components/sections/about-section"
+import { ExperienceSection } from "@/components/sections/experience-section"
+import { TechStackSection } from "@/components/sections/tech-stack-section"
+import { ContactSection } from "@/components/sections/contact-section"
 
 interface HomePageClientProps {
   featuredPosts: BlogPost[]
@@ -88,7 +92,7 @@ export default function HomePageClient({ featuredPosts, projects }: HomePageClie
         <ParallaxFloatingElements elements={defaultFloatingElements} />
 
         {/* Hero Section */}
-        <section className="relative min-h-screen flex items-center justify-center pt-16">
+        <section id="home" className="relative min-h-screen flex items-center justify-center pt-16">
           <HeroCodeThemed />
         </section>
 
@@ -183,7 +187,7 @@ export default function HomePageClient({ featuredPosts, projects }: HomePageClie
         </Section>
 
         {/* Featured Projects */}
-        <Section className="py-20 bg-muted/30">
+        <Section id="projects" className="py-20 bg-muted/30">
           <div className="container">
             <ScrollAnimation>
               <div className="text-center mb-12">
@@ -324,6 +328,18 @@ export default function HomePageClient({ featuredPosts, projects }: HomePageClie
         <ScrollAnimation>
           <TestimonialsSection />
         </ScrollAnimation>
+
+        {/* About Section */}
+        <AboutSection />
+
+        {/* Experience Section */}
+        <ExperienceSection />
+
+        {/* Tech Stack Section */}
+        <TechStackSection />
+
+        {/* Contact Section */}
+        <ContactSection />
       </ParallaxContainer>
     </div>
   )

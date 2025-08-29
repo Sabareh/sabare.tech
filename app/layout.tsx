@@ -1,6 +1,5 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter, Playfair_Display } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Navigation } from "@/components/navigation"
@@ -10,19 +9,14 @@ import { CursorTracker } from "@/components/cursor-tracker"
 import { ParticleBackground } from "@/components/particle-background"
 import { FloatingElements } from "@/components/floating-elements"
 
-const inter = Inter({
-  subsets: ["latin"],
+// Use system fonts for faster loading
+const inter = {
   variable: "--font-inter",
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  display: "swap",
-})
+}
 
-const playfair = Playfair_Display({
-  subsets: ["latin"],
+const playfair = {
   variable: "--font-playfair",
-  weight: ["400", "500", "600", "700", "800", "900"],
-  display: "swap",
-})
+}
 
 export const metadata: Metadata = {
   title: {

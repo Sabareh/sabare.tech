@@ -82,7 +82,7 @@ export default function HomePageClient({ featuredPosts, projects }: HomePageClie
   }, [])
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen -mt-24 md:-mt-28">
       <ParallaxContainer>
         <ParallaxBackground />
         <ParallaxFloatingElements elements={defaultFloatingElements} />

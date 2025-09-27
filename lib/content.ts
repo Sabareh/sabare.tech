@@ -30,11 +30,13 @@ export interface BlogPost {
   excerpt: string
   date: string
   readingTime: string
+  externalUrl?: string
   coverImage?: string
   tags: string[]
   featured?: boolean
   content: string
   author?: string
+  source?: 'local' | 'medium'
   metadata?: Record<string, any>
 }
 
@@ -278,11 +280,13 @@ export async function getAllBlogPosts(): Promise<BlogPost[]> {
             excerpt: data.excerpt || data.description || "",
             date: data.date ? new Date(data.date).toISOString() : new Date().toISOString(),
             readingTime,
+            externalUrl: data.externalUrl || data.url,
             coverImage: data.coverImage,
             tags: data.tags || [],
             featured: data.featured || false,
             content: htmlContent,
             author: data.author,
+            source: data.source || "local",
             metadata: data,
           } as BlogPost
         })
@@ -331,11 +335,13 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
         excerpt: data.excerpt || data.description || "",
         date: data.date ? new Date(data.date).toISOString() : new Date().toISOString(),
         readingTime,
+        externalUrl: data.externalUrl || data.url,
         coverImage: data.coverImage,
         tags: data.tags || [],
         featured: data.featured || false,
         content: htmlContent,
         author: data.author,
+        source: data.source || "local",
         metadata: data,
       } as BlogPost
     } catch (error) {
@@ -357,11 +363,13 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
     excerpt: post.description || "",
     date: post.date || new Date().toISOString(),
     readingTime: post.readingTime || "5 min read",
+    externalUrl: (post.metadata?.externalUrl as string) || (post.metadata?.url as string) || undefined,
     coverImage: post.coverImage,
     tags: post.tags || [],
     featured: post.featured || false,
     content: post.content,
     author: post.author,
+    source: (post.metadata?.source as string) || "local",
     metadata: post.metadata,
   }
 }

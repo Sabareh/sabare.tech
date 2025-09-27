@@ -22,6 +22,7 @@ import { defaultFloatingElements } from "@/lib/floating-elements"
 interface HomePageClientProps {
   featuredPosts: BlogPost[]
   projects: Project[]
+  mediumProfileUrl?: string
 }
 
 const staticImages = [
@@ -54,7 +55,7 @@ function checkImageExists(src: string): Promise<boolean> {
   })
 }
 
-export default function HomePageClient({ featuredPosts, projects }: HomePageClientProps) {
+export default function HomePageClient({ featuredPosts, projects, mediumProfileUrl }: HomePageClientProps) {
   const [availableImages, setAvailableImages] = useState<string[]>([])
   const [imagesLoaded, setImagesLoaded] = useState(false)
 

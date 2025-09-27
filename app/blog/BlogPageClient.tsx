@@ -9,9 +9,10 @@ interface BlogPageClientProps {
   posts: BlogPost[]
   featuredPosts: BlogPost[]
   error?: string
+  mediumProfileUrl?: string
 }
 
-export default function BlogPageClient({ posts, featuredPosts, error }: BlogPageClientProps) {
+export default function BlogPageClient({ posts, featuredPosts, error, mediumProfileUrl }: BlogPageClientProps) {
   if (error) {
     return (
       <div className="container py-10 space-y-10">
@@ -20,9 +21,15 @@ export default function BlogPageClient({ posts, featuredPosts, error }: BlogPage
     )
   }
 
-  // You can add a loading state here if initial props are empty and an error isn't present,
-  // though with server fetching, data should be available or an error thrown.
-  // For simplicity, direct rendering or error display is shown.
+  const isMediumFeed = Boolean(mediumProfileUrl) && posts.every((post) => post.source === "medium")
+  const note = isMediumFeed ? "All articles open on Medium in a new tab." : undefined
+  const cta = mediumProfileUrl
+    ? {
+        label: "Read on Medium",
+        href: mediumProfileUrl,
+        external: true,
+      }
+    : undefined
 
   return (
     <div className="container py-10 space-y-10">
@@ -30,6 +37,8 @@ export default function BlogPageClient({ posts, featuredPosts, error }: BlogPage
         title="Data Engineering Insights"
         description="Explore articles on data engineering, big data, and analytics."
         postCount={posts.length}
+        note={note}
+        cta={cta}
       />
 
       <Suspense fallback={<div>Loading posts...</div>}>

@@ -5,131 +5,183 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { Download, Mail, Phone, MapPin, Globe, Linkedin, Github, ExternalLink, Printer } from "lucide-react"
+import {
+  Download,
+  Mail,
+  Phone,
+  MapPin,
+  Globe,
+  Linkedin,
+  Github,
+  ExternalLink,
+  Printer,
+  Link2,
+} from "lucide-react"
 import Link from "next/link"
 
-// Victor's resume data
+type ResumeProject = {
+  name: string
+  description: string
+  technologies: string[]
+  date?: string
+}
+
+type ResumePublication = {
+  title: string
+  description?: string
+}
+
+type ResumeLanguage = {
+  name: string
+  proficiency: string
+}
+
+type ResumeHonor = {
+  title: string
+  description?: string
+}
+
 const resumeData = {
   personalInfo: {
-    name: "Victor Oketch Sabare",
-    title: "Data Engineer & Analytics Specialist",
+    name: "Victor Sabare",
+    title: "Data Engineer @ Stanbic Bank Kenya",
     email: "sabarevictor@gmail.com",
     phone: "+254 113193473",
-    location: "Nairobi, Kenya",
+    location: "Ngong Road, Nairobi County, Kenya",
     website: "https://sabare.tech",
     linkedin: "https://www.linkedin.com/in/victorsabare",
     github: "https://github.com/Sabareh",
+    blog: "https://sabare.me",
   },
   summary:
-    "Passionate Data Engineer with expertise in Data Science and Analytics. Experienced in developing Power Apps, designing Power BI dashboards, and implementing cloud data solutions. Proven track record of delivering 100+ technical articles with 4.4/5 client satisfaction rating and successfully digitizing manual processes through innovative data solutions.",
+    "Data engineer specializing in modernizing legacy banking workloads into resilient, observable Python + Airflow pipelines. I build repeatable data loading patterns with Polars, Delta Lake, and SQL so Finance, Risk, and Operations teams can trust the data products they ship.",
   experience: [
     {
-      title: "Independent Contractor",
-      company: "Upwork",
-      location: "Remote",
-      period: "March 2022 - Present",
+      title: "Data Engineer",
+      company: "Stanbic Bank Kenya",
+      location: "Nairobi County, Kenya",
+      period: "June 2025 - Present",
       achievements: [
-        "Designed Microsoft Power Apps, Power Pages, and Power BI dashboards using PowerFX, Power Automate, DAX, SQL, and M Code",
-        "Delivered 100+ SEO-optimized landing pages on hiring remote developers, achieving consistent client praise",
-        "Provided technical consulting for Vercel portfolio projects and deployment optimization",
-        "Authored technical blog series with 4.4/5 client satisfaction rating for quality and creativity",
+        "Re-platform legacy Oracle/EDW workloads into Python + Airflow DAGs, simplifying orchestration and deployment.",
+        "Designed validation-first GL integrity pipelines with alerting, protecting downstream regulatory reporting.",
+        "Introduced reusable query → read_sql → to_sql patterns that accelerate new data product onboarding.",
+        "Enabled Finance, Risk, and Ops stakeholders with runbooks, metrics, and Power BI dashboards for faster decisions.",
       ],
-      technologies: ["Power BI", "Power Apps", "PowerFX", "DAX", "SQL", "M Code", "Power Automate"],
+      technologies: ["Python", "Apache Airflow", "Polars", "Pandas", "Oracle", "SQL", "Delta Lake", "Kafka", "dbt"],
     },
     {
       title: "Data Engineer",
       company: "HFC Kenya",
-      location: "Nairobi, Kenya",
-      period: "June 2024 - September 2024",
+      location: "Nairobi County, Kenya",
+      period: "July 2024 - September 2024",
       achievements: [
-        "Developed and deployed 5 Power Apps, digitizing manual processes in the bank",
-        "Participated in migration team for new data warehouse using AWS Data Warehousing with Amazon Redshift",
-        "Utilized SOAPUI for regulatory reporting to the Central Bank of Kenya",
-        "Improved operational efficiency through automated data processing solutions",
+        "Digitized manual banking processes by delivering production Power Apps and Power Automate workflows.",
+        "Partnered on AWS Redshift migration efforts, shaping dimensional models and data loading playbooks.",
+        "Delivered SOAPUI automation that streamlined regulatory submissions to the Central Bank of Kenya.",
       ],
-      technologies: ["Power Apps", "AWS", "Amazon Redshift", "SOAPUI", "Data Warehousing"],
+      technologies: ["Power Apps", "Power Automate", "AWS", "Amazon Redshift", "SQL", "SOAPUI"],
     },
     {
-      title: "Microsoft Learn Student Ambassador",
-      company: "Microsoft",
-      location: "Nairobi, Kenya",
-      period: "April 2022 - April 2025",
+      title: "Freelance Data Analytics Engineer",
+      company: "Upwork",
+      location: "Remote",
+      period: "March 2023 - July 2024",
       achievements: [
-        "Organized and executed engaging workshops, webinars, and events on Microsoft technologies",
-        "Mentored fellow students interested in pursuing careers in technology",
-        "Provided insights into industry trends and opportunities",
-        "Built community around Microsoft technologies and tools",
+        "Produced 150+ long-form landing page sections covering remote hiring, interview processes, and FAQs.",
+        "Lifted employer blog traffic by 16% with editorial content grounded in data engineering best practices.",
+        "Consulted on portfolio deployments and analytics instrumentation for distributed client teams.",
       ],
-      technologies: ["Microsoft Technologies", "Azure", "Power Platform", "Community Building"],
+      technologies: ["Technical Writing", "SEO", "Analytics Strategy", "Power BI", "Next.js", "Content Operations"],
     },
   ],
   education: [
     {
+      degree: "Associate Big Data Engineer (ABDE™)",
+      school: "Data Science Council of America",
+      location: "Remote",
+      period: "2025",
+      details: "Professional certification focused on large-scale data engineering design patterns.",
+    },
+    {
       degree: "Bachelor of Science in Data Science and Analytics",
       school: "Jomo Kenyatta University of Agriculture and Technology",
-      location: "Karen, Kenya",
-      period: "2020 - Present",
-      details: "Relevant Coursework: Machine Learning I & II, Probability & Statistics",
+      location: "Kenya",
+      period: "2020 - 2024",
+      details: "Machine Learning I & II, Probability & Statistics, Data Mining.",
       activities: "Microsoft Learn Student Ambassador, Kenya Model United Nations",
     },
     {
-      degree: "High School Diploma",
-      school: "Alliance High School",
-      location: "Kikuyu, Kenya",
-      period: "2016 - 2019",
-      details: "Activities: MIT Launch X Club, Junior Economic Club, Chess Club, World Scholars Club",
+      degree: "Data Science and Analytics Track",
+      school: "DataCamp",
+      location: "Remote",
+      period: "2021 - 2023",
+      details: "Associate-level programs in data engineering and analytics.",
     },
   ],
+  topSkills: ["Data Architecture", "Data Loading", "Amazon Elastic MapReduce (EMR)"],
   skills: {
-    "Programming Languages": ["Python", "Java", "R", "Scala", "SQL"],
-    "Big Data Tools": [
-      "Hadoop Ecosystem",
-      "Apache Spark",
-      "Apache Kafka",
-      "Apache Flume",
-      "Apache Pig",
-      "Apache Oozie",
-      "Apache HBase",
-      "Apache Sqoop",
-    ],
-    "Analytics & ML": [
-      "TensorFlow",
-      "Machine Learning",
-      "Natural Language Processing",
-      "Support Vector Machines",
-      "Clustering",
-      "Dimensionality Reduction",
-    ],
-    "Business Intelligence": ["Power BI", "Power Apps", "Tableau", "DAX", "PowerFX", "Power Automate"],
-    "Cloud Platforms": ["AWS", "Amazon Redshift", "Azure"],
-    Databases: ["MongoDB", "Elastic Search"],
+    "Data Engineering": ["Python", "Polars", "Pandas", "Apache Airflow", "dbt", "Kafka", "Delta Lake", "Spark"],
+    "Cloud & Platforms": ["Amazon EMR", "AWS Redshift", "Microsoft Fabric", "Azure", "Oracle Data Warehouse"],
+    "Data Reliability": ["Data Contracts", "SLA Design", "Data Quality Monitoring", "Observability", "Backfill Playbooks"],
+    "Analytics & Power Platform": ["Power BI", "Power Apps", "Power Automate", "PowerFX", "DAX"],
+    "Collaboration": ["Stakeholder Runbooks", "Technical Writing", "Cross-functional Workshops", "Mentorship"],
   },
+  languages: [
+    { name: "English", proficiency: "Full Professional" },
+    { name: "Swahili", proficiency: "Limited Working" },
+  ] as ResumeLanguage[],
   certifications: [
-    "Associate Big Data Engineer (ABDE™) - Data Science Council of America",
-    "Data Engineer Associate - DataCamp",
-    "Data Scientist Associate - DataCamp",
-    "Data Analyst Associate - DataCamp",
+    "Associate Big Data Engineer (ABDE™)",
+    "BCG - Data Science Job Simulation",
+    "Spatial Data Science: The New Frontier in Analytics (MOOC)",
+    "Data Engineer Associate",
+    "Data Analyst Associate",
   ],
+  honors: [
+    { title: "World Scholars Award" },
+    { title: "Microsoft Learn Student Ambassador" },
+  ] as ResumeHonor[],
+  publications: [
+    {
+      title: "Data Engineering Technologies",
+      description: "A practical guide to selecting and orchestrating modern data tooling for scale.",
+    },
+    {
+      title: "Building and Optimizing Data Pipelines for High-Volume Data Processing",
+      description: "Patterns for resilient ingestion, validation, and monitoring in regulated environments.",
+    },
+    {
+      title: "Creating a Data Pipeline Using Apache Airflow",
+      description: "Step-by-step workflow automation playbook with lessons learned from production deployments.",
+    },
+    {
+      title: "Stock Price Prediction with Apache Spark and Apache Cassandra",
+      description: "Exploring streaming-first architectures for financial signal processing.",
+    },
+  ] as ResumePublication[],
   projects: [
     {
-      name: "Retail Recommender System",
-      description: "Shiny-based web application recommending cross-sell opportunities using association rule mining",
-      technologies: ["R", "Shiny", "Association Rule Mining", "Data Mining"],
-      date: "November 2024",
+      name: "GL Integrity Modernization",
+      description:
+        "Bank-grade Airflow pipelines with validation contracts and automated rollback ensuring accurate GL snapshots.",
+      technologies: ["Python", "Apache Airflow", "Oracle", "Delta Lake", "Power BI"],
+      date: "2025",
     },
     {
-      name: "Product Network Analysis Using R",
-      description:
-        "Shiny web application analyzing product transactions using Apriori algorithm and community detection",
-      technologies: ["R", "Shiny", "Apriori Algorithm", "Network Analysis"],
-      date: "October 2024",
+      name: "Regulatory Reporting Automation",
+      description: "SOAPUI-driven submission framework reducing manual prep for Central Bank reporting by 60%.",
+      technologies: ["Power Apps", "SOAPUI", "AWS Redshift", "SQL"],
+      date: "2024",
     },
-  ],
+  ] as ResumeProject[],
+}
+
+type ResumeContentProps = {
+  data: typeof resumeData
 }
 
 export default function ResumePage() {
   const handleDownloadPDF = () => {
-    // Create a new window with the resume content for printing
     const printWindow = window.open("/resume/print", "_blank")
     if (printWindow) {
       printWindow.onload = () => {
@@ -145,7 +197,6 @@ export default function ResumePage() {
   return (
     <div className="min-h-screen pt-20 pb-16">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -154,8 +205,8 @@ export default function ResumePage() {
         >
           <h1 className="text-4xl font-bold mb-4">Resume</h1>
           <p className="text-muted-foreground mb-6">
-            Download or view my professional resume highlighting my experience in data engineering, analytics, and
-            business intelligence solutions.
+            Download or view my professional resume featuring bank-grade data engineering, Power Platform delivery, and
+            analytics leadership.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button onClick={handleDownloadPDF} size="lg" className="group">
@@ -175,12 +226,7 @@ export default function ResumePage() {
           </div>
         </motion.div>
 
-        {/* Resume Preview */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
           <Card className="glass-effect">
             <CardContent className="p-8">
               <ResumeContent data={resumeData} />
@@ -192,17 +238,14 @@ export default function ResumePage() {
   )
 }
 
-interface ResumeContentProps {
-  data: typeof resumeData
-}
-
 function ResumeContent({ data }: ResumeContentProps) {
   return (
     <div className="space-y-8">
-      {/* Header */}
-      <div className="text-center">
-        <h1 className="text-3xl font-bold mb-2">{data.personalInfo.name}</h1>
-        <h2 className="text-xl text-primary mb-4">{data.personalInfo.title}</h2>
+      <div className="text-center space-y-4">
+        <div>
+          <h1 className="text-3xl font-bold mb-2">{data.personalInfo.name}</h1>
+          <h2 className="text-xl text-primary mb-2">{data.personalInfo.title}</h2>
+        </div>
         <div className="flex flex-wrap justify-center gap-4 text-sm text-muted-foreground">
           <div className="flex items-center gap-1">
             <Mail className="h-4 w-4" />
@@ -221,40 +264,79 @@ function ResumeContent({ data }: ResumeContentProps) {
             <span>{data.personalInfo.website}</span>
           </div>
         </div>
-        <div className="flex justify-center gap-4 mt-2">
-          <div className="flex items-center gap-1 text-sm text-muted-foreground">
-            <Linkedin className="h-4 w-4" />
-            <span>LinkedIn</span>
-          </div>
-          <div className="flex items-center gap-1 text-sm text-muted-foreground">
-            <Github className="h-4 w-4" />
-            <span>GitHub</span>
-          </div>
+        <div className="flex justify-center gap-4 text-sm">
+          {data.personalInfo.linkedin && (
+            <Link
+              href={data.personalInfo.linkedin}
+              className="flex items-center gap-1 text-muted-foreground hover:text-primary transition-colors"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Linkedin className="h-4 w-4" />
+              LinkedIn
+            </Link>
+          )}
+          {data.personalInfo.github && (
+            <Link
+              href={data.personalInfo.github}
+              className="flex items-center gap-1 text-muted-foreground hover:text-primary transition-colors"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Github className="h-4 w-4" />
+              GitHub
+            </Link>
+          )}
+          {data.personalInfo.blog && (
+            <Link
+              href={data.personalInfo.blog}
+              className="flex items-center gap-1 text-muted-foreground hover:text-primary transition-colors"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Link2 className="h-4 w-4" />
+              Blog
+            </Link>
+          )}
         </div>
       </div>
 
       <Separator />
 
-      {/* Summary */}
       <div>
         <h3 className="text-lg font-semibold mb-3">Professional Summary</h3>
         <p className="text-muted-foreground leading-relaxed">{data.summary}</p>
       </div>
 
+      {data.topSkills?.length ? (
+        <>
+          <Separator />
+          <div>
+            <h3 className="text-lg font-semibold mb-3">Top Skills</h3>
+            <div className="flex flex-wrap gap-2">
+              {data.topSkills.map((skill) => (
+                <Badge key={skill} variant="secondary" className="text-xs">
+                  {skill}
+                </Badge>
+              ))}
+            </div>
+          </div>
+        </>
+      ) : null}
+
       <Separator />
 
-      {/* Experience */}
       <div>
         <h3 className="text-lg font-semibold mb-4">Professional Experience</h3>
         <div className="space-y-6">
           {data.experience.map((exp, index) => (
-            <div key={index}>
+            <div key={`${exp.company}-${index}`}>
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2">
                 <div>
                   <h4 className="font-semibold">{exp.title}</h4>
                   <p className="text-primary">{exp.company}</p>
                 </div>
-                <div className="text-sm text-muted-foreground">
+                <div className="text-sm text-muted-foreground text-left sm:text-right">
                   <p>{exp.period}</p>
                   <p>{exp.location}</p>
                 </div>
@@ -278,11 +360,10 @@ function ResumeContent({ data }: ResumeContentProps) {
 
       <Separator />
 
-      {/* Education */}
       <div>
         <h3 className="text-lg font-semibold mb-4">Education</h3>
         {data.education.map((edu, index) => (
-          <div key={index} className="mb-4">
+          <div key={`${edu.school}-${index}`} className="mb-4">
             <div className="flex flex-col sm:flex-row sm:justify-between">
               <div>
                 <h4 className="font-semibold">{edu.degree}</h4>
@@ -290,7 +371,7 @@ function ResumeContent({ data }: ResumeContentProps) {
                 <p className="text-sm text-muted-foreground">{edu.details}</p>
                 {edu.activities && <p className="text-sm text-muted-foreground">Activities: {edu.activities}</p>}
               </div>
-              <div className="text-sm text-muted-foreground">
+              <div className="text-sm text-muted-foreground text-left sm:text-right">
                 <p>{edu.period}</p>
                 <p>{edu.location}</p>
               </div>
@@ -301,7 +382,6 @@ function ResumeContent({ data }: ResumeContentProps) {
 
       <Separator />
 
-      {/* Skills */}
       <div>
         <h3 className="text-lg font-semibold mb-4">Technical Skills</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -320,45 +400,95 @@ function ResumeContent({ data }: ResumeContentProps) {
         </div>
       </div>
 
+      {data.languages?.length ? (
+        <>
+          <Separator />
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Languages</h3>
+            <div className="flex flex-wrap gap-2">
+              {data.languages.map((language) => (
+                <Badge key={language.name} variant="secondary" className="text-xs">
+                  {language.name} • {language.proficiency}
+                </Badge>
+              ))}
+            </div>
+          </div>
+        </>
+      ) : null}
+
       <Separator />
 
-      {/* Certifications */}
       <div>
         <h3 className="text-lg font-semibold mb-4">Certifications</h3>
         <div className="grid grid-cols-1 gap-2">
           {data.certifications.map((cert, index) => (
-            <div key={index} className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-primary rounded-full"></div>
+            <div key={`${cert}-${index}`} className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-primary rounded-full" />
               <span className="text-sm">{cert}</span>
             </div>
           ))}
         </div>
       </div>
 
-      <Separator />
+      {data.honors?.length ? (
+        <>
+          <Separator />
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Honors & Awards</h3>
+            <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
+              {data.honors.map((honor, index) => (
+                <li key={`${honor.title}-${index}`}>{honor.title}</li>
+              ))}
+            </ul>
+          </div>
+        </>
+      ) : null}
 
-      {/* Key Projects */}
-      <div>
-        <h3 className="text-lg font-semibold mb-4">Recent Projects</h3>
-        <div className="space-y-4">
-          {data.projects.map((project, index) => (
-            <div key={index}>
-              <div className="flex justify-between items-start mb-1">
-                <h4 className="font-medium">{project.name}</h4>
-                <span className="text-xs text-muted-foreground">{project.date}</span>
-              </div>
-              <p className="text-sm text-muted-foreground mb-2">{project.description}</p>
-              <div className="flex flex-wrap gap-1">
-                {project.technologies.map((tech) => (
-                  <Badge key={tech} variant="outline" className="text-xs">
-                    {tech}
-                  </Badge>
-                ))}
-              </div>
+      {data.publications?.length ? (
+        <>
+          <Separator />
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Publications</h3>
+            <div className="space-y-3">
+              {data.publications.map((publication, index) => (
+                <div key={`${publication.title}-${index}`}>
+                  <h4 className="font-medium text-sm">{publication.title}</h4>
+                  {publication.description && (
+                    <p className="text-sm text-muted-foreground">{publication.description}</p>
+                  )}
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
+          </div>
+        </>
+      ) : null}
+
+      {data.projects?.length ? (
+        <>
+          <Separator />
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Recent Projects</h3>
+            <div className="space-y-4">
+              {data.projects.map((project, index) => (
+                <div key={`${project.name}-${index}`}>
+                  <div className="flex justify-between items-start mb-1">
+                    <h4 className="font-medium">{project.name}</h4>
+                    {project.date && <span className="text-xs text-muted-foreground">{project.date}</span>}
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-2">{project.description}</p>
+                  <div className="flex flex-wrap gap-1">
+                    {project.technologies.map((tech) => (
+                      <Badge key={tech} variant="outline" className="text-xs">
+                        {tech}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </>
+      ) : null}
     </div>
   )
 }

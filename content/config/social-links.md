@@ -4,11 +4,9 @@ github: "https://github.com/Sabareh"
 twitter: ""
 email: "sabarevictor@gmail.com"
 website: "https://sabare.tech"
+blog: "https://sabare.me"
 ---
 
 # Social Media Links
 
-Professional networking and portfolio links for Victor Oketch Sabare.
-\`\`\`
-
-Now let's update the about page with Victor's information:
+Professional networking and portfolio links for Victor Sabare.

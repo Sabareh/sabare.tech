@@ -197,14 +197,14 @@ export function HeroCodeThemed() {
             <ScrollAnimation direction="fade" delay={0.1}>
               <Badge variant="outline" className="border-blue-400/50 text-blue-400 bg-blue-400/10">
                 <Terminal className="w-4 h-4 mr-2" />
-                Data Engineer & Analytics Specialist
+                Data Engineer @ Stanbic Bank Kenya
               </Badge>
             </ScrollAnimation>
 
             <div className="space-y-4 lg:space-y-6">
               <ScrollAnimation direction="up" delay={0.2}>
                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight">
-                  <span className="block text-white">Victor Oketch</span>
+                  <span className="block text-white">Victor</span>
                   <span className="block bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
                     Sabare
                   </span>
@@ -213,11 +213,11 @@ export function HeroCodeThemed() {
 
               <ScrollAnimation direction="up" delay={0.4}>
                 <p className="text-lg sm:text-xl lg:text-2xl text-slate-300 font-medium">
-                  Building scalable data infrastructure that processes{" "}
+                  Modernizing bank-grade pipelines that safeguard{" "}
                   <span className="text-blue-400 font-bold">
-                    <AnimatedCounter value={100} suffix="TB+" delay={0.5} />
+                    <AnimatedCounter value={25} suffix="+ SLAs" delay={0.5} />
                   </span>{" "}
-                  of data daily
+                  across Finance, Risk, and Operations
                 </p>
               </ScrollAnimation>
 
@@ -274,13 +274,13 @@ export function HeroCodeThemed() {
                 <span className="text-xs sm:text-sm text-slate-400">Connect with me:</span>
                 <div className="flex gap-3">
                   <Link
-                    href="https://github.com/sabareh"
+                    href="https://github.com/Sabareh"
                     className="p-1.5 sm:p-2 rounded-full bg-slate-800/50 hover:bg-slate-700 transition-colors text-slate-300"
                   >
                     <Github className="h-4 w-4 sm:h-5 sm:w-5" />
                   </Link>
                   <Link
-                    href="https://linkedin.com/in/victor-sabare"
+                    href="https://www.linkedin.com/in/victorsabare"
                     className="p-1.5 sm:p-2 rounded-full bg-slate-800/50 hover:bg-slate-700 transition-colors text-slate-300"
                   >
                     <Linkedin className="h-4 w-4 sm:h-5 sm:w-5" />

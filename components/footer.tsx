@@ -9,10 +9,10 @@ export function Footer() {
   const currentYear = new Date().getFullYear()
 
   const socialLinks = [
-    { icon: <Github className="h-5 w-5" />, href: "https://github.com/victorsabare", label: "GitHub" },
-    { icon: <Linkedin className="h-5 w-5" />, href: "https://linkedin.com/in/victorsabare", label: "LinkedIn" },
+    { icon: <Github className="h-5 w-5" />, href: "https://github.com/Sabareh", label: "GitHub" },
+    { icon: <Linkedin className="h-5 w-5" />, href: "https://www.linkedin.com/in/victorsabare", label: "LinkedIn" },
     { icon: <Twitter className="h-5 w-5" />, href: "https://twitter.com/victorsabare", label: "Twitter" },
-    { icon: <Mail className="h-5 w-5" />, href: "mailto:contact@victorsabare.com", label: "Email" },
+    { icon: <Mail className="h-5 w-5" />, href: "mailto:sabarevictor@gmail.com", label: "Email" },
   ]
 
   const navLinks = [
@@ -33,7 +33,7 @@ export function Footer() {
             <MagneticLink href="/" className="text-xl font-bold tracking-tighter" strength={15} scale={1.05}>
               Victor Sabare
             </MagneticLink>
-            <p className="mt-2 text-muted-foreground">Data Engineer & Analytics Specialist</p>
+            <p className="mt-2 text-muted-foreground">Data Engineer @ Stanbic Bank Kenya</p>
             <div className="flex items-center space-x-3 mt-4">
               {socialLinks.map((link, index) => (
                 <MagneticIcon
@@ -75,7 +75,7 @@ export function Footer() {
           <div>
             <h3 className="font-medium mb-4">Contact</h3>
             <address className="not-italic text-muted-foreground">
-              <p>Nairobi, Kenya</p>
+              <p>Ngong Road, Nairobi County, Kenya</p>
               <MagneticLink
                 href="mailto:sabarevictor@gmail.com"
                 className="mt-2 block hover:text-primary transition-colors"

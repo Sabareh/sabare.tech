@@ -11,66 +11,52 @@ import { ParallaxBackground } from "@/components/parallax/parallax-background"
 
 const timeline = [
   {
-    year: "2022 - Present",
-    title: "Independent Contractor",
-    company: "Upwork",
+    year: "Jun 2025 - Present",
+    title: "Data Engineer",
+    company: "Stanbic Bank Kenya",
     description:
-      "Data Analysis, Content Writing, Technical Consulting, and Technical Blogging with 4.4/5 client satisfaction rating",
-    technologies: ["Power BI", "Power Apps", "PowerFX", "DAX", "SQL", "M Code", "Power Automate"],
+      "Modernizing legacy Oracle/EDW workloads into Python + Airflow DAGs with validation-first data contracts and observability dashboards for Finance, Risk, and Operations.",
+    technologies: ["Python", "Apache Airflow", "Polars", "Delta Lake", "SQL", "Oracle", "Power BI"],
   },
   {
-    year: "June 2024 - Sep 2024",
+    year: "Jul 2024 - Sep 2024",
     title: "Data Engineer",
     company: "HFC Kenya",
     description:
-      "Developed 5 Power Apps, participated in AWS data warehouse migration, and handled regulatory reporting",
-    technologies: ["Power Apps", "AWS", "Amazon Redshift", "SOAPUI"],
+      "Digitized banking processes with Power Apps and contributed to AWS Redshift migration, regulatory reporting automation, and data loading playbooks.",
+    technologies: ["Power Apps", "Power Automate", "AWS", "Amazon Redshift", "SOAPUI"],
   },
   {
-    year: "April 2022 - April 2025",
-    title: "Microsoft Learn Student Ambassador",
-    company: "Microsoft",
-    description: "Organized workshops and mentored students in Microsoft technologies and career development",
-    technologies: ["Microsoft Technologies", "Azure", "Power Platform"],
+    year: "Mar 2023 - Jul 2024",
+    title: "Freelance Data Analytics Engineer",
+    company: "Upwork",
+    description:
+      "Delivered 150+ long-form landing pages, analytics content, and deployment consulting that increased employer blog traffic by 16%.",
+    technologies: ["Technical Writing", "Power BI", "SEO", "Analytics Strategy"],
   },
   {
-    year: "2020 - Present",
+    year: "2020 - 2024",
     title: "BS in Data Science and Analytics",
     company: "Jomo Kenyatta University of Agriculture and Technology",
-    description: "Relevant Coursework: Machine Learning I & II, Probability & Statistics",
-    technologies: ["Python", "R", "Machine Learning", "Statistics"],
+    description: "Machine Learning I & II, Probability & Statistics, Data Mining",
+    technologies: ["Python", "R", "Statistics", "Machine Learning"],
   },
 ]
 
 const certifications = [
-  "Associate Big Data Engineer (ABDE™) - Data Science Council of America",
-  "Data Engineer Associate - DataCamp",
-  "Data Scientist Associate - DataCamp",
-  "Data Analyst Associate - DataCamp",
+  "Associate Big Data Engineer (ABDE™)",
+  "BCG - Data Science Job Simulation",
+  "Spatial Data Science: The New Frontier in Analytics (MOOC)",
+  "Data Engineer Associate",
+  "Data Analyst Associate",
 ]
 
 const technicalSkills = {
-  "Programming Languages": ["Python", "Java", "R", "Scala", "SQL"],
-  "Big Data Tools": [
-    "Hadoop Ecosystem",
-    "Apache Spark",
-    "Apache Kafka",
-    "Apache Flume",
-    "Apache Pig",
-    "Apache Oozie",
-    "Apache HBase",
-    "Apache Sqoop",
-  ],
-  "Analytics & ML": [
-    "TensorFlow",
-    "Machine Learning",
-    "Natural Language Processing",
-    "Support Vector Machines",
-    "Clustering",
-    "Dimensionality Reduction",
-  ],
-  "Business Intelligence": ["Power BI", "Power Apps", "Tableau", "DAX", "PowerFX", "Power Automate"],
-  Databases: ["MongoDB", "Elastic Search", "Amazon Redshift"],
+  "Data Engineering": ["Python", "Polars", "Pandas", "Apache Airflow", "dbt", "Kafka", "Delta Lake", "Spark"],
+  "Cloud & Platforms": ["Amazon EMR", "AWS Redshift", "Microsoft Fabric", "Azure", "Oracle Data Warehouse"],
+  "Data Reliability": ["Data Contracts", "SLA Design", "Observability", "Validation Frameworks", "Backfill Playbooks"],
+  "Analytics & Power Platform": ["Power BI", "Power Apps", "Power Automate", "PowerFX", "DAX"],
+  Collaboration: ["Stakeholder Enablement", "Technical Writing", "Workshops", "Mentorship"],
 }
 
 export default function AboutPage() {
@@ -106,17 +92,17 @@ export default function AboutPage() {
                     className="rounded-full mx-auto mb-6 border-4 border-primary/20"
                   />
                 </ParallaxContainer>
-                <h2 className="text-2xl font-bold mb-4">Victor Oketch Sabare</h2>
-                <p className="text-muted-foreground mb-6">Data Engineer & Analytics Specialist</p>
+                <h2 className="text-2xl font-bold mb-4">Victor Sabare</h2>
+                <p className="text-muted-foreground mb-6">Data Engineer @ Stanbic Bank Kenya</p>
 
                 <div className="space-y-3 text-left">
                   <div className="flex items-center gap-3">
                     <MapPin className="h-4 w-4 text-primary" />
-                    <span className="text-sm">Nairobi, Kenya</span>
+                    <span className="text-sm">Ngong Road, Nairobi County, Kenya</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <Briefcase className="h-4 w-4 text-primary" />
-                    <span className="text-sm">3+ Years Experience</span>
+                    <span className="text-sm">Bank-grade pipeline modernization</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <GraduationCap className="h-4 w-4 text-primary" />
@@ -124,7 +110,7 @@ export default function AboutPage() {
                   </div>
                   <div className="flex items-center gap-3">
                     <Users className="h-4 w-4 text-primary" />
-                    <span className="text-sm">Microsoft Learn Student Ambassador</span>
+                    <span className="text-sm">Stakeholder enablement champion</span>
                   </div>
                 </div>
               </CardContent>
@@ -137,22 +123,20 @@ export default function AboutPage() {
                 <h3 className="text-2xl font-bold mb-4">My Story</h3>
                 <div className="space-y-4 text-muted-foreground">
                   <p>
-                    My journey into data engineering began during my studies at Jomo Kenyatta University of Agriculture
-                    and Technology, where I discovered my passion for transforming raw data into meaningful insights.
-                    What started as curiosity about data patterns evolved into a comprehensive skill set spanning data
-                    engineering, analytics, and business intelligence.
+                    I build reliable data systems that keep bank operations synchronized. At Stanbic Bank Kenya I lead the
+                    modernization of legacy Oracle/EDW workloads into Python + Airflow DAGs with validation-first checks,
+                    observability, and clear rollback playbooks. The goal: every stakeholder can trust the numbers they
+                    act on.
                   </p>
                   <p>
-                    Over the past 3+ years, I've had the privilege of working with diverse clients on Upwork, developing
-                    enterprise solutions at HFC Kenya, and serving as a Microsoft Learn Student Ambassador. I specialize
-                    in building scalable data pipelines, creating interactive Power BI dashboards, and implementing
-                    machine learning solutions that drive business value.
+                    Prior to Stanbic, I delivered Power Platform solutions at HFC Kenya and partnered with teams on
+                    AWS Redshift migrations and regulatory reporting automation. As a freelance data analytics engineer on
+                    Upwork, I produced technical content and analytics consulting that lifted employer blog traffic by 16%.
                   </p>
                   <p>
-                    I believe in extensive research, networking, consultation and collaboration in stress situations and
-                    problem-solving scenarios. Through experience, I have acquired the spirit of teachability and
-                    discernment, always staying curious about emerging technologies and best practices in the data
-                    engineering field.
+                    I thrive in collaborative environments where data contracts, SLAs, and transparent communication are
+                    non-negotiable. Whether I'm authoring runbooks, mentoring teammates, or prototyping a new ingestion
+                    pattern, I focus on reliability, clarity, and measurable impact.
                   </p>
                 </div>
               </CardContent>

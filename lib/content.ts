@@ -181,7 +181,7 @@ const contentManifest: Record<ContentType, string[]> = {
     "kubernetes-operators-data-pipelines",
   ],
   project: ["real-time-analytics-platform"],
-  experience: [],
+  experience: ["tech-innovations", "hfc-kenya", "upwork"],
   testimonial: [
     // add your testimonial markdown filenames (without .md)
     "sarah-johnson",

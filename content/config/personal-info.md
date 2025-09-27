@@ -1,9 +1,9 @@
 ---
-name: "Victor Oketch Sabare"
-title: "Data Engineer & Analytics Specialist"
-tagline: "Transforming data into actionable insights through innovative engineering solutions"
-bio: "Passionate Data Engineer with expertise in Data Science and Analytics. Driven by ambition, curiosity, and commitment to excellence. I believe in extensive research, networking, and collaboration in problem-solving scenarios. Through experience, I have acquired the spirit of teachability and discernment."
-location: "Nairobi, Kenya"
+name: "Victor Sabare"
+title: "Data Engineer @ Stanbic Bank Kenya"
+tagline: "Modernizing bank-grade data pipelines with Python, Airflow, and Delta Lake"
+bio: "Data engineer modernizing legacy Oracle workloads into Python + Airflow DAGs that are observable, resilient, and stakeholder-friendly. I design validation-first data loading patterns so Finance, Risk, and Operations teams can trust every metric they ship."
+location: "Ngong Road, Nairobi County, Kenya"
 email: "sabarevictor@gmail.com"
 phone: "+254 113193473"
 website: "https://sabare.tech"
@@ -15,28 +15,32 @@ resume_url: "/victor-sabare-resume.pdf"
 
 ## Professional Summary
 
-Experienced Data Engineer and Analytics Specialist with a proven track record of:
-- Developing and deploying 5+ Power Apps for process digitization
-- Designing comprehensive Power BI dashboards and interactive reports
-- Leading data warehouse migration projects using AWS and Amazon Redshift
-- Delivering 100+ SEO-optimized technical articles with 4.4/5 client satisfaction
+I build bank-grade data pipelines at Stanbic Bank Kenya, replacing brittle Oracle/EDW routines with Python + Airflow DAGs that are observable, validation-first, and easy to operate. My work centers on data loading patterns that reuse query → read_sql → to_sql flows, delivering trustworthy GL integrity, interest change, and ingestion pipelines for Finance, Risk, and Operations teams. I pair that with stakeholder-friendly runbooks, metrics, and Power BI dashboards so every team knows the health of their data products.
 
 ## Specializations
 
-- Data Engineering and Pipeline Development
-- Business Intelligence and Analytics
-- Machine Learning and AI Implementation
-- Cloud Data Architecture (AWS, Azure)
-- Microsoft Power Platform Development
-- Technical Writing and Content Creation
+- Data architecture and contract design for regulated environments
+- Data loading, schema evolution, and Delta Lake validation
+- Amazon EMR, AWS Redshift, and Microsoft Fabric implementations
+- Power Platform automation (Power Apps, Power Automate, Power BI)
+- Kafka and streaming patterns for operational telemetry
+- Technical writing, enablement, and cross-functional facilitation
 
 ## Education
 
-**Jomo Kenyatta University of Agriculture and Technology**
-- BS in Data Science and Analytics
-- Microsoft Learn Student Ambassador
-- Kenya Model United Nations participant
+### Data Science Council of America
 
-**Alliance High School, Kikuyu**
-- MIT Launch X Club, Junior Economic Club
-- Chess Club, World Scholars Club
+- Associate Big Data Engineer (ABDE™)
+
+### Jomo Kenyatta University of Agriculture and Technology
+
+- Bachelor of Science in Data Science and Analytics
+- Microsoft Learn Student Ambassador, Kenya Model United Nations
+
+### DataCamp
+
+- Data Science and Analytics Associate Programs
+
+### Alliance High School, Kikuyu
+
+- MIT Launch X Club, Junior Economic Club, Chess Club, World Scholars Club

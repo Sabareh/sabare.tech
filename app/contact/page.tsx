@@ -19,13 +19,13 @@ const contactInfo = [
   {
     icon: Phone,
     label: "Phone",
-    value: "+254 113193473",
+    value: "+254 113193473 (Home)",
     href: "tel:+254113193473",
   },
   {
     icon: MapPin,
     label: "Location",
-    value: "Nairobi, Kenya",
+    value: "Ngong Road, Nairobi County, Kenya",
     href: null,
   },
   {
@@ -54,6 +54,12 @@ const socialLinks = [
     label: "Website",
     value: "sabare.tech",
     href: "https://sabare.tech",
+  },
+  {
+    icon: Globe,
+    label: "Blog",
+    value: "sabare.me",
+    href: "https://sabare.me",
   },
 ]
 

@@ -88,7 +88,7 @@ export default function HomePageClient({ featuredPosts, projects }: HomePageClie
         <ParallaxFloatingElements elements={defaultFloatingElements} />
 
         {/* Hero Section */}
-        <section className="relative min-h-screen w-full pt-16">
+        <section className="relative flex min-h-screen w-full items-center justify-center pt-16">
           <HeroCodeThemed />
         </section>
 

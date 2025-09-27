@@ -147,7 +147,7 @@ export function HeroCodeThemed() {
 
   return (
     <section
-      className="relative min-h-screen flex items-center justify-center overflow-hidden
+      className="relative min-h-screen w-full flex items-center justify-center overflow-hidden
                  bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"
     >
       {/* Animated Background Grid */}
@@ -190,7 +190,7 @@ export function HeroCodeThemed() {
         </motion.div>
       ))}
 
-      <div className="relative z-10 w-full px-4 sm:px-6 lg:px-12 xl:px-16 py-8 sm:py-12 lg:py-20">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-20">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left Column - Content */}
           <div className="space-y-6 lg:space-y-8 text-white text-center lg:text-left">

@@ -324,8 +324,8 @@ export function HeroCodeThemed() {
                 </div>
 
                 {/* Code Content */}
-                <div className="p-3 sm:p-4 lg:p-6 font-mono text-xs sm:text-sm bg-slate-900/50 h-[300px] sm:h-[350px] lg:h-[400px]">
-                  <pre className="text-slate-300 leading-relaxed whitespace-pre-wrap break-words h-full overflow-hidden">
+                <div className="p-3 sm:p-4 lg:p-6 font-mono text-xs sm:text-sm bg-slate-900/50 h-[300px] sm:h-[350px] lg:h-[400px] overflow-hidden">
+                  <pre className="text-slate-300 leading-relaxed whitespace-pre-wrap break-all h-full overflow-hidden w-full max-w-full">
                     <code>
                       {typedText}
                       {isTyping && (

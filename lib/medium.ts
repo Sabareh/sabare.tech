@@ -25,13 +25,13 @@ function decodeHtmlEntities(value: string): string {
 }
 
 function extractTag(xml: string, tag: string): string | undefined {
-  const regex = new RegExp(, "i")
+  const regex = new RegExp(`<${tag}>([\\s\\S]*?)</${tag}>`, "i")
   const match = xml.match(regex)
   return match ? match[1].trim() : undefined
 }
 
 function extractAllTags(xml: string, tag: string): string[] {
-  const regex = new RegExp(, "gi")
+  const regex = new RegExp(`<${tag}>([\\s\\S]*?)</${tag}>`, "gi")
   const values: string[] = []
   let match: RegExpExecArray | null
   while ((match = regex.exec(xml)) !== null) {
@@ -52,12 +52,12 @@ function extractImage(html?: string): string | undefined {
 }
 
 function buildSlug(link: string | undefined, index: number): string {
-  if (!link) return 
-  const trimmed = link.split('?')[0].replace(/https?:\/\//, "")
-  const parts = trimmed.split('/')
-  const last = parts.pop() || 
-  const safe = last.toLowerCase().replace(/[^a-z0-9-]+/g, '-').replace(/^-+|-+$/g, '')
-  return safe ?  : 
+  if (!link) return `medium-${index}`
+  const trimmed = link.split("?")[0].replace(/https?:\/\//, "")
+  const parts = trimmed.split("/")
+  const last = parts.pop() || `medium-${index}`
+  const safe = last.toLowerCase().replace(/[^a-z0-9-]+/g, "-").replace(/^-+|-+$/g, "")
+  return safe ? `medium-${safe}` : `medium-${index}`
 }
 
 export async function fetchMediumPosts(limit = 6): Promise<BlogPost[]> {
@@ -67,14 +67,12 @@ export async function fetchMediumPosts(limit = 6): Promise<BlogPost[]> {
 
   try {
     const response = await fetch(MEDIUM_FEED_URL, {
-      headers: {
-        Accept: "application/rss+xml",
-      },
+      headers: { Accept: "application/rss+xml" },
       cache: "no-cache",
     })
 
     if (!response.ok) {
-      throw new Error()
+      throw new Error(`Medium feed request failed with status ${response.status}`)
     }
 
     const xml = await response.text()
@@ -82,13 +80,17 @@ export async function fetchMediumPosts(limit = 6): Promise<BlogPost[]> {
 
     const posts: BlogPost[] = itemMatches.map((match, index) => {
       const itemXml = match[1]
-      const title = decodeHtmlEntities(stripCdata(extractTag(itemXml, "title")) || )
+      const title = decodeHtmlEntities(
+        stripCdata(extractTag(itemXml, "title")) || `Medium article ${index + 1}`,
+      )
       const link = stripCdata(extractTag(itemXml, "link"))
       const pubDate = stripCdata(extractTag(itemXml, "pubDate"))
       const contentHtml = stripCdata(extractTag(itemXml, "content:encoded"))
       const description = stripCdata(extractTag(itemXml, "description"))
       const author = decodeHtmlEntities(
-        stripCdata(extractTag(itemXml, "dc:creator")) || stripCdata(extractTag(itemXml, "creator")) || "",
+        stripCdata(extractTag(itemXml, "dc:creator")) ||
+          stripCdata(extractTag(itemXml, "creator")) ||
+          "",
       )
       const categories = extractAllTags(itemXml, "category")
       const coverImage = extractImage(contentHtml)

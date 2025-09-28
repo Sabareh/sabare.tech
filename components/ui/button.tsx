@@ -1,3 +1,5 @@
+"use client"
+
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
@@ -5,34 +7,31 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "relative inline-flex items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-2xl text-sm font-semibold uppercase tracking-[0.16em] ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/70 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-60 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "relative inline-flex items-center justify-center gap-2 rounded-[var(--radius-lg)] border border-transparent px-5 py-2.5 text-sm font-semibold text-[var(--text)] transition duration-200 transition-smooth focus-visible:outline-none focus-visible:ring-0 focus-visible:focus-ring disabled:pointer-events-none disabled:opacity-50 will-change-transform",
   {
     variants: {
       variant: {
-        default: "liquid-button text-primary-foreground shadow-[0_16px_32px_-18px_rgba(36,196,255,0.75)]",
-        destructive:
-          "bg-destructive text-destructive-foreground shadow-[0_18px_30px_-20px_rgba(255,88,122,0.8)] hover:bg-destructive/90",
-        outline:
-          "liquid-glass liquid-noise border border-white/15 bg-transparent text-foreground/90 shadow-[0_14px_28px_-18px_rgba(6,16,38,0.65)] hover:border-white/25",
+        primary:
+          "bg-[color-mix(in srgb,var(--brand) 86%, white 14%)] text-white shadow-md hover:-translate-y-[1px] hover:shadow-lg active:translate-y-0 active:shadow-sm",
         secondary:
-          "bg-secondary/60 text-secondary-foreground shadow-[0_12px_22px_-18px_rgba(6,16,38,0.6)] hover:bg-secondary/80",
-        ghost: "text-accent-foreground hover:text-primary hover:shadow-[0_10px_20px_-15px_rgba(30,180,255,0.65)]",
+          "glass-surface text-[var(--text)] border-[color:color-mix(in srgb,var(--hairline) 60%, transparent)] hover:-translate-y-[1px] hover:shadow-md active:translate-y-0",
+        ghost:
+          "text-[color-mix(in srgb,var(--text) 88%, black 12%)] hover:bg-[color-mix(in srgb,var(--surface) 70%, transparent)]",
         glass:
-          "liquid-glass liquid-noise border border-white/10 text-primary-foreground/85 shadow-[0_18px_36px_-22px_rgba(6,16,38,0.7)]",
-        link: "text-primary underline-offset-4 hover:underline",
+          "glass-elevated glass-noise border-[color:color-mix(in srgb,var(--glass-stroke) 75%, transparent)] shadow-md hover:-translate-y-[2px] hover:shadow-lg active:translate-y-0",
       },
       size: {
-        default: "h-11 px-6",
-        sm: "h-9 rounded-xl px-4 text-xs",
-        lg: "h-12 rounded-2xl px-8 text-base",
-        icon: "h-11 w-11",
+        sm: "h-9 rounded-[var(--radius-sm)] px-4 text-xs",
+        md: "h-10 rounded-[var(--radius-md)] px-5 text-sm",
+        lg: "h-12 rounded-[var(--radius-xl)] px-6 text-base",
+        icon: "h-10 w-10 rounded-[var(--radius-md)] p-0",
       },
     },
     defaultVariants: {
-      variant: "default",
-      size: "default",
+      variant: "primary",
+      size: "md",
     },
-  }
+  },
 )
 
 export interface ButtonProps
@@ -42,16 +41,22 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  ({ className, variant, size, asChild = false, type = "button", ...props }, ref) => {
     const Comp = asChild ? Slot : "button"
     return (
       <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
+        type={type}
+        data-variant={variant}
+        className={cn(
+          buttonVariants({ variant, size }),
+          "active:animate-press motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100",
+          className,
+        )}
         {...props}
       />
     )
-  }
+  },
 )
 Button.displayName = "Button"
 

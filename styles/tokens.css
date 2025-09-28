@@ -1,0 +1,57 @@
+:root {
+  /* Radii */
+  --radius-xs: 8px;
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+  --radius-2xl: 28px;
+
+  /* Blur & Glass */
+  --glass-blur-sm: 8px;
+  --glass-blur-md: 16px;
+  --glass-blur-lg: 24px;
+  --glass-surface: rgba(255, 255, 255, 0.22);
+  --glass-elevated: rgba(255, 255, 255, 0.28);
+  --glass-stroke: rgba(255, 255, 255, 0.45);
+  --glass-stroke-dark: rgba(255, 255, 255, 0.08);
+  --glass-noise-opacity: 0.35;
+
+  /* Colors (light) */
+  --bg: #f5f7fb;
+  --surface: #ffffff;
+  --text: #0b1220;
+  --muted: #5f6b7b;
+  --brand: #0a84ff;
+  --success: #34c759;
+  --warning: #ff9f0a;
+  --danger: #ff3b30;
+
+  /* Borders & Separators */
+  --hairline: rgba(12, 18, 32, 0.06);
+  --hairline-strong: rgba(12, 18, 32, 0.12);
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 8px 28px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 12px 44px rgba(0, 0, 0, 0.16);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b0f16;
+    --surface: #0f141c;
+    --text: #edf1f7;
+    --muted: #a4b0c0;
+    --brand: #0a84ff;
+    --glass-surface: rgba(16, 22, 32, 0.35);
+    --glass-elevated: rgba(16, 22, 32, 0.45);
+    --hairline: rgba(237, 241, 247, 0.08);
+    --hairline-strong: rgba(237, 241, 247, 0.16);
+    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.35);
+    --shadow-sm: 0 6px 18px rgba(0, 0, 0, 0.45);
+    --shadow-md: 0 10px 32px rgba(0, 0, 0, 0.55);
+    --shadow-lg: 0 16px 56px rgba(0, 0, 0, 0.65);
+  }
+}

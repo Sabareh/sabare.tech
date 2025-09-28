@@ -15,7 +15,7 @@ import { ModernButton } from "@/components/ui/modern-button"
 import { Badge } from "@/components/ui/badge"
 import { ArrowRight, Calendar, ExternalLink, Github } from "lucide-react"
 import Link from "next/link"
-import Image from "next/image"
+import NextImage from "next/image"
 import { ParallaxFloatingElements } from "@/components/parallax/parallax-floating-elements"
 import { defaultFloatingElements } from "@/lib/floating-elements"
 
@@ -48,7 +48,12 @@ function getSafeImagePath(imagePath: string | undefined, fallback: string): stri
 
 function checkImageExists(src: string): Promise<boolean> {
   return new Promise((resolve) => {
-    const img = new Image()
+    if (typeof window === "undefined") {
+      resolve(false)
+      return
+    }
+
+    const img = new window.Image()
     img.onload = () => resolve(true)
     img.onerror = () => resolve(false)
     img.src = src
@@ -128,7 +133,7 @@ export default function HomePageClient({ featuredPosts, projects, mediumProfileU
                     <ModernCard className="group h-full">
                       {imageUrl && (
                         <div className="relative aspect-video overflow-hidden rounded-t-lg">
-                          <Image
+                          <NextImage
                             src={imageUrl || "/placeholder.svg"}
                             alt={post.title}
                             fill
@@ -226,7 +231,7 @@ export default function HomePageClient({ featuredPosts, projects, mediumProfileU
                     <ModernCard className="group h-full">
                       {imageUrl && (
                         <div className="relative aspect-video overflow-hidden rounded-t-lg">
-                          <Image
+                          <NextImage
                             src={imageUrl || "/placeholder.svg"}
                             alt={project.title}
                             fill
@@ -318,7 +323,7 @@ export default function HomePageClient({ featuredPosts, projects, mediumProfileU
                     <ScrollAnimation key={imagePath} delay={index * 0.1}>
                       <ModernCard className="group overflow-hidden">
                         <div className="relative aspect-video overflow-hidden">
-                          <Image
+                          <NextImage
                             src={imagePath || "/placeholder.svg"}
                             alt={altText}
                             fill

@@ -2,9 +2,7 @@ export const dynamic = "force-dynamic"
 
 import BlogPageClient from "./BlogPageClient"
 import { getAllBlogPosts, getFeaturedBlogPosts } from "@/lib/content"
-import { fetchMediumPosts } from "@/lib/medium"
-
-const MEDIUM_PROFILE_URL = "https://medium.com/@sabarevictor"
+import { fetchMediumPosts, MEDIUM_PROFILE_URL } from "@/lib/medium"
 
 export default async function BlogPage() {
   try {

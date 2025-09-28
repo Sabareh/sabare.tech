@@ -1,6 +1,7 @@
 import { BlogPost, calculateReadingTime } from "./content"
 
-const MEDIUM_FEED_URL = "https://medium.com/feed/@sabarevictor"
+export const MEDIUM_PROFILE_URL = "https://medium.com/@sabarevictor"
+const MEDIUM_FEED_URL = `${MEDIUM_PROFILE_URL}/feed`
 const CACHE_TTL = 1000 * 60 * 30 // 30 minutes
 
 interface MediumCache {
@@ -22,6 +23,8 @@ function decodeHtmlEntities(value: string): string {
     .replace(/&gt;/g, ">")
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
+    .replace(/&#(\d+);/g, (_, dec) => String.fromCharCode(Number(dec)))
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, hex) => String.fromCharCode(parseInt(hex, 16)))
 }
 
 function extractTag(xml: string, tag: string): string | undefined {
@@ -60,6 +63,30 @@ function buildSlug(link: string | undefined, index: number): string {
   return safe ? `medium-${safe}` : `medium-${index}`
 }
 
+function sanitizeMediumImageUrl(url: string): string {
+  try {
+    const parsed = new URL(url.startsWith("//") ? `https:${url}` : url)
+
+    // Force https and prefer the newer CDN host
+    parsed.protocol = "https:"
+
+    if (parsed.hostname === "miro.medium.com" || parsed.hostname === "cdn-images-1.medium.com") {
+      const segments = parsed.pathname.split("/").filter(Boolean)
+      const imageId = segments.pop()
+
+      if (imageId) {
+        parsed.hostname = "cdn-images-1.medium.com"
+        parsed.pathname = `/v2/resize:fit:1200/${imageId}`
+      }
+    }
+
+    return parsed.toString()
+  } catch (error) {
+    console.warn("Failed to sanitize Medium image URL:", error)
+    return url
+  }
+}
+
 export async function fetchMediumPosts(limit = 6): Promise<BlogPost[]> {
   if (mediumCache && Date.now() - mediumCache.fetchedAt < CACHE_TTL) {
     return mediumCache.posts.slice(0, limit)
@@ -80,20 +107,19 @@ export async function fetchMediumPosts(limit = 6): Promise<BlogPost[]> {
 
     const posts: BlogPost[] = itemMatches.map((match, index) => {
       const itemXml = match[1]
-      const title = decodeHtmlEntities(
-        stripCdata(extractTag(itemXml, "title")) || `Medium article ${index + 1}`,
-      )
+      const title = decodeHtmlEntities(stripCdata(extractTag(itemXml, "title")) || `Medium article ${index + 1}`)
       const link = stripCdata(extractTag(itemXml, "link"))
       const pubDate = stripCdata(extractTag(itemXml, "pubDate"))
       const contentHtml = stripCdata(extractTag(itemXml, "content:encoded"))
-      const description = stripCdata(extractTag(itemXml, "description"))
+  const description = stripCdata(extractTag(itemXml, "description"))
       const author = decodeHtmlEntities(
         stripCdata(extractTag(itemXml, "dc:creator")) ||
           stripCdata(extractTag(itemXml, "creator")) ||
           "",
       )
       const categories = extractAllTags(itemXml, "category")
-      const coverImage = extractImage(contentHtml)
+  const rawCoverImage = extractImage(contentHtml)
+  const coverImage = rawCoverImage ? sanitizeMediumImageUrl(rawCoverImage) : undefined
       const plainText = stripHtml(contentHtml || description)
       const readingTime = calculateReadingTime(plainText || description || title)
       const slug = buildSlug(link, index)
@@ -101,7 +127,7 @@ export async function fetchMediumPosts(limit = 6): Promise<BlogPost[]> {
       return {
         slug,
         title,
-        excerpt: decodeHtmlEntities(plainText || description || ""),
+  excerpt: decodeHtmlEntities(plainText || description || ""),
         date: pubDate ? new Date(pubDate).toISOString() : new Date().toISOString(),
         readingTime,
         externalUrl: link,

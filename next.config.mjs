@@ -9,6 +9,18 @@ const nextConfig = {
   },
   images: {
     unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "miro.medium.com",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "cdn-images-1.medium.com",
+        pathname: "**",
+      },
+    ],
   },
   // Enable server features for dynamic content
   experimental: {

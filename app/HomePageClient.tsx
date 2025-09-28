@@ -116,8 +116,12 @@ export default function HomePageClient({ featuredPosts, projects, mediumProfileU
               {featuredPosts.map((post, index) => {
                 const imageUrl = getSafeImagePath(
                   post.coverImage,
-                  `/placeholder.svg?height=400&width=600&query=${encodeURIComponent(post.title)}`,
+                  "/placeholder.svg?height=400&width=600&query=" + encodeURIComponent(post.title || ""),
                 )
+
+                const isExternalPost = Boolean(post.externalUrl)
+                const postHref = isExternalPost ? post.externalUrl! : "/blog/" + post.slug
+                const actionLabel = isExternalPost ? "Read on Medium" : "Read More"
 
                 return (
                   <ScrollAnimation key={post.slug} delay={index * 0.1}>
@@ -143,9 +147,14 @@ export default function HomePageClient({ featuredPosts, projects, mediumProfileU
                               year: "numeric",
                             })}
                           </time>
-                          <span>•</span>
+                          <span className="text-muted-foreground">|</span>
                           <span>{post.readingTime}</span>
                         </div>
+                        {post.source === "medium" && (
+                          <Badge variant="outline" className="text-[11px] uppercase tracking-wide mb-2">
+                            Medium
+                          </Badge>
+                        )}
                         <h3 className="text-xl font-semibold mb-3 line-clamp-2 group-hover:text-primary transition-colors">
                           {post.title}
                         </h3>
@@ -157,17 +166,25 @@ export default function HomePageClient({ featuredPosts, projects, mediumProfileU
                             </Badge>
                           ))}
                         </div>
-                        <Link href={`/blog/${post.slug}`}>
-                          <ModernButton variant="ghost" className="p-0 h-auto font-medium group/btn">
-                            Read More
-                            <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
-                          </ModernButton>
-                        </Link>
+                        <ModernButton variant="ghost" className="p-0 h-auto font-medium group/btn" asChild>
+                          <Link
+                            href={postHref}
+                            target={isExternalPost ? "_blank" : undefined}
+                            rel={isExternalPost ? "noopener noreferrer" : undefined}
+                          >
+                            {actionLabel}
+                            {isExternalPost ? (
+                              <ExternalLink className="ml-2 h-4 w-4 transition-transform group-hover/btn:-translate-y-0.5 group-hover/btn:translate-x-1" />
+                            ) : (
+                              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
+                            )}
+                          </Link>
+                        </ModernButton>
                       </div>
                     </ModernCard>
                   </ScrollAnimation>
                 )
-              })}
+              })
             </div>
 
             <ScrollAnimation delay={0.3}>

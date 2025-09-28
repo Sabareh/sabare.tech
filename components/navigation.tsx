@@ -55,13 +55,21 @@ export function Navigation({ className }: NavigationProps) {
     <>
       <header
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-          isScrolled ? "glass-nav py-2" : "py-4",
+          "fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-[cubic-bezier(.4,0,.2,1)]",
+          isScrolled
+            ? "glass-nav glass-effect liquid-noise border-b border-white/10 py-2"
+            : "py-6 backdrop-blur-none"
+          ,
           className,
         )}
       >
         <div className="container mx-auto px-4 flex items-center justify-between">
-          <MagneticLink href="/" className="text-xl font-bold tracking-tighter" strength={15} scale={1.05}>
+          <MagneticLink
+            href="/"
+            className="gradient-text text-xl font-bold tracking-tight"
+            strength={15}
+            scale={1.05}
+          >
             Victor Sabare
           </MagneticLink>
 
@@ -72,8 +80,10 @@ export function Navigation({ className }: NavigationProps) {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "px-3 py-2 text-sm font-medium transition-colors",
-                  pathname === item.href ? "text-primary" : "text-muted-foreground hover:text-primary",
+                  "relative px-4 py-2 text-sm font-medium uppercase tracking-[0.18em] transition-all duration-300",
+                  pathname === item.href
+                    ? "text-primary drop-shadow-[0_0_18px_rgba(36,196,255,0.55)]"
+                    : "text-muted-foreground/80 hover:text-primary hover:drop-shadow-[0_0_20px_rgba(36,196,255,0.35)]",
                 )}
                 strength={20}
                 radius={80}
@@ -86,7 +96,7 @@ export function Navigation({ className }: NavigationProps) {
 
           <div className="flex items-center space-x-2">
             <MagneticIcon
-              className="flex items-center justify-center w-9 h-9 rounded-full"
+              className="flex items-center justify-center w-10 h-10 rounded-full glass-effect border border-white/10 text-primary"
               onClick={toggleCommand}
               strength={30}
               radius={100}
@@ -99,7 +109,7 @@ export function Navigation({ className }: NavigationProps) {
             </MagneticIcon>
 
             <MagneticIcon
-              className="flex items-center justify-center w-9 h-9 rounded-full"
+              className="flex items-center justify-center w-10 h-10 rounded-full glass-effect border border-white/10"
               strength={30}
               radius={100}
               scale={1.15}
@@ -110,7 +120,7 @@ export function Navigation({ className }: NavigationProps) {
             </MagneticIcon>
 
             <button
-              className="md:hidden flex items-center justify-center w-9 h-9 rounded-full"
+              className="md:hidden flex items-center justify-center w-10 h-10 rounded-full glass-effect border border-white/10"
               onClick={toggleMenu}
               aria-label="Toggle Menu"
             >
@@ -122,7 +132,7 @@ export function Navigation({ className }: NavigationProps) {
 
       {/* Mobile Navigation */}
       {isOpen && (
-        <div className="fixed inset-0 z-40 bg-background/95 backdrop-blur-sm md:hidden">
+        <div className="fixed inset-0 z-40 ambient-gradient backdrop-blur-2xl md:hidden">
           <div className="container mx-auto px-4 py-20">
             <nav className="flex flex-col space-y-4">
               {navItems.map((item) => (
@@ -130,8 +140,10 @@ export function Navigation({ className }: NavigationProps) {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "px-4 py-3 text-lg font-medium rounded-md transition-colors",
-                    pathname === item.href ? "bg-primary/10 text-primary" : "hover:bg-primary/5 hover:text-primary",
+                    "liquid-glass liquid-noise border border-white/10 px-5 py-4 text-lg font-medium uppercase tracking-[0.18em] transition-all",
+                    pathname === item.href
+                      ? "text-primary shadow-[0_18px_38px_-20px_rgba(36,196,255,0.7)]"
+                      : "text-muted-foreground/85 hover:text-primary hover:shadow-[0_18px_38px_-20px_rgba(36,196,255,0.5)]",
                   )}
                   onClick={closeMenu}
                 >

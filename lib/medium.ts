@@ -111,15 +111,13 @@ export async function fetchMediumPosts(limit = 6): Promise<BlogPost[]> {
       const link = stripCdata(extractTag(itemXml, "link"))
       const pubDate = stripCdata(extractTag(itemXml, "pubDate"))
       const contentHtml = stripCdata(extractTag(itemXml, "content:encoded"))
-  const description = stripCdata(extractTag(itemXml, "description"))
+      const description = stripCdata(extractTag(itemXml, "description"))
       const author = decodeHtmlEntities(
-        stripCdata(extractTag(itemXml, "dc:creator")) ||
-          stripCdata(extractTag(itemXml, "creator")) ||
-          "",
+        stripCdata(extractTag(itemXml, "dc:creator")) || stripCdata(extractTag(itemXml, "creator")) || "",
       )
       const categories = extractAllTags(itemXml, "category")
-  const rawCoverImage = extractImage(contentHtml)
-  const coverImage = rawCoverImage ? sanitizeMediumImageUrl(rawCoverImage) : undefined
+      const rawCoverImage = extractImage(contentHtml)
+      const coverImage = rawCoverImage ? sanitizeMediumImageUrl(rawCoverImage) : undefined
       const plainText = stripHtml(contentHtml || description)
       const readingTime = calculateReadingTime(plainText || description || title)
       const slug = buildSlug(link, index)
@@ -127,7 +125,7 @@ export async function fetchMediumPosts(limit = 6): Promise<BlogPost[]> {
       return {
         slug,
         title,
-  excerpt: decodeHtmlEntities(plainText || description || ""),
+        excerpt: decodeHtmlEntities(plainText || description || ""),
         date: pubDate ? new Date(pubDate).toISOString() : new Date().toISOString(),
         readingTime,
         externalUrl: link,

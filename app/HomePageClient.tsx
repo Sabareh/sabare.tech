@@ -18,26 +18,13 @@ import Link from "next/link"
 import NextImage from "next/image"
 import { ParallaxFloatingElements } from "@/components/parallax/parallax-floating-elements"
 import { defaultFloatingElements } from "@/lib/floating-elements"
+import { ALL_STATIC_IMAGES } from "@/lib/static-images"
 
 interface HomePageClientProps {
   featuredPosts: BlogPost[]
   projects: Project[]
   mediumProfileUrl?: string
 }
-
-const staticImages = [
-  "/data-pipeline-architecture.png",
-  "/data-mesh-architecture.png",
-  "/data-transformation-workflow.png",
-  "/kubernetes-cluster-diagram.png",
-  "/data-quality-dashboard.png",
-  "/streaming-analytics-architecture.png",
-  "/professional-headshot.png",
-  "/tech-innovations-logo.png",
-  "/data-systems-logo.png",
-  "/analytics-edge-logo.png",
-  "/data-insights-logo.png",
-]
 
 function getSafeImagePath(imagePath: string | undefined, fallback: string): string {
   if (!imagePath || imagePath.trim() === "") {
@@ -68,7 +55,7 @@ export default function HomePageClient({ featuredPosts, projects, mediumProfileU
     async function loadStaticImages() {
       try {
         const imageChecks = await Promise.all(
-          staticImages.map(async (imagePath) => {
+          ALL_STATIC_IMAGES.map(async (imagePath) => {
             const exists = await checkImageExists(imagePath)
             return exists ? imagePath : null
           }),
@@ -186,10 +173,10 @@ export default function HomePageClient({ featuredPosts, projects, mediumProfileU
                           </Link>
                         </ModernButton>
                       </div>
-                    </ModernCard>
-                  </ScrollAnimation>
-                )
-              })
+                      </ModernCard>
+                    </ScrollAnimation>
+                  )
+                })}
             </div>
 
             <ScrollAnimation delay={0.3}>

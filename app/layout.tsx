@@ -4,6 +4,7 @@ import { Inter, Playfair_Display } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Navigation } from "@/components/navigation"
+import { RadialNavigation } from "@/components/radial-navigation"
 import { Footer } from "@/components/footer"
 import { Toaster } from "@/components/ui/toaster"
 import { CursorTracker } from "@/components/cursor-tracker"
@@ -91,6 +92,7 @@ export default function RootLayout({
 
           <div className="relative flex min-h-screen flex-col">
             <Navigation />
+            <RadialNavigation />
             {/* removed pt-16 so homepage hero can slide up behind header */}
             <main className="flex-1 pt-24 md:pt-28">{children}</main>
             <Footer />

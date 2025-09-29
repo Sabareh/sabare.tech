@@ -1,36 +1,60 @@
 "use client"
 
-import * as React from "react"
-
+import { motion } from "framer-motion"
+import type { ReactNode } from "react"
 import { cn } from "@/lib/utils"
 
-export interface GlassCardProps extends React.HTMLAttributes<HTMLElement> {
-  variant?: "flat" | "elevated"
-  as?: React.ElementType
+interface GlassCardProps {
+  children: ReactNode
+  className?: string
+  hover?: boolean
+  tilt?: boolean
+  magnetic?: boolean
+  glow?: boolean
 }
 
-export const GlassCard = React.forwardRef<HTMLElement, GlassCardProps>(
-  ({ variant = "flat", as: Component = "div", className, children, ...props }, ref) => {
-    const surfaceClass =
-      variant === "elevated"
-        ? "glass-elevated glass-noise shadow-lg"
-        : "glass-surface glass-noise shadow-sm"
+export function GlassCard({
+  children,
+  className,
+  hover = true,
+  tilt = false,
+  magnetic = false,
+  glow = false,
+}: GlassCardProps) {
+  return (
+    <motion.div
+      className={cn(
+        "glass-card relative overflow-hidden",
+        hover && "hover:shadow-2xl hover:shadow-primary/20",
+        tilt && "tilt",
+        magnetic && "magnetic",
+        glow && "pulse-glow",
+        className,
+      )}
+      whileHover={
+        hover
+          ? {
+              y: -8,
+              scale: 1.02,
+              transition: { type: "spring", stiffness: 300, damping: 20 },
+            }
+          : undefined
+      }
+      whileTap={{ scale: 0.98 }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      {/* Glass reflection effect */}
+      <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-50 pointer-events-none" />
 
-    return (
-      <Component
-        ref={ref}
-        className={cn(
-          "relative overflow-hidden rounded-[var(--radius-xl)] border border-[color-mix(in srgb,var(--glass-stroke) 70%, transparent)] p-6 transition duration-300 transition-smooth hover:-translate-y-1 hover:shadow-lg",
-          surfaceClass,
-          className,
-        )}
-        {...props}
-      >
-        <div className="pointer-events-none absolute inset-px rounded-[calc(var(--radius-xl)-2px)] border border-white/5" />
-        <div className="relative z-[1] flex flex-col gap-4">{children}</div>
-      </Component>
-    )
-  },
-)
+      {/* Content */}
+      <div className="relative z-10">{children}</div>
 
-GlassCard.displayName = "GlassCard"
+      {/* Hover glow effect */}
+      {hover && (
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+      )}
+    </motion.div>
+  )
+}

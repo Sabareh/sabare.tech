@@ -1,25 +1,18 @@
-"use client"
-
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
-export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  hasError?: boolean
-}
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
 
-const Input = React.forwardRef<HTMLInputElement, InputProps>(({ className, type = "text", hasError, ...props }, ref) => {
+const Input = React.forwardRef<HTMLInputElement, InputProps>(({ className, type, ...props }, ref) => {
   return (
     <input
-      ref={ref}
       type={type}
-      data-error={hasError ? "true" : undefined}
       className={cn(
-        "flex h-11 w-full rounded-[var(--radius-md)] border border-[color-mix(in srgb,var(--hairline) 70%, transparent)] bg-[color-mix(in srgb,var(--surface) 82%, transparent 18%)] px-4 text-sm text-[var(--text)] shadow-xs transition-smooth placeholder:text-[color-mix(in srgb,var(--muted) 80%, transparent)] focus-visible:outline-none focus-visible:focus-ring",
-        "backdrop-glass-sm glass-noise",
-        hasError && "border-[color:color-mix(in srgb,var(--danger) 55%, transparent)]",
+        "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
         className,
       )}
+      ref={ref}
       {...props}
     />
   )

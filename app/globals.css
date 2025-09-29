@@ -74,7 +74,7 @@ body {
   .liquid-glass {
     position: relative;
     border-radius: inherit;
-    background: linear-gradient(155deg, hsla(224, 66%, 14%, 0.92), hsla(220, 58%, 10%, 0.68));
+    background: var(--glass-surface-gradient);
     border: 1px solid var(--glass-border);
     box-shadow: var(--glass-shadow);
     backdrop-filter: blur(24px) saturate(160%);
@@ -110,9 +110,9 @@ body {
 
   .glass-nav {
     position: sticky;
-    background: linear-gradient(130deg, hsla(224, 70%, 12%, 0.85), hsla(220, 64%, 8%, 0.7));
-    border: 1px solid hsla(195, 94%, 72%, 0.35);
-    box-shadow: 0 18px 38px -20px rgba(4, 13, 28, 0.65);
+    background: var(--glass-nav-background);
+    border: 1px solid var(--glass-nav-border);
+    box-shadow: var(--glass-nav-shadow);
     backdrop-filter: blur(22px) saturate(180%);
     -webkit-backdrop-filter: blur(22px) saturate(180%);
   }
@@ -158,10 +158,7 @@ body {
   }
 
   .ambient-gradient {
-    background: radial-gradient(120% 120% at 50% 0%, hsla(188, 95%, 64%, 0.28) 0%, transparent 55%),
-      radial-gradient(120% 120% at 20% 100%, hsla(215, 95%, 55%, 0.24) 0%, transparent 60%),
-      radial-gradient(120% 160% at 80% 110%, hsla(283, 85%, 68%, 0.18) 0%, transparent 65%),
-      linear-gradient(180deg, hsla(226, 66%, 7%, 1) 0%, hsla(223, 62%, 6%, 1) 70%, hsla(221, 58%, 7%, 1) 100%);
+    background: var(--ambient-gradient);
   }
 
   .liquid-ring {
@@ -270,47 +267,62 @@ body {
 
 @layer base {
   :root {
-    --background: 222 64% 7%;
-    --foreground: 188 84% 94%;
-    --card: 222 58% 12%;
-    --card-foreground: 188 84% 94%;
-    --popover: 221 60% 10%;
-    --popover-foreground: 188 84% 94%;
-    --primary: 189 98% 67%;
-    --primary-foreground: 223 82% 10%;
-    --secondary: 222 50% 19%;
-    --secondary-foreground: 188 84% 90%;
-    --muted: 223 44% 22%;
-    --muted-foreground: 196 34% 72%;
-    --accent: 188 100% 68%;
-    --accent-foreground: 223 82% 10%;
-    --destructive: 350 82% 56%;
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 221 83% 53%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 46%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222 47% 11%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
-    --border: 223 50% 28%;
-    --input: 223 50% 28%;
-    --ring: 189 98% 70%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 221 83% 53%;
     --radius: 1.2rem;
-    --chart-1: 189 98% 67%;
-    --chart-2: 289 86% 72%;
-    --chart-3: 27 94% 58%;
-    --chart-4: 157 82% 45%;
-    --chart-5: 46 96% 64%;
-    --sidebar-background: 222 64% 7%;
-    --sidebar-foreground: 188 84% 94%;
-    --sidebar-primary: 189 98% 67%;
-    --sidebar-primary-foreground: 223 82% 10%;
-    --sidebar-accent: 222 50% 19%;
-    --sidebar-accent-foreground: 188 84% 94%;
-    --sidebar-border: 223 50% 28%;
-    --sidebar-ring: 189 98% 70%;
-    --glass-base: hsla(222, 64%, 12%, 0.72);
-    --glass-highlight: hsla(188, 100%, 75%, 0.35);
-    --glass-border: hsla(191, 95%, 68%, 0.45);
-    --glass-shadow: 0 30px 60px -20px rgba(7, 20, 48, 0.65);
-    --glass-inner-shadow: inset 0 0 0 1px hsla(190, 95%, 85%, 0.12);
-    --plasma-1: 189 98% 67%;
-    --plasma-2: 214 100% 64%;
-    --plasma-3: 283 88% 70%;
+    --chart-1: 221 83% 53%;
+    --chart-2: 273 83% 65%;
+    --chart-3: 43 96% 56%;
+    --chart-4: 160 84% 39%;
+    --chart-5: 27 95% 61%;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 222 47% 11%;
+    --sidebar-primary: 221 83% 53%;
+    --sidebar-primary-foreground: 210 40% 98%;
+    --sidebar-accent: 210 40% 96%;
+    --sidebar-accent-foreground: 222 47% 11%;
+    --sidebar-border: 214 32% 91%;
+    --sidebar-ring: 221 83% 53%;
+    --glass-base: hsla(0, 0%, 100%, 0.78);
+    --glass-highlight: hsla(199, 88%, 80%, 0.32);
+    --glass-border: hsla(210, 40%, 88%, 0.6);
+    --glass-shadow: 0 28px 45px -22px rgba(15, 23, 42, 0.25);
+    --glass-inner-shadow: inset 0 0 0 1px hsla(0, 0%, 100%, 0.45);
+    --plasma-1: 210 98% 60%;
+    --plasma-2: 274 93% 65%;
+    --plasma-3: 189 95% 56%;
+    --body-gradient: radial-gradient(140% 100% at 10% -10%, hsla(199, 98%, 72%, 0.35) 0%, transparent 45%),
+      radial-gradient(120% 120% at 90% 0%, hsla(283, 85%, 82%, 0.28) 0%, transparent 55%),
+      radial-gradient(120% 120% at 50% 110%, hsla(214, 95%, 68%, 0.26) 0%, transparent 65%),
+      linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(210 40% 96%) 55%, hsl(210 40% 94%) 100%);
+    --body-overlay: radial-gradient(circle at 15% 20%, hsla(199, 98%, 78%, 0.18) 0%, transparent 45%),
+      radial-gradient(circle at 85% 25%, hsla(274, 95%, 82%, 0.16) 0%, transparent 55%),
+      linear-gradient(125deg, hsla(200, 98%, 78%, 0.12) 0%, transparent 45%);
+    --glass-surface-gradient: linear-gradient(155deg, hsla(0, 0%, 100%, 0.92), hsla(210, 60%, 90%, 0.68));
+    --glass-nav-background: linear-gradient(130deg, hsla(0, 0%, 100%, 0.9), hsla(210, 52%, 92%, 0.7));
+    --glass-nav-border: hsla(210, 40%, 82%, 0.6);
+    --glass-nav-shadow: 0 18px 40px -20px rgba(15, 23, 42, 0.2);
+    --ambient-gradient: radial-gradient(120% 120% at 50% 0%, hsla(200, 96%, 82%, 0.42) 0%, transparent 55%),
+      radial-gradient(120% 120% at 20% 100%, hsla(215, 92%, 72%, 0.3) 0%, transparent 60%),
+      radial-gradient(120% 160% at 80% 110%, hsla(283, 85%, 78%, 0.22) 0%, transparent 65%),
+      linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(210 40% 96%) 70%, hsl(210 40% 94%) 100%);
   }
 
   .dark {
@@ -354,6 +366,21 @@ body {
     --plasma-1: 189 100% 70%;
     --plasma-2: 216 100% 68%;
     --plasma-3: 299 90% 76%;
+    --body-gradient: radial-gradient(140% 100% at 10% -10%, hsla(189, 98%, 62%, 0.18) 0%, transparent 45%),
+      radial-gradient(120% 120% at 90% 0%, hsla(283, 85%, 70%, 0.18) 0%, transparent 55%),
+      radial-gradient(120% 120% at 50% 110%, hsla(214, 95%, 58%, 0.22) 0%, transparent 65%),
+      linear-gradient(180deg, hsla(226, 66%, 7%, 1) 0%, hsla(223, 62%, 6%, 1) 60%, hsla(221, 58%, 7%, 1) 100%);
+    --body-overlay: radial-gradient(circle at 15% 20%, hsla(189, 100%, 75%, 0.14) 0%, transparent 45%),
+      radial-gradient(circle at 85% 25%, hsla(283, 88%, 75%, 0.12) 0%, transparent 55%),
+      linear-gradient(125deg, hsla(190, 100%, 70%, 0.08) 0%, transparent 45%);
+    --glass-surface-gradient: linear-gradient(155deg, hsla(224, 66%, 14%, 0.92), hsla(220, 58%, 10%, 0.68));
+    --glass-nav-background: linear-gradient(130deg, hsla(224, 70%, 12%, 0.85), hsla(220, 64%, 8%, 0.7));
+    --glass-nav-border: hsla(195, 94%, 72%, 0.35);
+    --glass-nav-shadow: 0 18px 38px -20px rgba(4, 13, 28, 0.65);
+    --ambient-gradient: radial-gradient(120% 120% at 50% 0%, hsla(188, 95%, 64%, 0.28) 0%, transparent 55%),
+      radial-gradient(120% 120% at 20% 100%, hsla(215, 95%, 55%, 0.24) 0%, transparent 60%),
+      radial-gradient(120% 160% at 80% 110%, hsla(283, 85%, 68%, 0.18) 0%, transparent 65%),
+      linear-gradient(180deg, hsla(226, 66%, 7%, 1) 0%, hsla(223, 62%, 6%, 1) 70%, hsla(221, 58%, 7%, 1) 100%);
   }
 }
 
@@ -367,10 +394,7 @@ body {
   body {
     color: hsl(var(--foreground));
     background-color: hsl(var(--background));
-    background-image: radial-gradient(140% 100% at 10% -10%, hsla(189, 98%, 62%, 0.18) 0%, transparent 45%),
-      radial-gradient(120% 120% at 90% 0%, hsla(283, 85%, 70%, 0.18) 0%, transparent 55%),
-      radial-gradient(120% 120% at 50% 110%, hsla(214, 95%, 58%, 0.22) 0%, transparent 65%),
-      linear-gradient(180deg, hsla(226, 66%, 7%, 1) 0%, hsla(223, 62%, 6%, 1) 60%, hsla(221, 58%, 7%, 1) 100%);
+    background-image: var(--body-gradient);
     background-attachment: fixed;
     min-height: 100vh;
   }
@@ -380,9 +404,7 @@ body {
     position: fixed;
     inset: 0;
     pointer-events: none;
-    background-image: radial-gradient(circle at 15% 20%, hsla(189, 100%, 75%, 0.14) 0%, transparent 45%),
-      radial-gradient(circle at 85% 25%, hsla(283, 88%, 75%, 0.12) 0%, transparent 55%),
-      linear-gradient(125deg, hsla(190, 100%, 70%, 0.08) 0%, transparent 45%);
+    background-image: var(--body-overlay);
     filter: blur(0px);
     opacity: 0.9;
     z-index: -1;

@@ -1,31 +1,21 @@
-"use client"
-
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
-export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
-  hasError?: boolean
-}
+export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
 
-const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ className, hasError, rows = 4, ...props }, ref) => {
-    return (
-      <textarea
-        ref={ref}
-        rows={rows}
-        data-error={hasError ? "true" : undefined}
-        className={cn(
-          "flex w-full rounded-[var(--radius-lg)] border border-[color-mix(in srgb,var(--hairline) 70%, transparent)] bg-[color-mix(in srgb,var(--surface) 78%, transparent 22%)] px-4 py-3 text-sm text-[var(--text)] shadow-xs transition-smooth placeholder:text-[color-mix(in srgb,var(--muted) 80%, transparent)] focus-visible:outline-none focus-visible:focus-ring",
-          "backdrop-glass-md glass-noise",
-          hasError && "border-[color:color-mix(in srgb,var(--danger) 55%, transparent)]",
-          className,
-        )}
-        {...props}
-      />
-    )
-  },
-)
+const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(({ className, ...props }, ref) => {
+  return (
+    <textarea
+      className={cn(
+        "flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+        className,
+      )}
+      ref={ref}
+      {...props}
+    />
+  )
+})
 Textarea.displayName = "Textarea"
 
 export { Textarea }
